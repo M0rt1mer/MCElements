@@ -1,0 +1,77 @@
+digraph G{
+
+    compound=true;
+    
+    //resources    
+    node[shape=box, color=black] resource,  fern, farmOrgans, neutOrgans, hostOrgans;
+    //vanilla resources
+    node[shape=box, color=blue] flowers;
+    //vanilla items
+    node[shape=oval, color=blue] stick, paper, wool;
+    //items
+    node[shape=oval, color=black] item, magEssence, dagger, sacDagger, grate, ashes;
+    flowerRing, scroll, meatBall, magCloth, natureHat;
+    
+    //blocks
+    node[shape=parallelogram, color=black] block, bonfire, livBlock, wildFire, treeOfLife;
+    //spells
+    node[shape=diamond,color=black] spell, weakScrollFire, weakScrollLife;
+    
+    //dummy - crafting
+    node[shape=diamond,label="",width=0.1,height=0.1, color=black];
+    
+    subgraph clusterGeneral{
+        color = black; label = "General";
+        fern, magEssence, wool, paper, scroll, magCloth,scrollCraft,mcCraft;
+    }
+    
+    subgraph clusterLife{
+        color = black; label = "Life";
+        dagger, sacDagger, sdCraft, farmOrgans, neutOrgans, hostOrgans;
+        lbCraft, livBlock, flowerRing, wlCraft, weakScrollLife, mbCraft, meatBall, flowers, nhCraft, natureHat, treeOfLife;
+    }
+    
+    subgraph clusterFire{
+        color = black; label = "Fire";
+        stick, grate, bonfire, ashes, wfCraft, weakScrollFire, wildFire;
+        bonCraft;
+    }
+    
+    subgraph craft{
+    
+        {dagger,magEssence} -> sdCraft -> sacDagger;
+        stick -> grate -> bonCraft -> bonfire -> ashes;
+        magEssence -> bonCraft;
+        {paper,magEssence} -> scrollCraft -> scroll;
+        {scroll,ashes} -> wfCraft -> weakScrollFire;
+        meatBall -> wlCraft;
+        scroll -> wlCraft;
+        wlCraft -> weakScrollLife;
+        {magEssence, wool} -> mcCraft -> magCloth;
+        {farmOrgans, neutOrgans} -> mbCraft -> meatBall -> lbCraft -> livBlock -> treeOfLife;
+        flowers -> flowerRing -> lbCraft;
+        {magCloth, flowerRing} -> nhCraft -> natureHat;
+    }
+    
+    subgraph furnace{
+        edge[color="Red"]
+    
+        fern  -> magEssence;
+        {farmOrgans, neutOrgans, hostOrgans} -> magEssence;
+        ashes ->magEssence;
+    }
+    
+    subgraph unlock{
+        edge[style="dashed"];
+        sacDagger -> {farmOrgans, neutOrgans, hostOrgans};
+        weakScrollLife -> treeOfLife;
+        weakScrollFire -> wildFire;
+    }
+
+
+    subgraph clusterLegend{
+        color = gray; label = "Key";
+        resource, item, block, spell;
+    }
+
+}

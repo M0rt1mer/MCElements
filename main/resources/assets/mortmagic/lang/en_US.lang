@@ -1,0 +1,24 @@
+key.mort.weakCast=Weak cast
+key.mort.strongCast=Strong cast
+key.mort.specInventory=Spellbook
+key.categories.mortMagic=Mort's Minecraft Magic
+mmm.element.fire=Fire
+mmm.element.force=Force
+mmm.element.life=Life
+
+item.mobDrop.abomasum.name=Abomasum
+item.mobDrop.rumen.name=Rumen
+item.mobDrop.pigtail.name=Pigtail
+item.mobDrop.talon.name=Talon
+item.mobDrop.horn.name=Sheep's horn
+item.mobDrop.succups.name=Suction cups
+item.mobDrop.larynx.name=Bat's larynx
+item.mobDrop.horsehair.name=Horsehair
+
+item.ashes.name=Ashes
+item.grate.name=Grate
+tile.bonfire.name=Bonfire
+item.magicalEssence.name=Magical Essence
+item.fireSpell.name=Scroll of Weak Fire
+item.stoneDaggerSacred.name=Sacred stone dagger
+item.stoneDagger.name=Stone Dagger

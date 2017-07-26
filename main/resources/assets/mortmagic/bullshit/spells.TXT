@@ -1,0 +1,4 @@
+                    default             entropy                empower
+fire                fireball            frost                  speed
+life                heal                harm                   regen
+force               push                pull                   damage

@@ -1,0 +1,43 @@
+package mort.mortmagic.world.block;
+
+import java.util.LinkedList;
+
+import mort.mortmagic.api.SacrificeRegistry;
+import mort.mortmagic.api.SacrificeRegistry.ISacrifice;
+import mort.mortmagic.sacrifice.IAltar;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+
+public class TileEntityWildfire extends TileEntity implements IAltar{
+
+	protected LinkedList<ISacrifice> sacrifices = new LinkedList<SacrificeRegistry.ISacrifice>();
+	
+	@Override
+	public void addSacrifice(ISacrifice sacr) {
+		System.out.println( "sacrifice" );
+		if( sacrifices.isEmpty() || !sacrifices.getLast().stack(sacr) )
+			sacrifices.addLast(sacr);
+	}
+
+	@Override
+	public ISacrifice[] finishOffering() {
+		ISacrifice[] offering = (ISacrifice[])sacrifices.toArray(new ISacrifice[0]);
+		sacrifices.clear();
+		return offering;
+	}
+
+	@Override
+	public Vec3 getLocation() {
+		return Vec3.createVectorHelper( xCoord+0.5f, yCoord+0.5f, zCoord+0.5f );
+	}
+
+	@Override
+	public World getWorld() {
+		return this.worldObj;
+	}
+	
+	
+	
+
+}
