@@ -3,7 +3,7 @@ package mort.mortmagic.spells.life;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.world.World;
-
+/*
 public class MagicalBonemeal implements IMagicallyGrowable{
 
 	@Override
@@ -31,3 +31,4 @@ public class MagicalBonemeal implements IMagicallyGrowable{
 	
 	
 }
+*/

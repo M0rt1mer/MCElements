@@ -8,6 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import java.io.IOException;
+
 public class GuiSpellbook extends GuiContainer {
 
 	public static final ResourceLocation background =
@@ -29,10 +31,10 @@ public class GuiSpellbook extends GuiContainer {
 	}
 
 	@Override
-	protected void keyTyped(char par1, int par2) {
+	protected void keyTyped(char par1, int par2) throws IOException{
 		if (par2 == ((ClientProxy)MortMagic.proxy).keyBind.specInventory.getKeyCode() )
 		{
-			this.mc.thePlayer.closeScreen();
+			this.mc.player.closeScreen();
 		} else
 			super.keyTyped(par1, par2);
 	}

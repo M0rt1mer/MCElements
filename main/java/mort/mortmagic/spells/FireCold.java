@@ -1,13 +1,14 @@
 package mort.mortmagic.spells;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class FireCold extends BaseSpell{
+public class FireCold extends Spell {
 
-	public FireCold(String unLocName) {
-		super(unLocName);
-		// TODO Auto-generated constructor stub
+	public FireCold(ResourceLocation registryName) {
+		super(registryName);
 	}
 
 	@Override
@@ -20,6 +21,11 @@ public class FireCold extends BaseSpell{
 	public float getCost() {
 		// TODO Auto-generated method stub
 		return 0.1f;
+	}
+
+	@Override
+	public void cast(EntityLivingBase caster, Vec3d position, EntityLivingBase impactEntity, World wld, float charge) {
+
 	}
 
 	@Override

@@ -3,17 +3,17 @@ package mort.mortmagic.client;
 import mort.mortmagic.ExtendedPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class GuiManaOverlay extends Gui{
 	
-	ResourceLocation res = new ResourceLocation("mortmagic","textures/manaIcons.png");
+	ResourceLocation res = new ResourceLocation("mortmagic","textures/manaicons.png");
 	
 	public GuiManaOverlay(){
 		this.zLevel = -89;
@@ -21,28 +21,26 @@ public class GuiManaOverlay extends Gui{
 	
 	
 	@SubscribeEvent
-	public void onExperienceBarRender( RenderGameOverlayEvent.Post evnt ){
-		
-		if(evnt.type != ElementType.FOOD ) //after all was rendered
+	public void onPostFoodRender( RenderGameOverlayEvent.Post evnt ){
+
+		if(evnt.getType() == ElementType.FOOD ) //after food was rendered
 			return;
-		
+
 		Minecraft mc = Minecraft.getMinecraft();
+		EntityPlayer plr = (EntityPlayer) mc.getRenderViewEntity();
 		
-		int height = evnt.resolution.getScaledHeight();
-		int width = evnt.resolution.getScaledWidth();
-		
-		//mc.entityRenderer.setupOverlayRendering();
-		
+		int height = evnt.getResolution().getScaledHeight();
+		int width = evnt.getResolution().getScaledWidth();
+
 		mc.getTextureManager().bindTexture( res );
-		
-		
-		int left = width / 2 + 82;
+
+		int left = width / 2 + 91;
         int top = height - 39;
         
         GL11.glEnable(GL11.GL_BLEND);
 
-        int mana = (int)(ExtendedPlayer.getExtendedPlayer(mc.thePlayer).mana/2);
-        int saturation = (int)(mc.thePlayer.getFoodStats().getSaturationLevel()/2);
+        int mana = (int)(plr.getCapability(ExtendedPlayer.EXTENDED_PLAYER_CAPABILITY, EnumFacing.DOWN).mana/2);
+        int saturation = (int)(plr.getFoodStats().getSaturationLevel()/2);
         
         //draw saturation
         int i = 0;

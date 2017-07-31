@@ -1,9 +1,11 @@
 package mort.mortmagic.world.items;
 
+import com.sun.jna.platform.win32.Guid;
 import mort.mortmagic.Resource;
 import mort.mortmagic.api.SacrificeRegistry.ExpSacrifice;
 import mort.mortmagic.sacrifice.IAltar;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -11,9 +13,11 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Multimap;
@@ -29,12 +33,13 @@ public class ItemDagger extends ItemSword{
 		damage = p_i45356_1_.getDamageVsEntity() + 1; //sword would have +4
 	}
 
-	@Override
-	public Multimap getItemAttributeModifiers() {
-        Multimap multimap = super.getItemAttributeModifiers();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.damage, 0));
+	/*@Override
+	public Multimap getItemAttributeModifiers(EntityEquipmentSlot slot) {
+        Multimap multimap = super.getItemAttributeModifiers( slot );
+        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)this.damage, 0));
         return multimap;
-	}
+	}*/
+
 
 	@Override
 	public boolean hitEntity(ItemStack p_77644_1_, EntityLivingBase target,	EntityLivingBase attacker) {
@@ -44,7 +49,7 @@ public class ItemDagger extends ItemSword{
 			//MURDER
 			System.out.println( target.getClass() );
 			if( target instanceof EntityCow ){
-				dropItem( target.worldObj, target.posX, target.posY, target.posZ, new ItemStack(Resource.mobDrop,1,0) );
+				dropItem( target.getEntityWorld(), target.posX, target.posY, target.posZ, new ItemStack(Resource.metaItem,1,6) );
 			} 
 			
 		}
@@ -54,28 +59,23 @@ public class ItemDagger extends ItemSword{
 	
 	private void dropItem( World wld, double x, double y, double z, ItemStack stk){
 		EntityItem entItm = new EntityItem(wld, x, y, z, stk);
-		wld.spawnEntityInWorld(entItm);
+		wld.spawnEntity(entItm);
 	}
 
 	@Override
-	public boolean onBlockDestroyed(ItemStack p_150894_1_, World world,
-			Block block, int p_150894_4_, int p_150894_5_,
-			int p_150894_6_, EntityLivingBase p_150894_7_) {
-		
-		super.onBlockDestroyed(p_150894_1_, world, block, p_150894_4_, p_150894_5_, p_150894_6_, p_150894_7_);
-		if( block == Blocks.tallgrass && world.getBlockMetadata(p_150894_4_, p_150894_5_, p_150894_6_) == 2 && Math.abs( world.getCelestialAngle(0) - 0.5f ) < 0.05f ){
-			ItemStack stk = new ItemStack( Resource.fern, 1 );
-			EntityItem itm = new EntityItem( world, p_150894_4_, p_150894_5_, p_150894_6_, stk );
-			world.spawnEntityInWorld(itm);
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
+		super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
+
+		if( state.getBlock() == Blocks.TALLGRASS && Math.abs(worldIn.getCelestialAngle(0) - 0.5f) < 0.05f ){
+			ItemStack stk = new ItemStack( Resource.metaItem, 1, 3 );
+			EntityItem itm = new EntityItem( worldIn, pos.getX(), pos.getY(), pos.getZ(), stk );
+			worldIn.spawnEntity(itm);
 		}
-		
 		return true;
-		
 	}
 
-	
 	//-----------------------  SACRIFICE EXP
-	@Override
+	/*@Override
 	public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_,
 			World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_,
 			int p_77648_7_, float p_77648_8_, float p_77648_9_,
@@ -89,10 +89,10 @@ public class ItemDagger extends ItemSword{
 			return true;
 		}
 		return false;
-	}
+	}*/
 	
 
-	@Override
+	/*@Override
 	public boolean itemInteractionForEntity(ItemStack p_111207_1_,
 			EntityPlayer p_111207_2_, EntityLivingBase ent) {
 		if( p_111207_2_.experienceTotal < 10 )
@@ -104,7 +104,7 @@ public class ItemDagger extends ItemSword{
 		}
 		return false;
 		
-	}
+	}*/
 	
 	
 	

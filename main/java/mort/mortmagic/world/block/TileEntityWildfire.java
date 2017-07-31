@@ -6,8 +6,7 @@ import mort.mortmagic.api.SacrificeRegistry;
 import mort.mortmagic.api.SacrificeRegistry.ISacrifice;
 import mort.mortmagic.sacrifice.IAltar;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
+import net.minecraft.util.math.Vec3d;
 
 public class TileEntityWildfire extends TileEntity implements IAltar{
 
@@ -28,16 +27,9 @@ public class TileEntityWildfire extends TileEntity implements IAltar{
 	}
 
 	@Override
-	public Vec3 getLocation() {
-		return Vec3.createVectorHelper( xCoord+0.5f, yCoord+0.5f, zCoord+0.5f );
+	public Vec3d getLocation() {
+		return null;
 	}
 
-	@Override
-	public World getWorld() {
-		return this.worldObj;
-	}
-	
-	
-	
 
 }

@@ -1,20 +1,18 @@
 package mort.mortmagic.spells;
 
-import mort.mortmagic.spells.BaseSpell.SpellCastData;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class BaseFire extends BaseSpell{
+public class BaseFire extends Spell {
 
 	private static final float fireDamageCost = 3;
-	
-	public BaseFire(String unLocName) {
-		super(unLocName);
+
+	public BaseFire(ResourceLocation registryName) {
+		super(registryName);
 	}
 
 	@Override
@@ -27,16 +25,21 @@ public class BaseFire extends BaseSpell{
 		return 0.1f;
 	}
 
-	@Override
+    @Override
+    public void cast(EntityLivingBase caster, Vec3d position, EntityLivingBase impactEntity, World wld, float charge) {
+
+    }
+
+    @Override
 	protected float entityCast(EntityLivingBase base, float charge, SpellCastData dat) {
-		if(base.isImmuneToFire() || base.isPotionActive( Potion.fireResistance.id ))
+		if(base.isImmuneToFire() || base.isPotionActive( Potion.getPotionFromResourceLocation("minecraft:fireResist") ))
 			return 0;
-		base.attackEntityFrom( DamageSource.inFire, charge/2/fireDamageCost - ((int)(charge/2/fireDamageCost)) );
+		base.attackEntityFrom( DamageSource.IN_FIRE, charge/2/fireDamageCost - ((int)(charge/2/fireDamageCost)) );
 		base.setFire( (int)(charge/2/fireDamageCost) );
 		return charge;
 	}
 
-	@Override
+	/*@Override
 	protected float blockCast(World world, int x, int y, int z, float charge, SpellCastData dat) {
 		if( !world.isAirBlock(x, y, z) )
 			return 0;
@@ -48,7 +51,7 @@ public class BaseFire extends BaseSpell{
 			}
 		}
 		return 0;
-	}
+	}*/
 
 	/*
 	@Override

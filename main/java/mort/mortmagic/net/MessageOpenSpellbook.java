@@ -3,16 +3,16 @@ package mort.mortmagic.net;
 import io.netty.buffer.ByteBuf;
 import mort.mortmagic.MortMagic;
 import net.minecraft.entity.player.EntityPlayerMP;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageOpenSpellbook implements IMessage, IMessageHandler<MessageOpenSpellbook,IMessage>{
+public class MessageOpenSpellbook implements IMessage, IMessageHandler<MessageOpenSpellbook,IMessage> {
 
 	@Override
 	public IMessage onMessage(MessageOpenSpellbook message, MessageContext ctx) {
-		EntityPlayerMP plr = ctx.getServerHandler().playerEntity;
-		plr.openGui(MortMagic.instance, 0, plr.worldObj, (int)plr.posX, (int)plr.posY, (int)plr.posZ);
+		EntityPlayerMP plr = ctx.getServerHandler().player;
+		plr.openGui(MortMagic.instance, 0, plr.getEntityWorld(), (int)plr.posX, (int)plr.posY, (int)plr.posZ);
 		return null;
 	}
 

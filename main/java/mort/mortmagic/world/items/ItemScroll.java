@@ -1,34 +1,28 @@
 package mort.mortmagic.world.items;
 
-import mort.mortmagic.Resource;
 import mort.mortmagic.spells.Element;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemScroll extends Item {
 
-	Element elem;
-	
-	
-	public ItemScroll(String unlocalizedName){
-		setUnlocalizedName(unlocalizedName);
-		setMaxDamage(100);
+	public ItemScroll( ){
 		setMaxStackSize( 1 );
 	}
-	
-	public ItemScroll setElement(Element e){
-		this.elem = e;
-		return this;
+
+	public ItemStack createScroll( Element elem, int level){
+		ItemStack stk = new ItemStack( this, 1 );
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setString( "spell", elem.getRegistryName().toString() );
+		tag.setInteger( "level", level );
+		stk.setTagCompound( tag );
+		return stk;
 	}
-	
-	
+
 	public static Element getElement( ItemStack stk ){
-		
-		return ((ItemScroll)stk.getItem()).elem;
-	}
-	
-	public static int getMaxLevel( ItemStack stk ){
-		return 1;
-	}
-	
+        return GameRegistry.findRegistry(Element.class).getValue( new ResourceLocation( stk.getTagCompound().getString("spell") ) );
+    }
 }

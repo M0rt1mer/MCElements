@@ -1,11 +1,11 @@
 package mort.mortmagic.api;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class SacrificeRegistry {
 
@@ -88,7 +88,7 @@ public class SacrificeRegistry {
 			ItemSacrifice sac2 = ((ItemSacrifice)sac);
 			if( stack.getItem() != sac2.stack.getItem() )
 				return -1;
-			if( sac2.stack.stackSize < stack.stackSize )
+			if( sac2.stack.getCount() < stack.getCount() )
 				return -1;
 			if( (stack.getTagCompound()==null^sac2.stack.getTagCompound()==null) ||
 				(stack.getTagCompound()!=null && sac2.stack.getTagCompound()!=null && !stack.getTagCompound().equals(sac2.stack.getTagCompound()) ) )
@@ -96,7 +96,7 @@ public class SacrificeRegistry {
 			if( stack.getItemDamage()==-1 || stack.getItemDamage()==sac2.stack.getItemDamage() )
 				return 1;
 			if( stack.isStackable() && stack.getItemDamage()>sac2.stack.getItemDamage()  )
-				return stack.stackSize/sac2.stack.stackSize;
+				return stack.getCount()/sac2.stack.getCount();
 			return -1;
 			
 		}
@@ -151,7 +151,7 @@ public class SacrificeRegistry {
 		@Override
 		public void reward(World wld, double x, double y, double z) {
 			EntityItem itm = new EntityItem( wld, x,y+1,z, reward.copy() );
-			wld.spawnEntityInWorld(itm);
+			wld.spawnEntity(itm);
 		}
 	}
 	

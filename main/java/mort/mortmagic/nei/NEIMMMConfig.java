@@ -1,4 +1,4 @@
-package mort.mortmagic.nei;
+/*package mort.mortmagic.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
@@ -24,4 +24,4 @@ public class NEIMMMConfig implements IConfigureNEI {
 	}
 
 	
-}
+}*/

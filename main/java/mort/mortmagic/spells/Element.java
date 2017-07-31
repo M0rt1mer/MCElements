@@ -1,19 +1,12 @@
 package mort.mortmagic.spells;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class Element {
+public class Element extends IForgeRegistryEntry.Impl<Element> {
 
-	String name;
-	
-	public Element(String name) {
-		this.name = name;
+	public Element(ResourceLocation res){
+		this.setRegistryName(res);
 	}
-	
-	public String getTranslatedName(){
-		return LanguageRegistry.instance().getStringLocalization(name);
-	}
-	
-	
-	
+
 }

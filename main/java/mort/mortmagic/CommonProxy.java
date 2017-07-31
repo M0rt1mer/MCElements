@@ -1,13 +1,11 @@
 package mort.mortmagic;
 
 import mort.mortmagic.inventory.SpellbookContainer;
-import mort.mortmagic.spells.ISpell;
-import mort.mortmagic.world.EntitySpellMissile;
+import mort.mortmagic.spells.Spell;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler {
 
@@ -24,18 +22,15 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	//public MMMPlayerCustomDataManager plrMan;
-	public EventHandler handlr;
+	public ElementsEventHandler handlr;
 	
 	public CommonProxy(){}
 	
 	public void preInit(){
 		
-		//plrMan = new MMMPlayerCustomDataManager();
-		handlr = new EventHandler();
-		//MinecraftForge.EVENT_BUS.register( plrMan );
+		handlr = new ElementsEventHandler();
 		MinecraftForge.EVENT_BUS.register( handlr );
-		//MinecraftForge.EVENT_BUS.register( MortMagic.mngr );
-		EntityRegistry.registerModEntity(EntitySpellMissile.class, "spellMissile", 0, MortMagic.instance, 64, 1, false);
+		//EntityRegistry.registerModEntity(EntitySpellMissile.class, "spellMissile", 0, MortMagic.instance, 64, 1, false);
 	}
 	
 	public void init(){
@@ -47,7 +42,12 @@ public class CommonProxy implements IGuiHandler {
 		
 	}
 
-	public void spawnParticle( World wld, double p1, double p2, double p3, double p4, double p5, double p6, ISpell spell ){}
+	public void postInit(){
+
+
+	}
+
+	public void spawnParticle( World wld, double p1, double p2, double p3, double p4, double p5, double p6, Spell spell ){}
 	
 	//updates mana and saturation of local player (client only, called from MessageSync, that cannot reference net.minecraft.Minecraft)
 	public void updatePlayerStats(float mana, float saturation){}

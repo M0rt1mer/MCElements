@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "mortmagic:mi",
+    "data" : 0
+  },
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item":"minecraft:paper"
+    },
+    {
+      "item" : "mortmagic:mi",
+      "data" : 1
+    }
+  ]
+}

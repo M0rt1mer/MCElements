@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "mortmagic:stoneDagger"
+  },
+  "pattern": [
+    "cc ",
+    "cc ",
+    "cs "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "type": "forge:ore_dict",
+      "ore": "cobblestone"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  }
+}

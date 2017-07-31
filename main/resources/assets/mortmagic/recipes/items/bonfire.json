@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "mortmagic:bonfire"
+  },
+  "pattern": [
+    "ggg",
+    "gmg",
+    "ggg"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "g": {
+      "item": "mortmagic:mi", //grate
+      "data" : 4
+    },
+    "m": {
+      "item":"mortmagic:mi",
+      "data" : 1
+    }
+  }
+}

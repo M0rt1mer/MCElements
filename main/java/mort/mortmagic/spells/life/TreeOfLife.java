@@ -3,10 +3,8 @@ package mort.mortmagic.spells.life;
 import mort.mortmagic.Resource;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Facing;
 import net.minecraft.world.World;
-
+/*
 public class TreeOfLife implements IMagicallyGrowable{
 
 	@Override
@@ -30,7 +28,7 @@ public class TreeOfLife implements IMagicallyGrowable{
 					if(side==1){
 					/*	wld.setBlock(x+Facing.offsetsXForSide[side], y+Facing.offsetsYForSide[side], z+Facing.offsetsZForSide[side],
 							Resource.treeRoot, 12+ Direction.facingToDirection[side], 3 );*/
-					}
+					/*}
 					else if(side!=0){
 						wld.setBlock(x+Facing.offsetsXForSide[side], y+Facing.offsetsYForSide[side], z+Facing.offsetsZForSide[side],
 								Resource.treeRoot, 12+Direction.facingToDirection[side], 3 );
@@ -77,4 +75,4 @@ public class TreeOfLife implements IMagicallyGrowable{
 	
 	
 
-}
+}*/

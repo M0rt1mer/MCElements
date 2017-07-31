@@ -1,5 +1,5 @@
 package mort.mortmagic.client;
-
+/*
 import mort.mortmagic.Resource;
 import mort.mortmagic.world.block.TileEntityWildfire;
 import net.minecraft.block.Block;
@@ -61,7 +61,7 @@ public class WildFireRenderer extends TileEntitySpecialRenderer{
        /*tessellator.addVertexWithUV(0, 0, 0.3, u1, v1);
        tessellator.addVertexWithUV(0, 1, 0.6, u1, v2);
        tessellator.addVertexWithUV(1, 1, 0.6, u2, v2);
-       tessellator.addVertexWithUV(1, 0, 0.3, u2, v1);*/
+       tessellator.addVertexWithUV(1, 0, 0.3, u2, v1);/////
        
        
        tessellator.addVertexWithUV(1  , 0, 0, u1, v1);
@@ -94,4 +94,4 @@ public class WildFireRenderer extends TileEntitySpecialRenderer{
 	}
 	
 	
-}
+}*/

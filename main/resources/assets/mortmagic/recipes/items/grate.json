@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "mortmagic:mi",
+    "data": 4
+  },
+  "pattern": [
+    "sss",
+    "s s",
+    "sss"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  }
+}

@@ -6,6 +6,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.text.ITextComponent;
 
 public class InventorySpellbook implements IInventory {
 
@@ -21,7 +22,7 @@ public class InventorySpellbook implements IInventory {
 		for( int i = 0; i<list.tagCount(); i++ ){
 			NBTTagCompound cmpd = list.getCompoundTagAt(i);
 			int slot = cmpd.getInteger("Slot");
-			ItemStack stack = ItemStack.loadItemStackFromNBT(cmpd);
+			ItemStack stack = new ItemStack(cmpd);
 			stacks[slot] = stack;
 		}
 
@@ -46,6 +47,11 @@ public class InventorySpellbook implements IInventory {
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
 	public ItemStack getStackInSlot(int id) {
 		return (id>=stacks.length)?null:stacks[id];
 	}
@@ -55,7 +61,7 @@ public class InventorySpellbook implements IInventory {
 		if(stacks[id]==null)
 			return null;
 		
-		if( change >= stacks[id].stackSize ){
+		if( change >= stacks[id].getCount() ){
 			ItemStack stk = stacks[id];
 			stacks[id] = null;
 			return stk;
@@ -67,14 +73,8 @@ public class InventorySpellbook implements IInventory {
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int id) {
-		if (this.stacks[id] != null) {
-			ItemStack itemstack = this.stacks[id];
-			this.stacks[id] = null;
-			return itemstack;
-		} else {
-			return null;
-		}
+	public ItemStack removeStackFromSlot(int index) {
+		return null;
 	}
 
 	@Override
@@ -83,41 +83,27 @@ public class InventorySpellbook implements IInventory {
 	}
 
 	@Override
-	public String getInventoryName() {
-		return "Spellbook";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return false;
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
-		return 1;
+		return 0;
 	}
 
 	@Override
 	public void markDirty() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
-		// TODO Auto-generated method stub
-		return true;
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return false;
 	}
 
 	@Override
-	public void openInventory() {
-		// TODO Auto-generated method stub
+	public void openInventory(EntityPlayer player) {
 
 	}
 
 	@Override
-	public void closeInventory() {
-		// TODO Auto-generated method stub
+	public void closeInventory(EntityPlayer player) {
 
 	}
 
@@ -126,6 +112,38 @@ public class InventorySpellbook implements IInventory {
 		return p_94041_2_.getItem() instanceof ItemScroll;
 	}
 
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
 
+	@Override
+	public void setField(int id, int value) {
 
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+
+	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
+
+	@Override
+	public ITextComponent getDisplayName() {
+		return null;
+	}
 }

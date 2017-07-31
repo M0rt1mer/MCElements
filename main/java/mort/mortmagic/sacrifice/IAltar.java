@@ -1,7 +1,7 @@
 package mort.mortmagic.sacrifice;
 
 import mort.mortmagic.api.SacrificeRegistry.ISacrifice;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public interface IAltar {
@@ -10,7 +10,7 @@ public interface IAltar {
 	
 	ISacrifice[] finishOffering();
 	
-	Vec3 getLocation();
+	Vec3d getLocation();
 	
 	World getWorld();
 	

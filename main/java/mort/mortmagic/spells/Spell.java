@@ -1,37 +1,35 @@
 package mort.mortmagic.spells;
 
-import java.util.ArrayList;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import mort.mortmagic.MortMagic;
-import mort.mortmagic.spells.life.IMagicallyGrowable;
-import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
+public abstract class Spell extends IForgeRegistryEntry.Impl<Spell> {
 
-public abstract class BaseSpell implements ISpell{
+    public Spell(ResourceLocation registryName) {
+        this.setRegistryName(registryName);
+    }
 
-	private String unLocName;
-	private String textureName;
-	
-	public BaseSpell(String unLocName) {
-		this.unLocName = unLocName;
-	}
+    private String textureName;
 
-	@Override
-	public String getUnlocalizedName() {
-		return unLocName;
-	}
+    public abstract int getCooldown();
 
-	public String getTextureName(){
+    public abstract float getCost();
+
+    public abstract void cast(EntityLivingBase caster, Vec3d position, EntityLivingBase impactEntity, World wld, float charge);
+
+    public String getTextureName(){
 		return textureName;
 	}
-	
-	public BaseSpell setTextureName(String name){
+	public Spell setTextureName(String name){
 		textureName = name;
 		return this;
 	}
@@ -44,16 +42,11 @@ public abstract class BaseSpell implements ISpell{
 		List list;
 		if(impactEntity!=null){
 			charge -= entityCast( impactEntity, charge*0.75f, dat );
-			list = wld.getEntitiesWithinAABBExcludingEntity(impactEntity, AxisAlignedBB.getBoundingBox(impactX-range,impactY-range ,impactZ-range ,impactX+range ,impactY+range ,impactZ+range ),
-					new IEntitySelector() {
-						@Override
-						public boolean isEntityApplicable(Entity p_82704_1_) {
-							return p_82704_1_ instanceof EntityLivingBase;
-						}
-					} );
+			list = wld.getEntitiesInAABBexcluding(impactEntity, new AxisAlignedBB(impactX-range,impactY-range ,impactZ-range ,impactX+range ,impactY+range ,impactZ+range ),
+					p_82704_1_ -> p_82704_1_ instanceof EntityLivingBase);
 		}
 		
-		list = wld.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(impactX-range,impactY-range ,impactZ-range ,impactX+range ,impactY+range ,impactZ+range ) ); 
+		list = wld.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(impactX-range,impactY-range ,impactZ-range ,impactX+range ,impactY+range ,impactZ+range ) );
 		Collections.sort(list, new EntityDistanceComparator(impactX, impactY, impactZ));
 		for( Object obj : list ){
 			EntityLivingBase ent = (EntityLivingBase) obj;

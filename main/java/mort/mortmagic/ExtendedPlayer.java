@@ -4,17 +4,27 @@ import mort.mortmagic.api.RobesRegistry;
 import mort.mortmagic.inventory.InventorySpellbook;
 import mort.mortmagic.net.MessageSyncStats;
 import mort.mortmagic.net.NetworkManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-public class ExtendedPlayer implements IExtendedEntityProperties{
+public class ExtendedPlayer implements ICapabilitySerializable<NBTTagCompound> {
 
-	public static final String IDENTIFIER = "spellData";
-	
+    @CapabilityInject(ExtendedPlayer.class)
+    public static Capability<ExtendedPlayer> EXTENDED_PLAYER_CAPABILITY = null;
+
+    public ExtendedPlayer(EntityPlayer plr) {
+        this.plr = plr;
+        spellbook = new InventorySpellbook();
+    }
+
+    public static ResourceLocation extPlayerResLoc = new ResourceLocation( "mortmagic", "extPlayer" );
+
 	private EntityPlayer plr;
 	public InventorySpellbook spellbook;
 	public int castingMode = 0;
@@ -24,36 +34,13 @@ public class ExtendedPlayer implements IExtendedEntityProperties{
 	
 	private float lastMana;
 	private float lastSaturation;
-	
-	@Override
-	public void saveNBTData(NBTTagCompound compound) {
-		NBTTagCompound inv = new NBTTagCompound();
-		spellbook.saveToNBT(inv);
-		compound.setTag("spellbook", inv);
-	}
 
-	@Override
-	public void loadNBTData(NBTTagCompound compound) {
-		spellbook = new InventorySpellbook( compound.getCompoundTag("spellbook") );
-	}
-
-	@Override
-	public void init(Entity entity, World world) {
-		if( spellbook==null )
-			spellbook = new InventorySpellbook();
-	}
-	
-	public void register(EntityPlayer plr){
-		plr.registerExtendedProperties(IDENTIFIER, this);
-		this.plr = plr;
-	}
-	
 	public float gainMana(float gain){
 		
 		float maxMana = 0;
 		for( int i = 0; i<4; i++ ){
-			if( plr.inventory.armorInventory[i] != null ){
-				RobesRegistry.RobeInfo rb = MortMagic.robes.getRobe(plr.inventory.armorInventory[i].getItem());
+			if( plr.inventory.armorInventory.get(i) != null ){
+				RobesRegistry.RobeInfo rb = MortMagic.robes.getRobe(plr.inventory.armorInventory.get(i).getItem());
 				if(rb!=null)
 					maxMana += rb.maxMana;
 			}
@@ -88,9 +75,31 @@ public class ExtendedPlayer implements IExtendedEntityProperties{
 			}
 		}
 	}
-	
-	public static ExtendedPlayer getExtendedPlayer(EntityPlayer plr){
-		return (ExtendedPlayer)plr.getExtendedProperties(IDENTIFIER);
-	}
-	
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        return (capability == EXTENDED_PLAYER_CAPABILITY);
+    }
+
+    @Override
+    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        if (capability == EXTENDED_PLAYER_CAPABILITY) {
+            return (T)this;
+        }
+        return null;
+    }
+
+    @Override
+    public NBTTagCompound serializeNBT() {
+        NBTTagCompound tag = new NBTTagCompound();
+	    NBTTagCompound inv = new NBTTagCompound();
+        spellbook.saveToNBT(inv);
+        tag.setTag("spellbook", inv);
+        return tag;
+    }
+
+    @Override
+    public void deserializeNBT(NBTTagCompound nbt) {
+        spellbook = new InventorySpellbook( nbt.getCompoundTag("spellbook") );
+    }
 }

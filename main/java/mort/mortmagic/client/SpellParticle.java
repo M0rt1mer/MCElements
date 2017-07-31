@@ -3,13 +3,11 @@ package mort.mortmagic.client;
 import java.util.HashMap;
 import java.util.Map;
 
-import mort.mortmagic.spells.ISpell;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
+/*
 public class SpellParticle extends EntityFX{
 
 	private static Map<ISpell,ResourceLocation> locMap = new HashMap<ISpell, ResourceLocation>();
@@ -66,7 +64,7 @@ public class SpellParticle extends EntityFX{
 
 	
 	
+
 	
 	
-	
-}
+}*/

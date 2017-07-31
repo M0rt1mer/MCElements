@@ -1,5 +1,5 @@
 package mort.mortmagic.world.items;
-
+/*
 import mort.mortmagic.Resource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -35,4 +35,4 @@ public class ItemMPotion extends Item {
 		return p_77654_1_;
 	}
 	
-}
+}*/

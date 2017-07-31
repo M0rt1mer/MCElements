@@ -1,22 +1,14 @@
 package mort.mortmagic.spells;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import mort.mortmagic.MortMagic;
-import mort.mortmagic.spells.life.IMagicallyGrowable;
-import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class BaseLife extends BaseSpell{
-	
-	public BaseLife(String unLocName) {
-		super(unLocName);
+public class BaseLife extends Spell {
+
+	public BaseLife(ResourceLocation registryName) {
+		super(registryName);
 	}
 
 	@Override
@@ -27,6 +19,11 @@ public class BaseLife extends BaseSpell{
 	@Override
 	public float getCost() {
 		return 0.1f;
+	}
+
+	@Override
+	public void cast(EntityLivingBase caster, Vec3d position, EntityLivingBase impactEntity, World wld, float charge) {
+
 	}
 
 	/*
@@ -92,7 +89,7 @@ public class BaseLife extends BaseSpell{
 	
 	@Override
 	protected float blockCast(World wld, int x, int y, int z, float charge, SpellCastData dat) {
-		ArrayList<IMagicallyGrowable> set = new ArrayList<IMagicallyGrowable>();
+		/*ArrayList<IMagicallyGrowable> set = new ArrayList<IMagicallyGrowable>();
 		set.clear();
 		
 		for( IMagicallyGrowable grw : MortMagic.life.registry ){
@@ -104,7 +101,7 @@ public class BaseLife extends BaseSpell{
 			if( Math.random()*grw.getCost() < charge )
 				grw.apply(wld, x, y, z);
 			return grw.getCost(); 
-		}
+		}*/
 		return 0;
 	}
 /*

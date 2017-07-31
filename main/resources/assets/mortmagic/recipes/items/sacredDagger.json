@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "mortmagic:stoneDaggerSacred"
+  },
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item":"mortmagic:stoneDagger"
+    },
+    {
+      "item" : "mortmagic:mi",
+      "data" : 1
+    }
+  ]
+}

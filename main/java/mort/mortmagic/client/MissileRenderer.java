@@ -1,9 +1,8 @@
 package mort.mortmagic.client;
-
+/*
 import java.util.HashMap;
 import java.util.Map;
 
-import mort.mortmagic.spells.ISpell;
 import mort.mortmagic.world.EntitySpellMissile;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -67,4 +66,4 @@ public class MissileRenderer extends Render {
 
 	
 	
-}
+}*/

@@ -1,10 +1,10 @@
 package mort.mortmagic.world;
-
+/*
 import mort.mortmagic.Resource;
 import mort.mortmagic.world.items.ItemEnchantable;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemStack;/
 
 public class EnchantmentMagical extends Enchantment{
 
@@ -26,3 +26,4 @@ public class EnchantmentMagical extends Enchantment{
 	
 	
 }
+*/

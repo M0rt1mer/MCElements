@@ -2,21 +2,14 @@ package mort.mortmagic;
 
 import mort.mortmagic.client.GuiManaOverlay;
 import mort.mortmagic.client.GuiSpellbook;
-import mort.mortmagic.client.MissileRenderer;
-import mort.mortmagic.client.SpellParticle;
-import mort.mortmagic.client.WildFireRenderer;
-import mort.mortmagic.inventory.InventorySpellbook;
 import mort.mortmagic.inventory.SpellbookContainer;
 import mort.mortmagic.net.KeyBindingManager;
-import mort.mortmagic.spells.ISpell;
-import mort.mortmagic.world.EntitySpellMissile;
-import mort.mortmagic.world.block.TileEntityWildfire;
+import mort.mortmagic.spells.Spell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -34,9 +27,8 @@ public class ClientProxy extends CommonProxy {
 		
 		keyBind = new KeyBindingManager();
 		keyBind.initAndRegister();
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellMissile.class, new MissileRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer( TileEntityWildfire.class , new WildFireRenderer() );
+
+
 	}
 
 	@Override
@@ -46,26 +38,25 @@ public class ClientProxy extends CommonProxy {
 		
 		MinecraftForge.EVENT_BUS.register( new GuiManaOverlay() );
 	}
-	
-	public void spawnParticle( World wld, double p1, double p2, double p3, double p4, double p5, double p6, ISpell spell){
+
+	public void postInit(){
+		super.postInit();
+        Resource.metaItem.initModels();
+	}
+
+	public void spawnParticle( World wld, double p1, double p2, double p3, double p4, double p5, double p6, Spell spell){
 		//if( wld == Minecraft.getMinecraft().thePlayer.worldObj ){
-			SpellParticle spl =  new SpellParticle(wld, p1, p2, p3, p4, p5, p6);
+			/*SpellParticle spl =  new SpellParticle(wld, p1, p2, p3, p4, p5, p6);
 			spl.setSpell(spell);
-			Minecraft.getMinecraft().effectRenderer.addEffect( spl );
+			Minecraft.getMinecraft().effectRenderer.addEffect( spl );*/
 		//}
 	}
 
 	@Override
 	public void updatePlayerStats(float mana, float saturation) {
 		super.updatePlayerStats( mana,  saturation);
-		Minecraft.getMinecraft().thePlayer.getFoodStats().setFoodSaturationLevel(saturation);
-		ExtendedPlayer.getExtendedPlayer( Minecraft.getMinecraft().thePlayer ).mana = mana;
+		Minecraft.getMinecraft().player.getFoodStats().setFoodSaturationLevel(saturation);
+		Minecraft.getMinecraft().player.getCapability(ExtendedPlayer.EXTENDED_PLAYER_CAPABILITY, EnumFacing.DOWN).mana = mana;
 	}
 
-	@Override
-	public int addArmor(String str) {
-		return RenderingRegistry.addNewArmourRendererPrefix("mmRobe");
-	}
-	
-	
 }

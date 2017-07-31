@@ -1,5 +1,5 @@
 package mort.mortmagic.world;
-
+/*
 import mort.mortmagic.ExtendedPlayer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,3 +27,4 @@ public class PotionManaRegen extends Potion{
 	
 	
 }
+*/

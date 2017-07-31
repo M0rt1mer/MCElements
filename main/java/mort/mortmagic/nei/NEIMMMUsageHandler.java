@@ -1,4 +1,4 @@
-package mort.mortmagic.nei;
+/*package mort.mortmagic.nei;
 
 import java.util.List;
 
@@ -121,3 +121,4 @@ public class NEIMMMUsageHandler implements IRecipeHandler, IUsageHandler{
 	
 	
 }
+*/

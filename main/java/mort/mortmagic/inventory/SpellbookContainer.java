@@ -1,12 +1,12 @@
 package mort.mortmagic.inventory;
 
 import mort.mortmagic.ExtendedPlayer;
-import mort.mortmagic.MortMagic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 
 public class SpellbookContainer extends Container{
 
@@ -16,7 +16,7 @@ public class SpellbookContainer extends Container{
 	public SpellbookContainer(EntityPlayer plr) {
 		super();
 		plrInv = plr.inventory;
-		inv = ExtendedPlayer.getExtendedPlayer(plr).spellbook;
+		inv = plr.getCapability(ExtendedPlayer.EXTENDED_PLAYER_CAPABILITY, EnumFacing.DOWN).spellbook;
 		
 		for (int i = 0; i < 3; ++i){
 			for (int j = 0; j < 9; ++j){

@@ -2,17 +2,13 @@ package mort.mortmagic.net;
 
 import net.minecraft.client.settings.KeyBinding;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class KeyBindingManager {
 
@@ -29,22 +25,23 @@ public class KeyBindingManager {
 		strongCast = new KeyBinding("key.mort.strongCast",Keyboard.KEY_V,"key.categories.mortMagic");
 		specInventory = new KeyBinding("key.mort.specInventory",Keyboard.KEY_R,"key.categories.mortMagic");
 
+
+
 		ClientRegistry.registerKeyBinding(weakCast);
 		ClientRegistry.registerKeyBinding(strongCast);
 		ClientRegistry.registerKeyBinding(specInventory);
-		FMLCommonHandler.instance().bus().register(this);
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	@SideOnly(value=Side.CLIENT)
 	@SubscribeEvent
-	public void playerTick(PlayerTickEvent event) {
-		if (event.phase == Phase.START ) {
+	public void playerTick(TickEvent.PlayerTickEvent event) {
+		if (event.phase == TickEvent.Phase.START ) {
 			if (specInventory.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus) {
 				NetworkManager.instance.sendToServer(new MessageOpenSpellbook());
 			}
-			if( weakCast.getIsKeyPressed() != weakPressed || strongCast.getIsKeyPressed() != strongPressed ){
-				weakPressed = weakCast.getIsKeyPressed();
-				strongPressed = strongCast.getIsKeyPressed();
+			if( weakCast.isPressed() != weakPressed || strongCast.isPressed() != strongPressed ){
+				weakPressed = weakCast.isPressed();
+				strongPressed = strongCast.isPressed();
 				//System.out.println("Tick "+weakCast.getIsKeyPressed()+" "+strongCast.getIsKeyPressed());
 				NetworkManager.instance.sendToServer( new MessageCast( (weakPressed?1:0) + (strongPressed?2:0) ) );
 				

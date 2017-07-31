@@ -1,11 +1,11 @@
 package mort.mortmagic.spells;
-
+/*
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class SimplePotionSpell extends BaseSpell{
+public class SimplePotionSpell extends Spell {
 
 	Potion effect;
 	int amplif;
@@ -50,3 +50,4 @@ public class SimplePotionSpell extends BaseSpell{
 	
 	
 }
+*/
