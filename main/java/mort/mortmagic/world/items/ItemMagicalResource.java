@@ -1,7 +1,5 @@
 package mort.mortmagic.world.items;
 
-import mort.mortmagic.spells.Spell;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,13 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class ItemMagicalResource extends Item{
 
@@ -36,20 +29,17 @@ public class ItemMagicalResource extends Item{
     }
 
 	@Override
-	public String getUnlocalizedName(ItemStack p_77667_1_) {
-		return super.getUnlocalizedName(p_77667_1_)+"."+classes[p_77667_1_.getItemDamage()];
+	public String getUnlocalizedName(ItemStack stack) {
+		return super.getUnlocalizedName(stack)+"."+classes[stack.getItemDamage()];
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void initModels() {
-		ModelResourceLocation[] models = new ModelResourceLocation[classes.length];
-
-		for (int i =0;i<classes.length;i++)
-			models[i] = new ModelResourceLocation( getRegistryName() + "_" + classes[i], "inventory" );
-
-		ModelBakery.registerItemVariants(this, models );
-
-		ModelLoader.setCustomMeshDefinition(this, stack -> models[ stack.getItemDamage() ]);
+		for (int i =0;i<classes.length;i++) {
+		    ResourceLocation rl = new ResourceLocation( getRegistryName() + "_" + classes[i] );
+			ModelBakery.registerItemVariants(this, rl);
+			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(rl, "inventory") );
+		}
 	}
 	
 }

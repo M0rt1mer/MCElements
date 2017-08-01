@@ -6,11 +6,11 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 /**
  * Represents a single rune, like "Ra".
  */
-public class RuneCharacter extends IForgeRegistryEntry.Impl<RuneCharacter>{
+public class RuneMaterial extends IForgeRegistryEntry.Impl<RuneMaterial> {
 
     String unlocalizedName;
 
-    public RuneCharacter(ResourceLocation resLoc, String unlocalizedName) {
+    public RuneMaterial(ResourceLocation resLoc, String unlocalizedName) {
         this.unlocalizedName = unlocalizedName;
         this.setRegistryName(resLoc);
     }

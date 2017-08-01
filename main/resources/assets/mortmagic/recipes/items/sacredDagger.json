@@ -1,8 +1,5 @@
 {
-  "result": {
-    "item": "mortmagic:stoneDaggerSacred"
-  },
-  "type": "crafting_shapeless",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
       "item":"mortmagic:stoneDagger"
@@ -11,5 +8,8 @@
       "item" : "mortmagic:mi",
       "data" : 1
     }
-  ]
+  ],
+  "result": {
+    "item": "mortmagic:stoneDaggerSacred"
+  }
 }

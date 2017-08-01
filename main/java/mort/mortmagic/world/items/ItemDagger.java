@@ -1,26 +1,15 @@
 package mort.mortmagic.world.items;
 
-import com.sun.jna.platform.win32.Guid;
 import mort.mortmagic.Resource;
-import mort.mortmagic.api.SacrificeRegistry.ExpSacrifice;
-import mort.mortmagic.sacrifice.IAltar;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import com.google.common.collect.Multimap;
 
 public class ItemDagger extends ItemSword{
 
@@ -50,10 +39,8 @@ public class ItemDagger extends ItemSword{
 			System.out.println( target.getClass() );
 			if( target instanceof EntityCow ){
 				dropItem( target.getEntityWorld(), target.posX, target.posY, target.posZ, new ItemStack(Resource.metaItem,1,6) );
-			} 
-			
+			}
 		}
-		
 		return super.hitEntity(p_77644_1_, target, attacker);
 	}
 	
@@ -66,12 +53,25 @@ public class ItemDagger extends ItemSword{
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
 		super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 
-		if( state.getBlock() == Blocks.TALLGRASS && Math.abs(worldIn.getCelestialAngle(0) - 0.5f) < 0.05f ){
-			ItemStack stk = new ItemStack( Resource.metaItem, 1, 3 );
-			EntityItem itm = new EntityItem( worldIn, pos.getX(), pos.getY(), pos.getZ(), stk );
-			worldIn.spawnEntity(itm);
-		}
+        ItemStack stk = getBlockDrops(worldIn,state,pos,entityLiving);
+        if(stk != null){
+            EntityItem itm = new EntityItem( worldIn, pos.getX()+0.5f, pos.getY()+0.5f, pos.getZ()+0.5f, stk);
+            worldIn.spawnEntity(itm);
+        }
 		return true;
+	}
+
+	private ItemStack getBlockDrops( World world, IBlockState state, BlockPos pos, EntityLivingBase entLiving ){
+		if( state.getBlock() == Blocks.TALLGRASS ){
+			if( Math.abs( world.getCelestialAngle(0) - 0.5f ) < 0.05f && world.getMoonPhase() == 2 ){
+                return new ItemStack( Resource.metaItem, 1,2 );
+			}
+		} else if( state.getBlock() == Blocks.LEAVES ){
+		    if( world.rand.nextInt(4) == 0 ){
+		        return new ItemStack( Resource.metaItem,1, 6);
+            }
+        }
+        return null;
 	}
 
 	//-----------------------  SACRIFICE EXP

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "mortmagic:blocks/treecore"
+    "all": "mortmagic:blocks/wildfire"
   }
 }

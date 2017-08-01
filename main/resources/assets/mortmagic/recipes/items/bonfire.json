@@ -10,7 +10,7 @@
   "type": "forge:ore_shaped",
   "key": {
     "g": {
-      "item": "mortmagic:mi", //grate
+      "item": "mortmagic:mi",
       "data" : 4
     },
     "m": {
