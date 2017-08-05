@@ -119,7 +119,7 @@ public class Resource {
     @SubscribeEvent
     public static void event_registerItems( RegistryEvent.Register<Item> event ){
         IForgeRegistry<Item> itemReg = event.getRegistry();
-        for (Block blk : new Block[]{ bonfire, liveDirt, wildfire, ashesBlock, treeRoot, treeCore  } )
+        for (Block blk : new Block[]{ bonfire, liveDirt, wildfire, ashesBlock, treeRoot, treeCore, runeBlock  } )
             registerBlockItem(itemReg, blk);
 
         registerItem( itemReg, new ItemScroll(),  "spellscroll" ) ;
