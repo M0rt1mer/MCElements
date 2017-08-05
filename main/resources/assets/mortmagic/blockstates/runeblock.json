@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "facing=down":  {  "x" : 90 },
+        "facing=up":    { "x" : -90 },
+        "facing=north": { },
+        "facing=south": {  "y": 180 },
+        "facing=west":  {  "y": 270 },
+        "facing=east":  {  "y": 90 }
+    }
+}

@@ -52,12 +52,13 @@ public class ItemDagger extends ItemSword{
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
 		super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
-
-        ItemStack stk = getBlockDrops(worldIn,state,pos,entityLiving);
-        if(stk != null){
-            EntityItem itm = new EntityItem( worldIn, pos.getX()+0.5f, pos.getY()+0.5f, pos.getZ()+0.5f, stk);
-            worldIn.spawnEntity(itm);
-        }
+		if( !worldIn.isRemote ) {
+			ItemStack stk = getBlockDrops(worldIn, state, pos, entityLiving);
+			if (stk != null) {
+				EntityItem itm = new EntityItem(worldIn, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, stk);
+				worldIn.spawnEntity(itm);
+			}
+		}
 		return true;
 	}
 

@@ -4,7 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.registries.RegistryManager;
 
-public class UnlistedPropertyRegistryEntry implements IUnlistedProperty<String> {
+public class UnlistedPropertyRegistryEntry implements IUnlistedProperty<ResourceLocation> {
 
     ResourceLocation regLocation;
 
@@ -18,17 +18,22 @@ public class UnlistedPropertyRegistryEntry implements IUnlistedProperty<String> 
     }
 
     @Override
-    public boolean isValid(String value) {
-        return RegistryManager.ACTIVE.getRegistry( regLocation ).containsKey( new ResourceLocation(value) );
+    public boolean isValid(ResourceLocation value) {
+        return RegistryManager.ACTIVE.getRegistry( regLocation ).containsKey( value );
     }
 
     @Override
-    public Class<String> getType() {
-        return String.class;
+    public Class<ResourceLocation> getType() {
+        return ResourceLocation.class;
     }
 
     @Override
-    public String valueToString(String value) {
-        return value;
+    public String valueToString(ResourceLocation value) {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Property [" + regLocation + "]";
     }
 }

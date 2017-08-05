@@ -3,14 +3,19 @@
   "ingredients": [
     {
       "item":"mortmagic:mi",
-      "data" : 4
+      "data" : 14
+
     },
     {
       "item" : "mortmagic:mi",
-      "data" : 0
+      "data" : 1
     }
   ],
   "result": {
-    "item": "mortmagic:stoneDaggerSacred"
+    "item": "mortmagic:spellscroll",
+    "nbt" : {
+      "element" : "mortmagic:fire",
+      "level" : 1
+    }
   }
 }

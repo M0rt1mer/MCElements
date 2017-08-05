@@ -64,8 +64,8 @@ public class Resource {
 	public static Block treeCore;
     @GameRegistry.ObjectHolder("mortmagic:treeofliferoot")
 	public static Block treeRoot;
-    @GameRegistry.ObjectHolder("mortmagic:rune")
-    public static Block runeBlock;
+    @GameRegistry.ObjectHolder("mortmagic:runeblock")
+    public static BlockRune runeBlock;
 	//--------------------------------ITEMS
 	
 	//magical resources
@@ -112,6 +112,7 @@ public class Resource {
         registerBlock( blockReg, new Block( Material.SAND ),"ashesblock");
         registerBlock( blockReg, new Block(Material.WOOD),"treecore");
         registerBlock( blockReg, new Block(Material.WOOD),"treeofliferoot");
+        registerBlock( blockReg, new BlockRune(), "runeblock" );
         //public static Block runeLifeRa = new BlockRune(Material.wood, RuneCharacter.ra).setBlockName("rune_life_ra").setBlockTextureName("mortmagic:rune_twig_ra").setCreativeTab(CreativeTabs.tabBlock);
     }
 
@@ -183,7 +184,7 @@ public class Resource {
         IForgeRegistry<Element> elemReg = event.getRegistry();
 
         elemReg.register( new Element( new ResourceLocation(MortMagic.MODID,"fire") ) );
-        elemReg.register( new Element(new ResourceLocation(MortMagic.MODID,"force") ) );
+        //elemReg.register( new Element(new ResourceLocation(MortMagic.MODID,"force") ) );
         elemReg.register( new Element(new ResourceLocation(MortMagic.MODID,"life") ) );
 
     }

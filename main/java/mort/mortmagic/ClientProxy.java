@@ -40,6 +40,9 @@ public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public static void event_registerModels(ModelRegistryEvent event) {
 		Resource.metaItem.initModels();
+		Resource.spellScroll.initModel();
+		Resource.charge.initModel();
+		Resource.runeBlock.initModels();
 	}
 
 	public void postInit(){
