@@ -2,9 +2,10 @@ package mort.mortmagic;
 
 import mort.mortmagic.client.GuiManaOverlay;
 import mort.mortmagic.client.GuiSpellbook;
-import mort.mortmagic.inventory.SpellbookContainer;
-import mort.mortmagic.net.KeyBindingManager;
-import mort.mortmagic.spells.Spell;
+import mort.mortmagic.common.CommonProxy;
+import mort.mortmagic.common.inventory.SpellbookContainer;
+import mort.mortmagic.client.KeyBindingManager;
+import mort.mortmagic.common.spells.Spell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;

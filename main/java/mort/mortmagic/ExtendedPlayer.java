@@ -1,9 +1,9 @@
 package mort.mortmagic;
 
 import mort.mortmagic.api.RobesRegistry;
-import mort.mortmagic.inventory.InventorySpellbook;
-import mort.mortmagic.net.MessageSyncStats;
-import mort.mortmagic.net.NetworkManager;
+import mort.mortmagic.common.inventory.InventorySpellbook;
+import mort.mortmagic.common.net.MessageSyncStats;
+import mort.mortmagic.common.net.NetworkManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;

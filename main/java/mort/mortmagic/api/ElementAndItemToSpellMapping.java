@@ -1,11 +1,10 @@
 package mort.mortmagic.api;
 
 import com.google.common.base.Predicate;
-import mort.mortmagic.spells.Element;
-import mort.mortmagic.spells.Spell;
+import mort.mortmagic.common.spells.Element;
+import mort.mortmagic.common.spells.Spell;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 
 import java.util.HashMap;
 import java.util.Map;

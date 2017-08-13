@@ -1,7 +1,7 @@
 package mort.mortmagic.client;
 /*
 import mort.mortmagic.Resource;
-import mort.mortmagic.world.block.TileEntityWildfire;
+import mort.mortmagic.common.world.block.TileEntityWildfire;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;

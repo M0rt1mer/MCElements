@@ -1,8 +1,8 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "particle": "mortmagic:items/mi_twig",
-        "texture": "mortmagic:items/mi_twig"
+        "particle": "mortmagic:blocks/rune_ra_twig",
+        "texture": "mortmagic:blocks/rune_ra_twig"
     },
     "elements": [
         {   "from": [ 0, 0, 15.2 ],

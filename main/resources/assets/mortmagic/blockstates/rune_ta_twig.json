@@ -4,6 +4,8 @@
       "model" : "mortmagic:rune_ta_twig"
   },
   "variants": {
+    "normal" : [{}],
+    "inventory" : [{}],
     "facing" : {
       "down": {
         "x": 90

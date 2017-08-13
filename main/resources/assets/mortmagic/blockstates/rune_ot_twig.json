@@ -1,9 +1,11 @@
 {
   "forge_marker": 1,
   "defaults" : {
-      "model" : "mortmagic:rune_ta_twig"
+    "model" : "mortmagic:rune_ot_twig"
   },
   "variants": {
+    "normal" : [{}],
+    "inventory" : [{}],
     "facing" : {
       "down": {
         "x": 90

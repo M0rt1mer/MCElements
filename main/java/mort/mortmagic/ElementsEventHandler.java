@@ -1,6 +1,6 @@
 package mort.mortmagic;
 
-import mort.mortmagic.spells.SpellcastingHelper;
+import mort.mortmagic.common.spells.SpellcastingHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;

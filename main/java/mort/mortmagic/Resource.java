@@ -1,29 +1,33 @@
 package mort.mortmagic;
 
-import mort.mortmagic.runes.RuneCharacter;
-import mort.mortmagic.runes.RuneMaterial;
-import mort.mortmagic.spells.*;
-import mort.mortmagic.world.block.*;
-import mort.mortmagic.world.items.ItemCharge;
-import mort.mortmagic.world.items.ItemDagger;
-import mort.mortmagic.world.items.ItemMagicalResource;
-import mort.mortmagic.world.items.ItemScroll;
+import mort.mortmagic.common.block.*;
+import mort.mortmagic.common.items.ItemCharge;
+import mort.mortmagic.common.items.ItemDagger;
+import mort.mortmagic.common.items.ItemMagicalResource;
+import mort.mortmagic.common.items.ItemScroll;
+import mort.mortmagic.common.runes.RuneCharacter;
+import mort.mortmagic.common.runes.RuneMaterial;
+import mort.mortmagic.common.runes.RuneWord;
+import mort.mortmagic.common.spells.*;
+import mort.mortmagic.common.tileentity.TileRune;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
+
+import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 @Mod.EventBusSubscriber
 public class Resource {
@@ -34,6 +38,13 @@ public class Resource {
             return new ItemStack( Resource.metaItem, 1 );
         }
     };
+
+    //--------------------------------REGISTRIES
+    public static IForgeRegistry<Element> ELEMENT_REGISTRY;
+    public static IForgeRegistry<Spell> SPELL_REGISTRY;
+    public static IForgeRegistry<RuneCharacter> RUNE_CHARACTER_REGISTRY;
+    public static IForgeRegistry<RuneMaterial> RUNE_MATERIAL_REGISTRY;
+    public static IForgeRegistry<RuneWord> RUNE_WORD_REGISTRY;
 
 	//--------------------------------SPELLS
     @GameRegistry.ObjectHolder("mortmagic:fire")
@@ -66,6 +77,7 @@ public class Resource {
 	public static Block treeRoot;
     @GameRegistry.ObjectHolder("mortmagic:runeblock")
     public static BlockRune runeBlock;
+
 	//--------------------------------ITEMS
 	
 	//magical resources
@@ -79,7 +91,19 @@ public class Resource {
     public static Item stoneDaggerSacred;
     @GameRegistry.ObjectHolder("mortmagic:wand")
 	public static Item testImplement;
-	
+
+    //--------------------------------- Rune words
+
+    @GameRegistry.ObjectHolder("mortmagic:ta")
+    public static RuneCharacter ta;
+    @GameRegistry.ObjectHolder("mortmagic:ra")
+    public static RuneCharacter ra;
+    @GameRegistry.ObjectHolder("mortmagic:ot")
+    public static RuneCharacter ot;
+
+    @GameRegistry.ObjectHolder("mortmagic:test")
+    public static RuneWord test;
+
 
 //	public static Enchantment mag = new EnchantmentMagical(150, 1, EnumEnchantmentType.all).setName("magicalResource");
 	
@@ -96,11 +120,12 @@ public class Resource {
 
 	@SubscribeEvent
 	public static void event_createRegistries(RegistryEvent.NewRegistry event){
-	    System.out.println( "RUNNING CREATE REGISTRIES" );
-        new RegistryBuilder().setType(Element.class).setName(new ResourceLocation( MortMagic.MODID,"elements") ).create();
-	    new RegistryBuilder().setType(Spell.class).setName(new ResourceLocation( MortMagic.MODID,"spells") ).create();
-        new RegistryBuilder().setType(RuneCharacter.class).setName(new ResourceLocation( MortMagic.MODID,"rune_characters") ).create();
-        new RegistryBuilder().setType(RuneMaterial.class).setName(new ResourceLocation( MortMagic.MODID,"rune_materials") ).create();
+	    //System.out.println( "RUNNING CREATE REGISTRIES" );
+        ELEMENT_REGISTRY = new RegistryBuilder().setType(Element.class).setName(new ResourceLocation( MortMagic.MODID,"elements") ).create();
+        SPELL_REGISTRY = new RegistryBuilder().setType(Spell.class).setName(new ResourceLocation( MortMagic.MODID,"spells") ).create();
+        RUNE_CHARACTER_REGISTRY = new RegistryBuilder().setType(RuneCharacter.class).setName(new ResourceLocation( MortMagic.MODID,"rune_characters") ).create();
+        RUNE_MATERIAL_REGISTRY = new RegistryBuilder().setType(RuneMaterial.class).setName(new ResourceLocation( MortMagic.MODID,"rune_materials") ).create();
+        RUNE_WORD_REGISTRY = new RegistryBuilder().setType(RuneWord.class).setName( new ResourceLocation(MortMagic.MODID, "rune_words") ).create();
     }
 
     @SubscribeEvent
@@ -113,6 +138,7 @@ public class Resource {
         registerBlock( blockReg, new Block(Material.WOOD),"treecore");
         registerBlock( blockReg, new Block(Material.WOOD),"treeofliferoot");
         registerBlock( blockReg, new BlockRune(), "runeblock" );
+
         //public static Block runeLifeRa = new BlockRune(Material.wood, RuneCharacter.ra).setBlockName("rune_life_ra").setBlockTextureName("mortmagic:rune_twig_ra").setCreativeTab(CreativeTabs.tabBlock);
     }
 
@@ -147,12 +173,18 @@ public class Resource {
         registerRuneMaterial(reg,"twig");
     }
 
+    @SubscribeEvent
+    public static void event_registerRuneWords( RegistryEvent.Register<RuneWord> event ){
+        IForgeRegistry<RuneWord> reg = event.getRegistry();
+        reg.register( new RuneWord( new ResourceLocation(MortMagic.MODID, "test") ) );
+    }
+
     private static void registerBlockItem( IForgeRegistry<Item> registry, Block block ){
-        registry.register( new ItemBlock(block).setRegistryName(block.getRegistryName()).setCreativeTab( elementsTab ) );
+        registry.register( new ItemBlock(block).setRegistryName( block.getRegistryName() ) );
     }
 
     private static void registerBlock(IForgeRegistry<Block> registry, Block block, String names ){
-        registry.register(block.setRegistryName( new ResourceLocation(MortMagic.MODID,names) ).setUnlocalizedName(names));
+        registry.register(block.setRegistryName( new ResourceLocation(MortMagic.MODID,names) ).setUnlocalizedName(names).setCreativeTab( elementsTab) );
     }
     private static void registerItem(IForgeRegistry<Item> registry, Item item, String names ){
         registry.register(item.setRegistryName( new ResourceLocation(MortMagic.MODID,names) ).setUnlocalizedName(names).setCreativeTab(elementsTab));
@@ -191,17 +223,11 @@ public class Resource {
 
 	//------------------------------init
 
-	public static void registerItems(){
-
-		/*ArmorMaterial robe = EnumHelper.addArmorMaterial("mmRobe", 10, new int[]{1,1,1,1}, 20);
-		int robeRender = MortMagic.proxy.addArmor("mmRobe");
-		commonRobe =  new ItemArmor( robe, robeRender, 2).setUnlocalizedName("commonRobe").setTextureName("mortmagic:robe");
-		GameRegistry.registerItem( commonRobe, commonRobe.getUnlocalizedName() );
-		
-		MortMagic.robes.registerRobe( commonRobe , new RobesRegistry.RobeInfo( 2 ) );*/
+	public static void registerTileEntities(){
 
 		GameRegistry.registerTileEntity(TileEntityWildfire.class, "TEwildfire");
 		GameRegistry.registerTileEntity(TileEntityTreeOfLifeCore.class, "TETOLCore");
+        TileEntity.register( "mortmagic:rune", TileRune.class);
 		
 	}
 	
@@ -224,6 +250,8 @@ public class Resource {
 		
 		*/
 		GameRegistry.addSmelting( new ItemStack(Resource.metaItem,1,2), new ItemStack(Resource.metaItem,1,1), 1);
+
+		MortMagic.dictionary.register( new RuneCharacter[]{ ta, ra}, test );
 		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
 		GameRegistry.addSmelting(ashes, new ItemStack(magicalEssence,1), 1);*/
 		/*
