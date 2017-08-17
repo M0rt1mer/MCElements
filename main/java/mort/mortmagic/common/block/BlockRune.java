@@ -35,6 +35,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.Random;
 
 import static net.minecraft.util.EnumFacing.values;
 
@@ -121,10 +122,19 @@ public class BlockRune extends Block implements ITileEntityProvider{
     }
 
     public RuneMaterial getRuneMaterialFromStack( ItemStack stack ){
-        return GameRegistry.findRegistry( RuneMaterial.class ).getValue( new ResourceLocation( stack.getTagCompound().getString("rune_material") ) );
+        if( stack.hasTagCompound() && stack.getTagCompound().hasKey("rune_material") )
+            return GameRegistry.findRegistry( RuneMaterial.class ).getValue( new ResourceLocation( stack.getTagCompound().getString("rune_material") ) );
+        else
+            return null;
     }
     public RuneCharacter getRuneCharacterFromStack( ItemStack stack ){
-        return GameRegistry.findRegistry( RuneCharacter.class ).getValue( new ResourceLocation( stack.getTagCompound().getString("rune_character") ) );
+        if( stack.hasTagCompound() && stack.getTagCompound().hasKey("rune_character") )
+            return GameRegistry.findRegistry( RuneCharacter.class ).getValue( new ResourceLocation( stack.getTagCompound().getString("rune_character") ) );
+        else
+            return null;
+    }
+    public boolean isStackValidRune( ItemStack stack ){
+        return stack.hasTagCompound() && stack.getTagCompound().hasKey("rune_character") && stack.getTagCompound().hasKey("rune_material");
     }
 
     public ItemStack createItemStack( RuneCharacter chr, RuneMaterial mat ){
@@ -134,6 +144,13 @@ public class BlockRune extends Block implements ITileEntityProvider{
         tag.setString( "rune_character", chr.getRegistryName().toString() );
         stk.setTagCompound( tag );
         return stk;
+    }
+
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        TileRune rune = ((TileRune)world.getTileEntity(pos));
+        if( rune != null )
+            drops.add( createItemStack( rune.character, rune.material ) );
     }
 
     @SideOnly(Side.CLIENT)
@@ -148,7 +165,8 @@ public class BlockRune extends Block implements ITileEntityProvider{
             }
 
         ModelLoader.setCustomMeshDefinition(myItem,
-                stack -> getModelResLocation( getRuneCharacterFromStack(stack).getRegistryName(), getRuneMaterialFromStack(stack).getRegistryName(), true ));
+                stack -> isStackValidRune(stack)?getModelResLocation( getRuneCharacterFromStack(stack).getRegistryName(), getRuneMaterialFromStack(stack).getRegistryName(), true )
+                        :new ModelResourceLocation( "minecraft:missingTexture", "inventory" )  );
     }
 
     //</editor-fold>

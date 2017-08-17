@@ -4,6 +4,7 @@ package mort.mortmagic.common.runes;
 import mort.mortmagic.MortMagic;
 import mort.mortmagic.Resource;
 import mort.mortmagic.api.RuneDictionary;
+import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.common.block.BlockRune;
 import mort.mortmagic.common.tileentity.TileRune;
 import net.minecraft.block.state.IBlockState;
@@ -76,12 +77,22 @@ public class RuneCircle {
             }
             // on the first rune, we have 2 possible directions. Each other step should yield only one possible direction
             if( continuations.size() == 1 || (continuations.size()==2 && circle.size()==1 ) ){
-                if( continuations.get(0).equals( startPos ) )
-                    return tryCreateRuneCircle(world,circle);
-                else
-                    circle.add( continuations.get(0) );
+                if( continuations.get(0).equals( startPos ) ) {
+                    for( BlockPos pos : circle ){
+                        MortMagic.proxy.spawnDebugParticle( world, pos, CommonProxy.EnumDebugParticle.CIRCLE_COMPLETED);
+                    }
+                    return tryCreateRuneCircle(world, circle);
+                }
+                else {
+                    circle.add(continuations.get(0));
+                }
             }
-            else return null;
+            else{
+                for( BlockPos pos : circle ){
+                    MortMagic.proxy.spawnDebugParticle( world, pos, CommonProxy.EnumDebugParticle.CIRCLE_CANDIDATE);
+                }
+                return null;
+            }
         }
     }
 
