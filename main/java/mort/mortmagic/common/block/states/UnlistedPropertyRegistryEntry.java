@@ -20,7 +20,7 @@ public class UnlistedPropertyRegistryEntry implements IUnlistedProperty<Resource
 
     @Override
     public boolean isValid(ResourceLocation value) {
-        return registry.containsKey(value);
+        return value == null || registry.containsKey(value);
     }
 
     @Override

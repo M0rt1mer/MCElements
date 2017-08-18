@@ -28,7 +28,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -215,13 +217,18 @@ public class BlockRune extends Block implements ITileEntityProvider{
     //</editor-fold>
 
     //<editor-fold desc="Blockstate">
-    /*@Override
+    @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileRune thisRune = (TileRune) worldIn.getTileEntity(pos);
         if(thisRune == null || !(state instanceof IExtendedBlockState) )
             return state;
         return ((IExtendedBlockState)state).withProperty( runeMaterialProperty, thisRune.getMaterialResLoc() )
                                             .withProperty( runeCharacterProperty, thisRune.getCharacterResLoc() );
+    }
+
+    /*@Override
+    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return getActualState( state, world, pos );
     }*/
 
     @Override
@@ -236,8 +243,8 @@ public class BlockRune extends Block implements ITileEntityProvider{
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this,new IProperty[]{FACING});
-        //return new ExtendedBlockState(this, new IProperty[]{FACING}, new IUnlistedProperty[]{runeCharacterProperty,runeMaterialProperty});
+        //return new BlockStateContainer(this,new IProperty[]{FACING});
+        return new ExtendedBlockState(this, new IProperty[]{FACING}, new IUnlistedProperty[]{runeCharacterProperty,runeMaterialProperty});
     }
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {

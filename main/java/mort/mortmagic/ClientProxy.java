@@ -2,6 +2,7 @@ package mort.mortmagic;
 
 import mort.mortmagic.client.GuiManaOverlay;
 import mort.mortmagic.client.GuiSpellbook;
+import mort.mortmagic.client.RuneParticle;
 import mort.mortmagic.client.rendering.McElementsModelLoader;
 import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.common.inventory.SpellbookContainer;

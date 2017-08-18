@@ -1,5 +1,6 @@
 package mort.mortmagic.client.rendering;
 
+import mort.mortmagic.MortMagic;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ICustomModelLoader;
@@ -11,7 +12,7 @@ public class McElementsModelLoader implements ICustomModelLoader{
 
     @Override
     public boolean accepts(ResourceLocation modelLocation) {
-        return modelLocation.toString().equals("mortimer:runeblock");
+        return modelLocation.getResourceDomain().equals(MortMagic.MODID) && modelLocation.getResourcePath().startsWith( "runeblock" );
     }
 
     @Override
