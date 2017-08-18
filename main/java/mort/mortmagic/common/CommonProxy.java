@@ -1,5 +1,6 @@
 package mort.mortmagic.common;
 
+import jdk.nashorn.internal.ir.Block;
 import mort.mortmagic.ElementsEventHandler;
 import mort.mortmagic.ExtendedPlayer;
 import mort.mortmagic.MortMagic;
@@ -10,6 +11,7 @@ import mort.mortmagic.common.spells.Spell;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -75,7 +77,13 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	public void spawnParticle( World wld, double p1, double p2, double p3, double p4, double p5, double p6, Spell spell ){}
-	
+
+	public enum EnumDebugParticle{
+		CIRCLE_CANDIDATE, CIRCLE_COMPLETED;
+	}
+
+	public void spawnDebugParticle(World wld, BlockPos pos, EnumDebugParticle type ){}
+
 	//updates mana and saturation of local player (client only, called from MessageSync, that cannot reference net.minecraft.Minecraft)
 	public void updatePlayerStats(float mana, float saturation){}
 	

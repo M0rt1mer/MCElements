@@ -8,8 +8,11 @@ import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.client.KeyBindingManager;
 import mort.mortmagic.common.spells.Spell;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleCloud;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -18,6 +21,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.util.Random;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -61,6 +66,24 @@ public class ClientProxy extends CommonProxy {
 			spl.setSpell(spell);
 			Minecraft.getMinecraft().effectRenderer.addEffect( spl );*/
 		//}
+        if( wld == Minecraft.getMinecraft().player.getEntityWorld() ){
+            Minecraft.getMinecraft().effectRenderer.addEffect( new RuneParticle( wld, p1, p2, p3 ) );
+        }
+
+
+	}
+
+	@Override
+	public void spawnDebugParticle(World wld, BlockPos pos, EnumDebugParticle type ){
+		if( wld == Minecraft.getMinecraft().player.getEntityWorld() ){
+			Particle p = new RuneParticle( wld, pos.getX() + 0.3f + wld.rand.nextDouble() * 0.4f,
+                    pos.getY() + 0.3f + wld.rand.nextDouble() * 0.4f, pos.getZ() + 0.3f + wld.rand.nextDouble() * 0.4f );
+			switch ( type ){
+				case CIRCLE_CANDIDATE: p.setRBGColorF( 1,1,1 );
+				case CIRCLE_COMPLETED: p.setRBGColorF( 0,1,0 );
+			}
+			Minecraft.getMinecraft().effectRenderer.addEffect( p );
+		}
 	}
 
 	@Override
