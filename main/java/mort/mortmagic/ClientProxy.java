@@ -2,6 +2,7 @@ package mort.mortmagic;
 
 import mort.mortmagic.client.GuiManaOverlay;
 import mort.mortmagic.client.GuiSpellbook;
+import mort.mortmagic.client.rendering.McElementsModelLoader;
 import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.client.KeyBindingManager;
@@ -11,6 +12,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -30,6 +33,7 @@ public class ClientProxy extends CommonProxy {
 		super.preInit();
 		keyBind = new KeyBindingManager();
 		keyBind.initAndRegister();
+		ModelLoaderRegistry.registerLoader( new McElementsModelLoader());
 	}
 
 	@Override
