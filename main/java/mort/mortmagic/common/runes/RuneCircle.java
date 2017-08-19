@@ -57,7 +57,7 @@ public class RuneCircle {
             //default not necessary, just for compilers sake
         }
 
-        RuneMaterial mat = ((TileRune)world.getTileEntity(startPos)).material;
+        RuneMaterial mat = ((TileRune)world.getTileEntity(startPos)).getMaterial();
 
         List<BlockPos> circle = new ArrayList<>();
         circle.add( startPos );
@@ -71,7 +71,7 @@ public class RuneCircle {
                 if( circle.size() > 1 && newPos.equals(circle.get(circle.size()-2)) ) //do not go backwards
                     continue;
                 IBlockState state = world.getBlockState(newPos);
-                if( state.getBlock() == Resource.runeBlock && ((TileRune)world.getTileEntity(newPos)).material == mat ){
+                if( state.getBlock() == Resource.runeBlock && ((TileRune)world.getTileEntity(newPos)).getMaterial() == mat ){
                     continuations.add(newPos);
                 }
             }
@@ -99,7 +99,7 @@ public class RuneCircle {
     private static RuneCircle tryCreateRuneCircle( World world, List<BlockPos> positions ){
         List<RuneCharacter> characters = new ArrayList<>();
         for( BlockPos pos : positions ){
-            characters.add( ((TileRune)world.getTileEntity(pos)).character );
+            characters.add( ((TileRune)world.getTileEntity(pos)).getCharacter() );
         }
         RuneWord word = MortMagic.dictionary.findMatchingWord( characters );
         if(word!=null)

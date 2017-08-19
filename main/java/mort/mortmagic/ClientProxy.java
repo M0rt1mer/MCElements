@@ -53,7 +53,6 @@ public class ClientProxy extends CommonProxy {
 		Resource.metaItem.initModels();
 		Resource.spellScroll.initModel();
 		Resource.charge.initModel();
-		Resource.runeBlock.initModels();
 		Resource.runeBlock.initItemModels();
 	}
 

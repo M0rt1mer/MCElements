@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "mortmagic:items/mi_twig"
+    "layer0": "mortmagic:runes/twig_ta"
   }
 }

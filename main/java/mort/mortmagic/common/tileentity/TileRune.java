@@ -6,14 +6,18 @@ import mort.mortmagic.common.runes.RuneCircle;
 import mort.mortmagic.common.runes.RuneCircleStorage;
 import mort.mortmagic.common.runes.RuneMaterial;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import javax.annotation.Nullable;
+
 public class TileRune extends TileEntity {
 
-    public RuneCharacter character;
-    public RuneMaterial material;
+    private RuneCharacter character;
+    private RuneMaterial material;
 
     public ResourceLocation getMaterialResLoc(){
         return (material==null)?null:material.getRegistryName();
@@ -24,15 +28,18 @@ public class TileRune extends TileEntity {
     }
 
     @Override
-    public void onChunkUnload() {
-        getTileData().setString( "character", character.getRegistryName().toString() );
-        getTileData().setString( "material", material.getRegistryName().toString() );
+    public void readFromNBT(NBTTagCompound compound) {
+        super.readFromNBT(compound);
+        character = Resource.RUNE_CHARACTER_REGISTRY.getValue( new ResourceLocation(compound.getString("character")) );
+        material = Resource.RUNE_MATERIAL_REGISTRY.getValue( new ResourceLocation(compound.getString("material")) );
     }
 
     @Override
-    public void onLoad() {
-        character = Resource.RUNE_CHARACTER_REGISTRY.getValue( new ResourceLocation(getTileData().getString("character")) );
-        material = Resource.RUNE_MATERIAL_REGISTRY.getValue( new ResourceLocation(getTileData().getString("material")) );
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        compound = super.writeToNBT(compound);
+        compound.setString( "character", getCharacterResLoc().toString() );
+        compound.setString( "material", getMaterialResLoc().toString() );
+        return compound;
     }
 
     /**
@@ -47,4 +54,23 @@ public class TileRune extends TileEntity {
         //TODO: spawn particles
     }
 
+
+    public RuneCharacter getCharacter() {
+        return character;
+    }
+
+    public RuneMaterial getMaterial() {
+        return material;
+    }
+
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        return writeToNBT( new NBTTagCompound() );
+    }
+
+    /*@Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        if(world.isRemote)
+            this.readFromNBT( pkt.getNbtCompound() );
+    }*/
 }

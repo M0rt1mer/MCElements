@@ -1,9 +1,9 @@
 package mort.mortmagic.common.block;
 
 import mort.mortmagic.MortMagic;
+import mort.mortmagic.common.block.states.UnlistedPropertyRegistryEntry;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneMaterial;
-import mort.mortmagic.common.block.states.UnlistedPropertyRegistryEntry;
 import mort.mortmagic.common.tileentity.TileRune;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
@@ -16,6 +16,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -37,7 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
-import java.util.Random;
+import java.util.List;
 
 import static net.minecraft.util.EnumFacing.values;
 
@@ -152,7 +153,7 @@ public class BlockRune extends Block implements ITileEntityProvider{
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         TileRune rune = ((TileRune)world.getTileEntity(pos));
         if( rune != null )
-            drops.add( createItemStack( rune.character, rune.material ) );
+            drops.add( createItemStack( rune.getCharacter(), rune.getMaterial() ) );
     }
 
     @SideOnly(Side.CLIENT)
@@ -187,49 +188,26 @@ public class BlockRune extends Block implements ITileEntityProvider{
         else
             return new ModelResourceLocation( MortMagic.MODID + ":rune_" + chr.getResourcePath() + "_" + mat.getResourcePath() );
     }
-
-    @SideOnly(Side.CLIENT)
-    public void initModels(){
-        if(true) return; //temporarily disabled
-        BlockRune thisBlockRune = this;
-        ModelLoader.setCustomStateMapper(this, new StateMapperBase() {
-            @Override
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                IExtendedBlockState ext = (IExtendedBlockState) state;
-                return thisBlockRune.getModelResLocation( ext.getValue(runeCharacterProperty), ext.getValue(runeMaterialProperty), false );
-            }
-
- /*                   @Override
-                    public Map<IBlockState, ModelResourceLocation> putStateModelLocations(Block blockIn) {
-                        Map<IBlockState, ModelResourceLocation> locations = new HashMap<>();
-                        for( IBlockState state : blockIn.getBlockState().getValidStates() ){
-                            for( RuneMaterial mat : GameRegistry.findRegistry( RuneMaterial.class ) )
-                                for( RuneCharacter chr : GameRegistry.findRegistry( RuneCharacter.class )) {
-                                    IBlockState ext = state .withProperty( runeMaterialProperty, mat.getRegistryName() )
-                                                            .withProperty( runeCharacterProperty, chr.getRegistryName() );
-                                    locations.put( ext, getModelResourceLocation(ext) );
-                                }
-                        }
-                        return locations;
-                    }*/
-        } );
-    }
     //</editor-fold>
 
     //<editor-fold desc="Blockstate">
-    @Override
+    /*@Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileRune thisRune = (TileRune) worldIn.getTileEntity(pos);
         if(thisRune == null || !(state instanceof IExtendedBlockState) )
             return state;
         return ((IExtendedBlockState)state).withProperty( runeMaterialProperty, thisRune.getMaterialResLoc() )
                                             .withProperty( runeCharacterProperty, thisRune.getCharacterResLoc() );
-    }
-
-    /*@Override
-    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return getActualState( state, world, pos );
     }*/
+
+    @Override
+    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+        TileRune thisRune = (TileRune) world.getTileEntity(pos);
+        if(thisRune == null || !(state instanceof IExtendedBlockState) )
+            return state;
+        return ((IExtendedBlockState)state).withProperty( runeMaterialProperty, thisRune.getMaterialResLoc() )
+                .withProperty( runeCharacterProperty, thisRune.getCharacterResLoc() );
+    }
 
     @Override
     public int getMetaFromState(IBlockState state) {
@@ -263,4 +241,14 @@ public class BlockRune extends Block implements ITileEntityProvider{
         return new TileRune();
     }
 
+
+
+    //-----------------------DEBUG
+
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
+        super.addInformation(stack, player, tooltip, advanced);
+        tooltip.add( stack.getTagCompound().toString() );
+    }
 }
