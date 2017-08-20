@@ -1,0 +1,25 @@
+{
+  "type": "item",
+  "name": "mymod:myitem",
+  "conditions": [
+    {
+      "condition": "mymod:mycondition",
+      "foo": 1, // can require custom parameters in deserializer
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "properties": {
+        "mymod:my_property": { // structure of the right side is completely up to deserializer
+          "bar": 2
+        }
+      }
+    }
+  ],
+  "functions": [
+    {
+      "function": "mymod:myfunction",
+      "foobar": 3 // can require custom parameters in deserializer
+    }
+  ]
+}

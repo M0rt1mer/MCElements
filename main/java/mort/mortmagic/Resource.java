@@ -21,6 +21,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -271,7 +272,14 @@ public class Resource {
 		//GameRegistry.addSmelting(talon, new ItemStack(magicalEssence,1), 1);
 		
 	}
-	
+
+	@SubscribeEvent
+	public static void event_lootTables(LootTableLoadEvent envt){
+	    
+
+
+    }
+
 	/*public static void registerPotions(){
 		
 		for (Field f : Potion.class.getDeclaredFields()) {
