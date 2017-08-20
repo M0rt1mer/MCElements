@@ -1,6 +1,8 @@
 package mort.mortmagic.common.tileentity;
 
+import mort.mortmagic.MortMagic;
 import mort.mortmagic.Resource;
+import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneCircle;
 import mort.mortmagic.common.runes.RuneCircleStorage;
@@ -10,6 +12,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nullable;
@@ -49,11 +52,11 @@ public class TileRune extends TileEntity {
         this.character = chr;
         this.material = mat;
         RuneCircle c = RuneCircle.tryFindCircle( getWorld(), getPos() );
-        if( c!=null )
-            RuneCircleStorage.get(getWorld()).createCircle( c );
-        //TODO: spawn particles
+        if( c!=null ) {
+            RuneCircleStorage.get(getWorld()).createCircle(c);
+            c.spawnParticles(getWorld());
+        }
     }
-
 
     public RuneCharacter getCharacter() {
         return character;

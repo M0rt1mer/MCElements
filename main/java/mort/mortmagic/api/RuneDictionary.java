@@ -70,7 +70,7 @@ public class RuneDictionary {
         int length = first.size();
 
         offset:
-        for( int offset = 0; offset < (length - 1); offset++ ){ //offset of first.size() equals offset of 0 - safela ignore
+        for( int offset = 0; offset < length; offset++ ){
             for( int i = 0; i<length;i++ ){
                 if( first.get( (i + offset)%length ) != second.get( i ) ){
                     continue offset;

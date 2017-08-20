@@ -8,6 +8,8 @@ import mort.mortmagic.common.items.ItemScroll;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneMaterial;
 import mort.mortmagic.common.runes.RuneWord;
+import mort.mortmagic.common.runes.words.WordBlockProtection;
+import mort.mortmagic.common.runes.words.WordMobLoot;
 import mort.mortmagic.common.spells.*;
 import mort.mortmagic.common.tileentity.TileRune;
 import net.minecraft.block.Block;
@@ -103,7 +105,10 @@ public class Resource {
 
     @GameRegistry.ObjectHolder("mortmagic:test")
     public static RuneWord test;
-
+    @GameRegistry.ObjectHolder("mortmagic:blockprot")
+    public static RuneWord blockProt;
+    @GameRegistry.ObjectHolder("mortmagic:sacrifice")
+    public static RuneWord word_sacrifice;
 
 //	public static Enchantment mag = new EnchantmentMagical(150, 1, EnumEnchantmentType.all).setName("magicalResource");
 	
@@ -177,6 +182,8 @@ public class Resource {
     public static void event_registerRuneWords( RegistryEvent.Register<RuneWord> event ){
         IForgeRegistry<RuneWord> reg = event.getRegistry();
         reg.register( new RuneWord( new ResourceLocation(MortMagic.MODID, "test") ) );
+        reg.register( new WordBlockProtection(new ResourceLocation(MortMagic.MODID, "blockprot")));
+        reg.register( new WordMobLoot(new ResourceLocation(MortMagic.MODID, "sacrifice")));
     }
 
     private static void registerBlockItem( IForgeRegistry<Item> registry, Block block ){
@@ -251,7 +258,9 @@ public class Resource {
 		*/
 		GameRegistry.addSmelting( new ItemStack(Resource.metaItem,1,2), new ItemStack(Resource.metaItem,1,1), 1);
 
-		MortMagic.dictionary.register( new RuneCharacter[]{ ta, ra}, test );
+		MortMagic.dictionary.register( new RuneCharacter[]{ ta, ra}, word_sacrifice );
+        MortMagic.dictionary.register( new RuneCharacter[]{ ta, ot}, blockProt );
+
 		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
 		GameRegistry.addSmelting(ashes, new ItemStack(magicalEssence,1), 1);*/
 		/*
