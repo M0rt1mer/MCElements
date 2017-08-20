@@ -1,8 +1,6 @@
 package mort.mortmagic.client.rendering;
 
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableList;
-import mort.mortmagic.Resource;
+import mort.mortmagic.Content;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneMaterial;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -26,8 +24,8 @@ public class RuneBlockModel implements IModel {
     @Override
     public Collection<ResourceLocation> getTextures() {
         List<ResourceLocation> textures = new ArrayList<>();
-        for(RuneMaterial mat : Resource.RUNE_MATERIAL_REGISTRY )
-            for(RuneCharacter chr : Resource.RUNE_CHARACTER_REGISTRY)
+        for(RuneMaterial mat : Content.RUNE_MATERIAL_REGISTRY )
+            for(RuneCharacter chr : Content.RUNE_CHARACTER_REGISTRY)
                 textures.add( RuneBlockBakedModel.getResLocFromRune(mat,chr) );
         return textures;
     }

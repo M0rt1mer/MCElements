@@ -1,6 +1,6 @@
 package mort.mortmagic.common.items;
 /*
-import mort.mortmagic.Resource;
+import mort.mortmagic.Content;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -30,7 +30,7 @@ public class ItemMPotion extends Item {
 	@Override
 	public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_,
 			EntityPlayer p_77654_3_) {
-		p_77654_3_.addPotionEffect( new PotionEffect(Resource.regenPotion.id,0,40) );
+		p_77654_3_.addPotionEffect( new PotionEffect(Content.regenPotion.id,0,40) );
 		p_77654_1_.stackSize--;
 		return p_77654_1_;
 	}

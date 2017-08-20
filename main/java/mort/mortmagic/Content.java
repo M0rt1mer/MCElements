@@ -1,5 +1,6 @@
 package mort.mortmagic;
 
+import com.google.common.collect.ImmutableMap;
 import mort.mortmagic.common.block.*;
 import mort.mortmagic.common.items.ItemCharge;
 import mort.mortmagic.common.items.ItemDagger;
@@ -21,6 +22,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,16 +32,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.rmi.registry.Registry;
-import java.util.ArrayList;
-
 @Mod.EventBusSubscriber
-public class Resource {
+public class Content {
 
     public static CreativeTabs elementsTab = new CreativeTabs( 0, "myTab" ) {
         @Override
         public ItemStack getTabIconItem() {
-            return new ItemStack( Resource.metaItem, 1 );
+            return new ItemStack( Content.metaItem, 1 );
         }
     };
 
@@ -231,6 +231,19 @@ public class Resource {
 
 	//------------------------------init
 
+    public static void preInit(){
+
+    }
+
+    private static ImmutableMap<ResourceLocation,ResourceLocation> extraLootTables = ImmutableMap.of(
+            new ResourceLocation("minecraft:entities/cow"), new ResourceLocation(MortMagic.MODID,"cow")
+    );
+
+    public static void init(){
+        for( ResourceLocation res : extraLootTables.values() )
+            LootTableList.register( res );
+    }
+
 	public static void registerTileEntities(){
 
 		GameRegistry.registerTileEntity(TileEntityWildfire.class, "TEwildfire");
@@ -257,7 +270,7 @@ public class Resource {
 		GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(liveDirt,1), Arrays.asList(new ItemStack[]{  new ItemStack( Blocks.dirt,1), new ItemStack(metaItem,1,0), new ItemStack(metaItem,1,2) } ) ) );
 		
 		*/
-		GameRegistry.addSmelting( new ItemStack(Resource.metaItem,1,2), new ItemStack(Resource.metaItem,1,1), 1);
+		GameRegistry.addSmelting( new ItemStack(Content.metaItem,1,2), new ItemStack(Content.metaItem,1,1), 1);
 
 		MortMagic.dictionary.register( new RuneCharacter[]{ ta, ra}, word_sacrifice );
         MortMagic.dictionary.register( new RuneCharacter[]{ ta, ot}, blockProt );
@@ -275,9 +288,18 @@ public class Resource {
 
 	@SubscribeEvent
 	public static void event_lootTables(LootTableLoadEvent envt){
-	    
 
+	    if( extraLootTables.containsKey(envt.getName()) )
+            envt.getTable().addPool( envt.getLootTableManager().getLootTableFromLocation( extraLootTables.get(envt.getName()) ).getPool("inject") );
 
+    }
+
+    private static LootPool getInjectPool(ResourceLocation entryName) {
+        return new LootPool(new LootEntry[] { getInjectEntry(entryName, 1) }, new LootCondition[0], new RandomValueRange(1), new RandomValueRange(0, 1), "mortmagic_inject_entry");
+    }
+
+    private static LootEntryTable getInjectEntry(ResourceLocation name, int weight) {
+        return new LootEntryTable( name, weight, 0, new LootCondition[0], "mortmagic_inject_entry");
     }
 
 	/*public static void registerPotions(){

@@ -3,7 +3,7 @@ package mort.mortmagic.common.runes.words;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import mort.mortmagic.Resource;
+import mort.mortmagic.Content;
 import mort.mortmagic.common.runes.RuneCircleStorage;
 import mort.mortmagic.common.runes.RuneWord;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +26,7 @@ public class WordMobLoot extends RuneWord implements LootCondition {
     public boolean testCondition(Random rand, LootContext context) {
         EntityPlayer plr = (EntityPlayer) context.getKillerPlayer();
         if(plr!=null){
-            if( plr.getHeldItem( EnumHand.MAIN_HAND ).getItem() == Resource.stoneDagger ){
+            if( plr.getHeldItem( EnumHand.MAIN_HAND ).getItem() == Content.stoneDagger ){
                 if( RuneCircleStorage.get( context.getLootedEntity().getEntityWorld() ).findCircle(context.getLootedEntity().getPositionVector(),this).size() > 0 )
                     return true;
             }

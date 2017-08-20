@@ -1,21 +1,13 @@
 package mort.mortmagic.common.tileentity;
 
-import mort.mortmagic.MortMagic;
-import mort.mortmagic.Resource;
-import mort.mortmagic.common.CommonProxy;
+import mort.mortmagic.Content;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneCircle;
 import mort.mortmagic.common.runes.RuneCircleStorage;
 import mort.mortmagic.common.runes.RuneMaterial;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import javax.annotation.Nullable;
 
 public class TileRune extends TileEntity {
 
@@ -33,8 +25,8 @@ public class TileRune extends TileEntity {
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        character = Resource.RUNE_CHARACTER_REGISTRY.getValue( new ResourceLocation(compound.getString("character")) );
-        material = Resource.RUNE_MATERIAL_REGISTRY.getValue( new ResourceLocation(compound.getString("material")) );
+        character = Content.RUNE_CHARACTER_REGISTRY.getValue( new ResourceLocation(compound.getString("character")) );
+        material = Content.RUNE_MATERIAL_REGISTRY.getValue( new ResourceLocation(compound.getString("material")) );
     }
 
     @Override

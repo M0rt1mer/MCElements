@@ -10,6 +10,9 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import scala.util.control.TailCalls;
+
+import java.awt.image.RescaleOp;
 
 @Mod(modid=MortMagic.MODID,name="Elements")
 public class MortMagic {
@@ -31,12 +34,14 @@ public class MortMagic {
 		robes = new RobesRegistry();
 		sacrReg = new SacrificeRegistry();
 		dictionary = new RuneDictionary();
+        Content.preInit();
 		proxy.preInit();
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
-		proxy.init();
+		Content.init();
+	    proxy.init();
 	}
 
 	@Mod.EventHandler

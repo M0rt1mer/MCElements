@@ -1,6 +1,6 @@
 package mort.mortmagic.client;
 /*
-import mort.mortmagic.Resource;
+import mort.mortmagic.Content;
 import mort.mortmagic.common.world.block.TileEntityWildfire;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -22,7 +22,7 @@ public class WildFireRenderer extends TileEntitySpecialRenderer{
 		GL11.glPushMatrix();
 	    GL11.glTranslatef((float)d, (float)d1, (float)d2);
 	    TileEntityWildfire tileEntityYour = (TileEntityWildfire)tileEntity;
-	    renderFire(tileEntityYour, tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, Resource.wildfire);
+	    renderFire(tileEntityYour, tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, Content.wildfire);
 	    GL11.glPopMatrix();
    }
    //And this method actually renders your tile entity

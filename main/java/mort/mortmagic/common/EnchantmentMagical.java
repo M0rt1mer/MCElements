@@ -1,6 +1,6 @@
 package mort.mortmagic.common;
 /*
-import mort.mortmagic.Resource;
+import mort.mortmagic.Content;
 import mort.mortmagic.common.world.items.ItemEnchantable;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;

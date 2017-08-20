@@ -1,10 +1,9 @@
 package mort.mortmagic.common;
 
-import jdk.nashorn.internal.ir.Block;
+import mort.mortmagic.Content;
 import mort.mortmagic.ElementsEventHandler;
 import mort.mortmagic.ExtendedPlayer;
 import mort.mortmagic.MortMagic;
-import mort.mortmagic.Resource;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.common.net.NetworkManager;
 import mort.mortmagic.common.spells.Spell;
@@ -58,7 +57,7 @@ public class CommonProxy implements IGuiHandler {
 		//EntityRegistry.registerModEntity(EntitySpellMissile.class, "spellMissile", 0, MortMagic.instance, 64, 1, false);
         //handles creating all registries
         NetworkManager.init();
-        Resource.registerTileEntities();
+        Content.registerTileEntities();
 
     }
 	
@@ -68,7 +67,7 @@ public class CommonProxy implements IGuiHandler {
 		
 		//EntityRegistry.registerGlobalEntityID(EntitySpellMissile.class, "spellMissile", entityId);
         NetworkRegistry.INSTANCE.registerGuiHandler(MortMagic.instance, this );
-		Resource.registerRecipes();
+		Content.registerRecipes();
 	}
 
 	public void postInit(){

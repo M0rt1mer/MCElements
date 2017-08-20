@@ -1,7 +1,7 @@
 package mort.mortmagic.common.spells;
 
 import mort.mortmagic.ExtendedPlayer;
-import mort.mortmagic.Resource;
+import mort.mortmagic.Content;
 import mort.mortmagic.api.ElementAndItemToSpellMapping;
 import mort.mortmagic.common.items.ItemScroll;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,17 +21,17 @@ public abstract class SpellcastingHelper {
         Element elem = ItemScroll.getElement( dat.spellbook.getStackInSlot(dat.spellbookActive) );
         Spell spell;
 
-        if( plr.getHeldItem(EnumHand.MAIN_HAND) != null && plr.getHeldItem(EnumHand.MAIN_HAND).getItem() == Resource.charge ){
-            spell = Resource.charge.getSpell( plr.getHeldItem(EnumHand.MAIN_HAND) );
+        if( plr.getHeldItem(EnumHand.MAIN_HAND) != null && plr.getHeldItem(EnumHand.MAIN_HAND).getItem() == Content.charge ){
+            spell = Content.charge.getSpell( plr.getHeldItem(EnumHand.MAIN_HAND) );
             if( dat.hasMana( spell.getCost() ) ){
-                Resource.charge.chargeUp( plr.getHeldItem(EnumHand.MAIN_HAND), dat.castingMode );
+                Content.charge.chargeUp( plr.getHeldItem(EnumHand.MAIN_HAND), dat.castingMode );
                 dat.drainMana( spell.getCost() );
             }
         }
         else{
             spell = ElementAndItemToSpellMapping.getSpellByElementAndItem( elem, plr.getHeldItem(EnumHand.MAIN_HAND) );
             if( dat.hasMana( spell.getCost() ) ){
-                ItemStack stk = Resource.charge.create(spell, plr.getHeldItem(EnumHand.MAIN_HAND) );
+                ItemStack stk = Content.charge.create(spell, plr.getHeldItem(EnumHand.MAIN_HAND) );
                 plr.inventory.setInventorySlotContents( plr.inventory.currentItem , stk);
                 dat.drainMana( spell.getCost() );
             }

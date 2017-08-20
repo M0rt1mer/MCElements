@@ -10,20 +10,16 @@ import mort.mortmagic.client.KeyBindingManager;
 import mort.mortmagic.common.spells.Spell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleCloud;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-
-import java.util.Random;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -50,10 +46,10 @@ public class ClientProxy extends CommonProxy {
 
 	@SubscribeEvent
 	public static void event_registerModels(ModelRegistryEvent event) {
-		Resource.metaItem.initModels();
-		Resource.spellScroll.initModel();
-		Resource.charge.initModel();
-		Resource.runeBlock.initItemModels();
+		Content.metaItem.initModels();
+		Content.spellScroll.initModel();
+		Content.charge.initModel();
+		Content.runeBlock.initItemModels();
 	}
 
 	public void postInit(){

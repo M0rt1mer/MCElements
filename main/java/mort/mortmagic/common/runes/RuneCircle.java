@@ -1,8 +1,8 @@
 package mort.mortmagic.common.runes;
 
 
+import mort.mortmagic.Content;
 import mort.mortmagic.MortMagic;
-import mort.mortmagic.Resource;
 import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.common.tileentity.TileRune;
 import net.minecraft.block.state.IBlockState;
@@ -60,7 +60,7 @@ public class RuneCircle {
             NBTTagCompound comp = (NBTTagCompound) base;
             sequenceOfRunes.add( new BlockPos( comp.getInteger("x"), comp.getInteger("y"), comp.getInteger("z") ) );
         }
-        this.word = Resource.RUNE_WORD_REGISTRY.getValue( new ResourceLocation( source.getString("word") ) );
+        this.word = Content.RUNE_WORD_REGISTRY.getValue( new ResourceLocation( source.getString("word") ) );
         initialize();
     }
 
@@ -169,7 +169,7 @@ public class RuneCircle {
                 if( circle.size() > 1 && newPos.equals(circle.get(circle.size()-2)) ) //do not go backwards
                     continue;
                 IBlockState state = world.getBlockState(newPos);
-                if( state.getBlock() == Resource.runeBlock && ((TileRune)world.getTileEntity(newPos)).getMaterial() == mat ){
+                if( state.getBlock() == Content.runeBlock && ((TileRune)world.getTileEntity(newPos)).getMaterial() == mat ){
                     continuations.add(newPos);
                 }
             }

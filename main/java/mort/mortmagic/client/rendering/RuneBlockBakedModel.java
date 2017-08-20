@@ -2,7 +2,6 @@ package mort.mortmagic.client.rendering;
 
 import com.google.common.collect.ImmutableList;
 import mort.mortmagic.MortMagic;
-import mort.mortmagic.Resource;
 import mort.mortmagic.common.block.BlockRune;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneMaterial;

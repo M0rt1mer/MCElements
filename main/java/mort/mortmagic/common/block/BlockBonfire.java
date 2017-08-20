@@ -1,6 +1,6 @@
 package mort.mortmagic.common.block;
 
-import mort.mortmagic.Resource;
+import mort.mortmagic.Content;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +26,7 @@ public class BlockBonfire extends Block{
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		if( worldIn.getBlockState( pos.add(0,0,1) ).getBlock() == Blocks.FIRE ){ //is on fire
 			if( rand.nextInt(50) == 0 ){
-				worldIn.setBlockState( pos, Resource.ashesBlock.getDefaultState() );
+				worldIn.setBlockState( pos, Content.ashesBlock.getDefaultState() );
 			}
 		}
 		super.updateTick(worldIn, pos, state, rand);

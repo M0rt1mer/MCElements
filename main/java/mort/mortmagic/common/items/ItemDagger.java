@@ -1,6 +1,6 @@
 package mort.mortmagic.common.items;
 
-import mort.mortmagic.Resource;
+import mort.mortmagic.Content;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -38,7 +38,7 @@ public class ItemDagger extends ItemSword{
 			//MURDER
 			System.out.println( target.getClass() );
 			if( target instanceof EntityCow ){
-				dropItem( target.getEntityWorld(), target.posX, target.posY, target.posZ, new ItemStack(Resource.metaItem,1,6) );
+				dropItem( target.getEntityWorld(), target.posX, target.posY, target.posZ, new ItemStack(Content.metaItem,1,6) );
 			}
 		}
 		return super.hitEntity(p_77644_1_, target, attacker);
@@ -65,11 +65,11 @@ public class ItemDagger extends ItemSword{
 	private ItemStack getBlockDrops( World world, IBlockState state, BlockPos pos, EntityLivingBase entLiving ){
 		if( state.getBlock() == Blocks.TALLGRASS ){
 			if( Math.abs( world.getCelestialAngle(0) - 0.5f ) < 0.05f && world.getMoonPhase() == 2 ){
-                return new ItemStack( Resource.metaItem, 1,2 );
+                return new ItemStack( Content.metaItem, 1,2 );
 			}
 		} else if( state.getBlock() == Blocks.LEAVES ){
 		    if( world.rand.nextInt(4) == 0 ){
-		        return new ItemStack( Resource.metaItem,1, 6);
+		        return new ItemStack( Content.metaItem,1, 6);
             }
         }
         return null;

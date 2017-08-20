@@ -69,7 +69,7 @@ public class RuneCircleStorage extends WorldSavedData {
     }
 
     public List<RuneCircle> findCircle(Vec3d pos, RuneWord type){
-        return findCircle( new BlockPos(pos.x,pos.y, pos.x), type );
+        return findCircle( new BlockPos(pos.x,pos.y, pos.z), type );
     }
 
     public List<RuneCircle> findCircle(BlockPos pos, RuneWord type){
