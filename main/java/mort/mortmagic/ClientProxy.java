@@ -10,6 +10,7 @@ import mort.mortmagic.client.KeyBindingManager;
 import mort.mortmagic.common.spells.Spell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import scala.util.control.TailCalls;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -42,6 +44,7 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		MinecraftForge.EVENT_BUS.register( new GuiManaOverlay() );
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler( Content.cauldron, Content.cauldron );
 	}
 
 	@SubscribeEvent

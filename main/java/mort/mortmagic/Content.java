@@ -81,6 +81,9 @@ public class Content {
     @GameRegistry.ObjectHolder("mortmagic:runeblock")
     public static BlockRune runeBlock;
 
+    @GameRegistry.ObjectHolder("mortmagic:cauldron")
+    public static BlockCauldron cauldron;
+
 	//--------------------------------ITEMS
 	
 	//magical resources
@@ -144,6 +147,7 @@ public class Content {
         registerBlock( blockReg, new Block(Material.WOOD),"treecore");
         registerBlock( blockReg, new Block(Material.WOOD),"treeofliferoot");
         registerBlock( blockReg, new BlockRune(), "runeblock" );
+        registerBlock( blockReg, new BlockCauldron(), "cauldron" );
 
         //public static Block runeLifeRa = new BlockRune(Material.wood, RuneCharacter.ra).setBlockName("rune_life_ra").setBlockTextureName("mortmagic:rune_twig_ra").setCreativeTab(CreativeTabs.tabBlock);
     }
@@ -151,7 +155,7 @@ public class Content {
     @SubscribeEvent
     public static void event_registerItems( RegistryEvent.Register<Item> event ){
         IForgeRegistry<Item> itemReg = event.getRegistry();
-        for (Block blk : new Block[]{ bonfire, liveDirt, wildfire, ashesBlock, treeRoot, treeCore, runeBlock  } )
+        for (Block blk : new Block[]{ bonfire, liveDirt, wildfire, ashesBlock, treeRoot, treeCore, runeBlock, cauldron } )
             registerBlockItem(itemReg, blk);
 
         registerItem( itemReg, new ItemScroll(),  "spellscroll" ) ;
