@@ -6,20 +6,25 @@ import mort.mortmagic.common.items.ItemCharge;
 import mort.mortmagic.common.items.ItemDagger;
 import mort.mortmagic.common.items.ItemMagicalResource;
 import mort.mortmagic.common.items.ItemScroll;
+import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneMaterial;
 import mort.mortmagic.common.runes.RuneWord;
 import mort.mortmagic.common.runes.words.WordBlockProtection;
 import mort.mortmagic.common.runes.words.WordMobLoot;
 import mort.mortmagic.common.spells.*;
+import mort.mortmagic.common.tileentity.TileCauldron;
 import mort.mortmagic.common.tileentity.TileRune;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
@@ -253,6 +258,7 @@ public class Content {
 		GameRegistry.registerTileEntity(TileEntityWildfire.class, "TEwildfire");
 		GameRegistry.registerTileEntity(TileEntityTreeOfLifeCore.class, "TETOLCore");
         TileEntity.register( "mortmagic:rune", TileRune.class);
+        TileEntity.register( MortMagic.MODID + ":cauldron", TileCauldron.class );
 		
 	}
 	
@@ -279,7 +285,9 @@ public class Content {
 		MortMagic.dictionary.register( new RuneCharacter[]{ ta, ra}, word_sacrifice );
         MortMagic.dictionary.register( new RuneCharacter[]{ ta, ot}, blockProt );
 
-		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
+        MortMagic.potReg.register( new PotionIngredientRegistry.Entry( Item.getItemFromBlock(Blocks.RED_FLOWER), 0.5f, 0,0 ) );
+
+ 		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
 		GameRegistry.addSmelting(ashes, new ItemStack(magicalEssence,1), 1);*/
 		/*
 		GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(metaItem,1,0), Arrays.asList(new ItemStack[]{ new ItemStack(Blocks.yellow_flower,1),new ItemStack(Blocks.red_flower,1),new ItemStack(Blocks.red_flower,1,1),new ItemStack(Blocks.red_flower,1,2),new ItemStack(Blocks.red_flower,1,3),new ItemStack(Blocks.red_flower,1,4),new ItemStack(Blocks.red_flower,1,5),new ItemStack(Blocks.red_flower,1,6),new ItemStack(Blocks.red_flower,1,7) } ) ) );

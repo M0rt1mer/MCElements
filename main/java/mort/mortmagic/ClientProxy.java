@@ -7,17 +7,20 @@ import mort.mortmagic.client.rendering.McElementsModelLoader;
 import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.client.KeyBindingManager;
+import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import mort.mortmagic.common.spells.Spell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -53,6 +56,16 @@ public class ClientProxy extends CommonProxy {
 		Content.spellScroll.initModel();
 		Content.charge.initModel();
 		Content.runeBlock.initItemModels();
+	}
+
+	@SubscribeEvent
+	public static void event_tooltip(ItemTooltipEvent event){
+
+		PotionIngredientRegistry.Entry entry = MortMagic.potReg.findItemEntry( event.getItemStack() );
+		if( entry != null ){
+			event.getToolTip().add( "R:" + entry.rubedo + "; A: " + entry.auredo + "; C:" +entry.caerudo );
+		}
+
 	}
 
 	public void postInit(){

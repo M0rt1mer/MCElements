@@ -29,7 +29,7 @@ public class PotionIngredientRegistry {
     }
 
 
-    public class Entry{
+    public static class Entry{
 
         public final Predicate<ItemStack> filter;
 
