@@ -4,6 +4,7 @@ import mort.mortmagic.api.RobesRegistry;
 import mort.mortmagic.api.RuneDictionary;
 import mort.mortmagic.api.SacrificeRegistry;
 import mort.mortmagic.common.CommonProxy;
+import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import mort.mortmagic.common.runes.RuneCircle;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -28,12 +29,14 @@ public class MortMagic {
 	public static RobesRegistry robes;
 	public static SacrificeRegistry sacrReg;
 	public static RuneDictionary dictionary;
+	public static PotionIngredientRegistry potReg;
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
 		robes = new RobesRegistry();
 		sacrReg = new SacrificeRegistry();
 		dictionary = new RuneDictionary();
+		potReg = new PotionIngredientRegistry();
         Content.preInit();
 		proxy.preInit();
 	}

@@ -1,11 +1,15 @@
 package mort.mortmagic.common.block;
 
+import mort.mortmagic.MortMagic;
+import mort.mortmagic.common.tileentity.TileCauldron;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -44,12 +48,16 @@ public class BlockCauldron extends Block implements IBlockColor, ITileEntityProv
     }
 
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-        entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+        if( !worldIn.isRemote && entityIn instanceof EntityItem ){
+            EntityItem itm = (EntityItem)entityIn;
+            if( ((TileCauldron)worldIn.getTileEntity(pos)).throwItemIn( itm.getItem() ) ) //if it was accepted,
+                worldIn.removeEntity( itm );
+        }
     }
 
     @Nullable
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return null;
+        return new TileCauldron();
     }
 }

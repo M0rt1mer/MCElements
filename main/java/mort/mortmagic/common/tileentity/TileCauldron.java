@@ -11,4 +11,9 @@ public class TileCauldron extends TileEntity {
     public List<ItemStack> items = new ArrayList<>();
 
 
+    public boolean throwItemIn( ItemStack stk ){
+        return false;
+
+    }
+
 }
