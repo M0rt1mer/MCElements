@@ -59,9 +59,9 @@ public class TileCauldron extends TileEntity {
                 caerudoCnt++;
             }
         }
-        rubedo /= rubedoCnt;
-        auredo /= auredoCnt;
-        caerudo /= caerudoCnt;
+        rubedo = rubedoCnt>0 ? (rubedo/rubedoCnt) : 0;
+        auredo = auredoCnt>0 ? (auredo/auredoCnt) : 0;
+        caerudo = caerudoCnt>0 ? (caerudo/caerudoCnt) : 0;
 
         Vec3d result = trilinearInterpolation( rubToRgb, auredo, caerudo, rubedo );
         return (((int)result.x*255) >> 16 ) + (((int)result.y*255) >> 8 ) + ((int)result.z*255);
