@@ -1,19 +1,16 @@
 package mort.mortmagic;
 
+import mort.mortmagic.api.PotionRecipeRegistry;
 import mort.mortmagic.api.RobesRegistry;
 import mort.mortmagic.api.RuneDictionary;
 import mort.mortmagic.api.SacrificeRegistry;
 import mort.mortmagic.common.CommonProxy;
-import mort.mortmagic.common.potions.PotionIngredientRegistry;
-import mort.mortmagic.common.runes.RuneCircle;
+import mort.mortmagic.api.PotionIngredientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import scala.util.control.TailCalls;
-
-import java.awt.image.RescaleOp;
 
 @Mod(modid=MortMagic.MODID,name="Elements")
 public class MortMagic {
@@ -30,13 +27,10 @@ public class MortMagic {
 	public static SacrificeRegistry sacrReg;
 	public static RuneDictionary dictionary;
 	public static PotionIngredientRegistry potReg;
+	public static PotionRecipeRegistry potionRecipeRegistry;
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
-		robes = new RobesRegistry();
-		sacrReg = new SacrificeRegistry();
-		dictionary = new RuneDictionary();
-		potReg = new PotionIngredientRegistry();
         Content.preInit();
 		proxy.preInit();
 	}

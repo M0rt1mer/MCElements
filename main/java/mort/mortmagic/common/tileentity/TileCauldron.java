@@ -1,14 +1,18 @@
 package mort.mortmagic.common.tileentity;
 
 import mort.mortmagic.MortMagic;
-import mort.mortmagic.common.potions.PotionIngredientRegistry;
+import mort.mortmagic.api.PotionIngredientRegistry;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.Vec3d;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,9 +31,15 @@ public class TileCauldron extends TileEntity {
         PotionIngredientRegistry.Entry entry = MortMagic.potReg.findItemEntry( stk );
         if(entry==null || ingredientCache.contains(entry) ) //item is not an ingredient, OR ingredient is already in cauldron
             return false;
+        if( world.isRemote )
+            return true; //if world is remote, don't actually change anything
         items.add(stk.splitStack(1));
         ingredientCache.add(entry);
-        getWorld().markBlockRangeForRenderUpdate( getPos(), getPos() );
+        /*getWorld().markBlockRangeForRenderUpdate( getPos(), getPos() );
+        this.markDirty();*/
+        IBlockState state = world.getBlockState( pos );
+        markDirty();
+        world.notifyBlockUpdate( pos, state, state, 3 );
         return true;
     }
 
@@ -40,24 +50,21 @@ public class TileCauldron extends TileEntity {
 
     public int getColor(){
 
-        if( items.size() == 0 )
-            return 0;
-
         float rubedo = 0; int rubedoCnt = 0;
         float auredo = 0; int auredoCnt = 0;
         float caerudo = 0; int caerudoCnt = 0;
 
         for(PotionIngredientRegistry.Entry entry : ingredientCache){
-            if( entry.rubedo > 0 ){
-                rubedo += entry.rubedo;
+            if( entry.rubedo != PotionIngredientRegistry.AspectPower.NONE ){
+                rubedo += entry.rubedo.value;
                 rubedoCnt++;
             }
-            if( entry.auredo > 0 ){
-                auredo += entry.auredo;
+            if( entry.auredo != PotionIngredientRegistry.AspectPower.NONE ){
+                auredo += entry.auredo.value;
                 auredoCnt++;
             }
-            if( entry.caerudo > 0 ){
-                caerudo += entry.caerudo;
+            if( entry.caerudo != PotionIngredientRegistry.AspectPower.NONE ){
+                caerudo += entry.caerudo.value;
                 caerudoCnt++;
             }
         }
@@ -66,7 +73,7 @@ public class TileCauldron extends TileEntity {
         caerudo = caerudoCnt>0 ? (caerudo/caerudoCnt) : 0;
 
         Vec3d result = trilinearInterpolation( rubToRgb, caerudo, auredo, rubedo );
-        return (((int)result.x*255) >> 16 ) + (((int)result.y*255) >> 8 ) + ((int)result.z*255);
+        return ((int)(result.x*255) << 16 ) + ((int)(result.y*255) << 8 ) + (int)(result.z*255);
     }
 
 
@@ -113,10 +120,22 @@ public class TileCauldron extends TileEntity {
         for( ItemStack stk : items ){
             list.appendTag( stk.serializeNBT() );
         }
+        compound.setTag("items",list);
         return compound;
     }
     @Override
     public NBTTagCompound getUpdateTag() {
         return writeToNBT(new NBTTagCompound() );
+    }
+
+    @Nullable
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity( pos, 0, getUpdateTag() );
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        this.readFromNBT( pkt.getNbtCompound() );
     }
 }

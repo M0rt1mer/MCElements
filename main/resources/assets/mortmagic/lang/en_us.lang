@@ -23,3 +23,12 @@ item.fireSpell.name=Scroll of Weak Fire
 item.stoneDaggerSacred.name=Sacred stone dagger
 item.stoneDagger.name=Stone Dagger
 
+mortmagic.tooltip.aspectpower.dark=dark %s
+mortmagic.tooltip.aspectpower.darker=darker %s
+mortmagic.tooltip.aspectpower.normal=%s
+mortmagic.tooltip.aspectpower.lighter=lighter %s
+mortmagic.tooltip.aspectpower.light=light %s
+
+mortmagic.tooltip.aspect.rubedo=rubedo
+mortmagic.tooltip.aspect.auredo=auredo
+mortmagic.tooltip.aspect.caerudo=caerudo

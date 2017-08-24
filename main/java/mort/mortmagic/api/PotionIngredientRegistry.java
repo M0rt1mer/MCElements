@@ -1,4 +1,4 @@
-package mort.mortmagic.common.potions;
+package mort.mortmagic.api;
 
 //not implemented as registry, for it relies on other registries
 
@@ -29,29 +29,37 @@ public class PotionIngredientRegistry {
     }
 
 
+    public static enum AspectPower{
+        NONE(0), DARK(0.2f), DARKER(0.4f), NORMAL(0.6f), LIGHTER(0.8f), LIGHT(1);
+        public final float value;
+        AspectPower(float value) {
+            this.value = value;
+        }
+    }
+
     public static class Entry{
 
         public final Predicate<ItemStack> filter;
 
-        public final float rubedo;
-        public final float auredo;
-        public final float caerudo;
+        public final AspectPower rubedo;
+        public final AspectPower auredo;
+        public final AspectPower caerudo;
 
-        public Entry(Predicate<ItemStack> filter, float rubedo, float auredo, float caerudo) {
+        public Entry(Predicate<ItemStack> filter, AspectPower rubedo, AspectPower auredo, AspectPower caerudo) {
             this.filter = filter;
             this.rubedo = rubedo;
             this.auredo = auredo;
             this.caerudo = caerudo;
         }
 
-        public Entry( Item item, float rubedo, float auredo, float caerudo) {
+        public Entry( Item item, AspectPower rubedo, AspectPower auredo, AspectPower caerudo) {
             this.rubedo = rubedo;
             this.auredo = auredo;
             this.caerudo = caerudo;
             this.filter = ( stk -> stk.getItem() == item );
         }
 
-        public Entry( Item item, int damage, float rubedo, float auredo, float caerudo) {
+        public Entry( Item item, int damage, AspectPower rubedo, AspectPower auredo, AspectPower caerudo) {
             this.rubedo = rubedo;
             this.auredo = auredo;
             this.caerudo = caerudo;

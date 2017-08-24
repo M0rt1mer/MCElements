@@ -7,15 +7,15 @@ import mort.mortmagic.client.rendering.McElementsModelLoader;
 import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.client.KeyBindingManager;
-import mort.mortmagic.common.potions.PotionIngredientRegistry;
+import mort.mortmagic.api.PotionIngredientRegistry;
 import mort.mortmagic.common.spells.Spell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -24,7 +24,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import scala.util.control.TailCalls;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -63,7 +62,14 @@ public class ClientProxy extends CommonProxy {
 
 		PotionIngredientRegistry.Entry entry = MortMagic.potReg.findItemEntry( event.getItemStack() );
 		if( entry != null ){
-			event.getToolTip().add( "R:" + entry.rubedo + "; A: " + entry.auredo + "; C:" +entry.caerudo );
+			StringBuilder bld = new StringBuilder();
+			if( entry.rubedo != PotionIngredientRegistry.AspectPower.NONE )
+				bld.append( TextFormatting.RED + I18n.format(MortMagic.MODID+ ".tooltip.aspectpower."+entry.rubedo.toString().toLowerCase(), I18n.format( MortMagic.MODID + ".tooltip.aspect.rubedo" ) )  );
+			if( entry.auredo != PotionIngredientRegistry.AspectPower.NONE )
+                bld.append( TextFormatting.YELLOW + I18n.format(MortMagic.MODID+ ".tooltip.aspectpower."+entry.auredo.toString().toLowerCase(), I18n.format( MortMagic.MODID + ".tooltip.aspect.auredo" ) )  );
+			if( entry.caerudo != PotionIngredientRegistry.AspectPower.NONE )
+                bld.append( TextFormatting.BLUE + I18n.format(MortMagic.MODID+ ".tooltip.aspectpower."+entry.caerudo.toString().toLowerCase(), I18n.format( MortMagic.MODID + ".tooltip.aspect.caerudo" ) )  );
+			event.getToolTip().add( bld.toString() );
 		}
 
 	}

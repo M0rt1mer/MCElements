@@ -113,6 +113,9 @@ public class BlockCauldron extends Block implements ITileEntityProvider, IBlockC
 
     @Override
     public int colorMultiplier(IBlockState state,  IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-        return ((TileCauldron)worldIn.getTileEntity(pos)).getColor();
+        TileCauldron cauldron = (TileCauldron)worldIn.getTileEntity(pos);
+        if( cauldron == null )
+            return 16777215; //white
+        else return cauldron.getColor();
     }
 }
