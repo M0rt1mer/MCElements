@@ -14,12 +14,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemMagicalResource extends Item{
 
 	public String[] classes;
-	
+
 	public ItemMagicalResource( String[] names ){
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
 		this.classes = names;
 	}
+
+	public <E extends Enum<E>> ItemMagicalResource( Class<E> enm ){
+        E[] values = enm.getEnumConstants();
+        classes = new String[values.length];
+        for( int i = 0; i < values.length; i++ )
+            classes[i] = values[i].toString().toLowerCase();
+    }
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {

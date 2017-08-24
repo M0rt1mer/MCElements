@@ -157,6 +157,11 @@ public class Content {
         //public static Block runeLifeRa = new BlockRune(Material.wood, RuneCharacter.ra).setBlockName("rune_life_ra").setBlockTextureName("mortmagic:rune_twig_ra").setCreativeTab(CreativeTabs.tabBlock);
     }
 
+    public static enum magicalResources {
+        scroll,magical_essence,fern,flowerring, grate, meatball, twig,
+        rumen, pigtail,talon,horn,succups,larynx,horsehair,ashes
+    }
+
     @SubscribeEvent
     public static void event_registerItems( RegistryEvent.Register<Item> event ){
         IForgeRegistry<Item> itemReg = event.getRegistry();
@@ -170,7 +175,7 @@ public class Content {
 
         String[] metaItems = new String[]{"scroll","magicalEssence","fern","flowerring", "grate", "meatball", "twig",
                 "rumen", "pigtail","talon","horn","succups","larynx","horsehair","ashes" };
-        registerItem( itemReg, new ItemMagicalResource( metaItems ),"mi") ;
+        registerItem( itemReg, new ItemMagicalResource( magicalResources.class ),"mi") ;
         registerItem( itemReg, new Item(), "wand" );
     }
 
@@ -285,7 +290,10 @@ public class Content {
 		MortMagic.dictionary.register( new RuneCharacter[]{ ta, ra}, word_sacrifice );
         MortMagic.dictionary.register( new RuneCharacter[]{ ta, ot}, blockProt );
 
-        MortMagic.potReg.register( new PotionIngredientRegistry.Entry( Item.getItemFromBlock(Blocks.RED_FLOWER), 0.5f, 0,0 ) );
+        //MortMagic.potReg.register( new PotionIngredientRegistry.Entry( Item.getItemFromBlock(Blocks.RED_FLOWER), 0.5f, 0,0 ) );
+        MortMagic.potReg.register( new PotionIngredientRegistry.Entry( Item.getItemFromBlock(Blocks.DEADBUSH), 0.5f, 0,0 ) );
+        MortMagic.potReg.register( new PotionIngredientRegistry.Entry( metaItem, magicalResources.magical_essence.ordinal() , 0, 0,0.5f ) );
+        MortMagic.potReg.register( new PotionIngredientRegistry.Entry( Item.getItemFromBlock(Blocks.YELLOW_FLOWER), 0, 0.5f,0 ) );
 
  		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
 		GameRegistry.addSmelting(ashes, new ItemStack(magicalEssence,1), 1);*/

@@ -34,8 +34,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.Int;
 
-import javax.annotation.Nullable;
-
 public class BlockCauldron extends Block implements ITileEntityProvider, IBlockColor {
 
     public static PropertyBool WATER_STATE = PropertyBool.create("water");
@@ -108,14 +106,13 @@ public class BlockCauldron extends Block implements ITileEntityProvider, IBlockC
         }
     }
 
-    @Nullable
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileCauldron();
     }
 
     @Override
-    public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
+    public int colorMultiplier(IBlockState state,  IBlockAccess worldIn, BlockPos pos, int tintIndex) {
         return ((TileCauldron)worldIn.getTileEntity(pos)).getColor();
     }
 }

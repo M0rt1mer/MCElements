@@ -10,7 +10,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TileCauldron extends TileEntity {
 
@@ -19,11 +21,11 @@ public class TileCauldron extends TileEntity {
      * a mirror of @link(items), saves on ingredient lookups.
      * Is not saved, but refreshed after load
      */
-    private List<PotionIngredientRegistry.Entry> ingredientCache = new ArrayList<>();
+    private Set<PotionIngredientRegistry.Entry> ingredientCache = new HashSet<>();
 
     public boolean throwItemIn( ItemStack stk ){
         PotionIngredientRegistry.Entry entry = MortMagic.potReg.findItemEntry( stk );
-        if(entry==null)
+        if(entry==null || ingredientCache.contains(entry) ) //item is not an ingredient, OR ingredient is already in cauldron
             return false;
         items.add(stk.splitStack(1));
         ingredientCache.add(entry);
@@ -63,13 +65,13 @@ public class TileCauldron extends TileEntity {
         auredo = auredoCnt>0 ? (auredo/auredoCnt) : 0;
         caerudo = caerudoCnt>0 ? (caerudo/caerudoCnt) : 0;
 
-        Vec3d result = trilinearInterpolation( rubToRgb, auredo, caerudo, rubedo );
+        Vec3d result = trilinearInterpolation( rubToRgb, caerudo, auredo, rubedo );
         return (((int)result.x*255) >> 16 ) + (((int)result.y*255) >> 8 ) + ((int)result.z*255);
     }
 
 
     private static Vec3d linearInterpolation( Vec3d a, Vec3d b, float f ){
-        return new Vec3d( a.x * f + b.x * (1-f), a.y * f + b.y * (1-f), a.z * f + b.z * (1-f) );
+        return new Vec3d( a.x * (1-f) + b.x * f, a.y * (1-f) + b.y * f, a.z * (1-f) + b.z * f );
     }
 
     /**
@@ -87,6 +89,9 @@ public class TileCauldron extends TileEntity {
     }
     private static Vec3d trilinearInterpolation( Vec3d[] cube, float f, float i, float z ){
         return linearInterpolation( bilinearInterpolation(cube[0],cube[1],cube[2],cube[3],f,i), bilinearInterpolation(cube[4],cube[5],cube[6],cube[7],f,i), z );
+    }
+    public static Vec3d getRGB( float rubedo, float auredo, float caerudo ){
+        return trilinearInterpolation( rubToRgb, caerudo, auredo, rubedo );
     }
 
     @Override
