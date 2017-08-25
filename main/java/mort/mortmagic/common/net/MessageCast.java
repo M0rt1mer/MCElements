@@ -1,7 +1,7 @@
 package mort.mortmagic.common.net;
 
 import io.netty.buffer.ByteBuf;
-import mort.mortmagic.ExtendedPlayer;
+import mort.mortmagic.SpellCaster;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -27,7 +27,7 @@ public class MessageCast implements IMessage, IMessageHandler<MessageCast,IMessa
 	@Override
 	public IMessage onMessage(MessageCast message, MessageContext ctx) {
 		//System.out.println("Message "+message.strength);
-		ctx.getServerHandler().player.getCapability(ExtendedPlayer.EXTENDED_PLAYER_CAPABILITY, EnumFacing.DOWN).castingMode = message.strength;
+		ctx.getServerHandler().player.getCapability(SpellCaster.SPELLCASTER_CAPABILITY, EnumFacing.DOWN).castingMode = message.strength;
 		return null;
 	}
 

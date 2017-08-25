@@ -108,7 +108,7 @@ public class ClientProxy extends CommonProxy {
 	public void updatePlayerStats(float mana, float saturation) {
 		super.updatePlayerStats( mana,  saturation);
 		Minecraft.getMinecraft().player.getFoodStats().setFoodSaturationLevel(saturation);
-		Minecraft.getMinecraft().player.getCapability(ExtendedPlayer.EXTENDED_PLAYER_CAPABILITY, EnumFacing.DOWN).mana = mana;
+		Minecraft.getMinecraft().player.getCapability(SpellCaster.SPELLCASTER_CAPABILITY, EnumFacing.DOWN).mana = mana;
 	}
 
 }

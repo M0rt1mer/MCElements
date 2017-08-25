@@ -2,7 +2,7 @@ package mort.mortmagic.common;
 
 import mort.mortmagic.Content;
 import mort.mortmagic.ElementsEventHandler;
-import mort.mortmagic.ExtendedPlayer;
+import mort.mortmagic.SpellCaster;
 import mort.mortmagic.MortMagic;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.common.net.NetworkManager;
@@ -41,15 +41,15 @@ public class CommonProxy implements IGuiHandler {
 	
 	public void preInit(){
         // Create extended player capability. As it is an internal capability, neither factory nor storage are needed to work
-        CapabilityManager.INSTANCE.register(ExtendedPlayer.class, new Capability.IStorage<ExtendedPlayer>() {
+        CapabilityManager.INSTANCE.register(SpellCaster.class, new Capability.IStorage<SpellCaster>() {
             @Nullable
             @Override
-            public NBTBase writeNBT(Capability<ExtendedPlayer> capability, ExtendedPlayer instance, EnumFacing side) {
+            public NBTBase writeNBT(Capability<SpellCaster> capability, SpellCaster instance, EnumFacing side) {
                 return null;
             }
 
             @Override
-            public void readNBT(Capability<ExtendedPlayer> capability, ExtendedPlayer instance, EnumFacing side, NBTBase nbt) {
+            public void readNBT(Capability<SpellCaster> capability, SpellCaster instance, EnumFacing side, NBTBase nbt) {
             }
         }, () -> null);
 		handlr = new ElementsEventHandler();

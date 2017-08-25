@@ -23,11 +23,14 @@ public class MortMagic {
 	@SidedProxy(clientSide="mort.mortmagic.ClientProxy",serverSide="mort.mortmagic.common.CommonProxy")
 	public static CommonProxy proxy;
 
+
+	//<editor-fold desc="Custom registries, initialized along with forge registries in event">
 	public static RobesRegistry robes;
 	public static SacrificeRegistry sacrReg;
 	public static RuneDictionary dictionary;
 	public static PotionIngredientRegistry potReg;
 	public static PotionRecipeRegistry potionRecipeRegistry;
+	//</editor-fold>
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){

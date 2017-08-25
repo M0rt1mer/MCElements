@@ -1,6 +1,6 @@
 package mort.mortmagic.common.spells;
 
-import mort.mortmagic.ExtendedPlayer;
+import mort.mortmagic.SpellCaster;
 import mort.mortmagic.Content;
 import mort.mortmagic.api.ElementAndItemToSpellMapping;
 import mort.mortmagic.common.items.ItemScroll;
@@ -11,7 +11,7 @@ import net.minecraft.util.EnumHand;
 public abstract class SpellcastingHelper {
 
 
-    public static void resolvePlayerSpellcasting(EntityPlayer plr, ExtendedPlayer dat){
+    public static void resolvePlayerSpellcasting(EntityPlayer plr, SpellCaster dat){
 
 
         if( dat.spellbook.getStackInSlot(dat.spellbookActive)==null ){

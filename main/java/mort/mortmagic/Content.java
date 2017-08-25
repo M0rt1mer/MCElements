@@ -1,15 +1,13 @@
 package mort.mortmagic;
 
 import com.google.common.collect.ImmutableMap;
-import mort.mortmagic.api.RobesRegistry;
-import mort.mortmagic.api.RuneDictionary;
-import mort.mortmagic.api.SacrificeRegistry;
+import mort.mortmagic.api.*;
 import mort.mortmagic.common.block.*;
 import mort.mortmagic.common.items.ItemCharge;
 import mort.mortmagic.common.items.ItemDagger;
 import mort.mortmagic.common.items.ItemMagicalResource;
 import mort.mortmagic.common.items.ItemScroll;
-import mort.mortmagic.api.PotionIngredientRegistry;
+import mort.mortmagic.common.potions.PotionManaRegen;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneMaterial;
 import mort.mortmagic.common.runes.RuneWord;
@@ -22,10 +20,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
@@ -36,6 +39,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import static mort.mortmagic.api.PotionIngredientRegistry.AspectPower.NONE;
@@ -50,6 +54,13 @@ public class Content {
             return new ItemStack( Content.metaItem, 1 );
         }
     };
+
+    //-------------------------------- GAMEPLAY CONSTANTS
+
+    /**
+     * Tolerance between potion recipe and cauldron content, which will still result in creating given potion
+     */
+    public static final float POTION_RECIPE_TOLERANCE = 0.05f;
 
     //--------------------------------REGISTRIES
     public static IForgeRegistry<Element> ELEMENT_REGISTRY;
@@ -123,6 +134,11 @@ public class Content {
     @GameRegistry.ObjectHolder("mortmagic:sacrifice")
     public static RuneWord word_sacrifice;
 
+    //--------------------------------- Potions
+
+    @GameRegistry.ObjectHolder("mortmagic:mana")
+    public static PotionType manaPotion;
+
 //	public static Enchantment mag = new EnchantmentMagical(150, 1, EnumEnchantmentType.all).setName("magicalResource");
 	
 	public static ItemCharge charge = (ItemCharge) new ItemCharge().setUnlocalizedName("charge");
@@ -148,6 +164,7 @@ public class Content {
         MortMagic.sacrReg = new SacrificeRegistry();
         MortMagic.dictionary = new RuneDictionary();
         MortMagic.potReg = new PotionIngredientRegistry();
+        MortMagic.potionRecipeRegistry = new PotionRecipeRegistry();
     }
 
     @SubscribeEvent
@@ -209,6 +226,12 @@ public class Content {
         reg.register( new WordMobLoot(new ResourceLocation(MortMagic.MODID, "sacrifice")));
     }
 
+    @SubscribeEvent
+    public static void event_registerPotions( RegistryEvent.Register<PotionType> event ){
+        IForgeRegistry<PotionType> registry = event.getRegistry();
+        registerPotionType( registry, new PotionType( new PotionEffect( new PotionManaRegen( false, 153154 ), 1) ), "mana");
+    }
+
     private static void registerBlockItem( IForgeRegistry<Item> registry, Block block ){
         registry.register( new ItemBlock(block).setRegistryName( block.getRegistryName() ) );
     }
@@ -224,6 +247,9 @@ public class Content {
     }
     private static void registerRuneMaterial( IForgeRegistry<RuneMaterial> registry, String name ){
         registry.register( new RuneMaterial( new ResourceLocation(MortMagic.MODID,name), name ) );
+    }
+    private static void registerPotionType(IForgeRegistry<PotionType> registry, PotionType potion, String name){
+        registry.register( potion.setRegistryName( new ResourceLocation( MortMagic.MODID, name ) ) );
     }
 
     @SubscribeEvent
@@ -302,6 +328,8 @@ public class Content {
         MortMagic.potReg.register( new PotionIngredientRegistry.Entry( Item.getItemFromBlock(Blocks.DEADBUSH), NORMAL, NONE, NONE ) );
         MortMagic.potReg.register( new PotionIngredientRegistry.Entry( metaItem, magicalResources.magical_essence.ordinal() , NONE, NONE, NORMAL ) );
         MortMagic.potReg.register( new PotionIngredientRegistry.Entry( Item.getItemFromBlock(Blocks.YELLOW_FLOWER), NONE, NORMAL, NONE ) );
+
+        MortMagic.potionRecipeRegistry.register( new PotionRecipeRegistry.PotionRecipe( NORMAL.value, NONE.value, NORMAL.value, PotionUtils.addPotionToItemStack( new ItemStack(Items.POTIONITEM), manaPotion )) );
 
  		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
 		GameRegistry.addSmelting(ashes, new ItemStack(magicalEssence,1), 1);*/
