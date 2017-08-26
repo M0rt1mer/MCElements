@@ -1,5 +1,6 @@
 package mort.mortmagic.common.items;
 
+import mort.mortmagic.client.IInitializeMyOwnModels;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,7 +12,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemMagicalResource extends Item{
+public class ItemMagicalResource extends Item implements IInitializeMyOwnModels{
 
 	public String[] classes;
 
@@ -40,6 +41,7 @@ public class ItemMagicalResource extends Item{
 		return super.getUnlocalizedName(stack)+"."+classes[stack.getItemDamage()];
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void initModels() {
 		for (int i =0;i<classes.length;i++) {

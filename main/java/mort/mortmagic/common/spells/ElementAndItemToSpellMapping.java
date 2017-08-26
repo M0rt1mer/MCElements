@@ -1,4 +1,4 @@
-package mort.mortmagic.api;
+package mort.mortmagic.common.spells;
 
 import com.google.common.base.Predicate;
 import mort.mortmagic.common.spells.Element;

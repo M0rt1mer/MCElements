@@ -1,7 +1,7 @@
 package mort.mortmagic.common.net;
 
 import io.netty.buffer.ByteBuf;
-import mort.mortmagic.SpellCaster;
+import mort.mortmagic.common.SpellCaster;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;

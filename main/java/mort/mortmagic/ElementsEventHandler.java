@@ -1,5 +1,6 @@
 package mort.mortmagic;
 
+import mort.mortmagic.common.SpellCaster;
 import mort.mortmagic.common.spells.SpellcastingHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

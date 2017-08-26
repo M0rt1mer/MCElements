@@ -1,10 +1,10 @@
-package mort.mortmagic;
+package mort.mortmagic.common;
 
-import mort.mortmagic.api.RobesRegistry;
+import mort.mortmagic.MortMagic;
+import mort.mortmagic.obsolete.RobesRegistry;
 import mort.mortmagic.common.inventory.InventorySpellbook;
 import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.common.net.NetworkManager;
-import mort.mortmagic.common.spells.Spell;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -40,7 +40,6 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 	
 	private float lastMana;
 	private float lastSaturation;
-
 	public float gainMana(float gain){
 		
 		float maxMana = 0;

@@ -2,8 +2,8 @@ package mort.mortmagic.common.sacrifice;
 
 import mort.mortmagic.Content;
 import mort.mortmagic.MortMagic;
-import mort.mortmagic.api.SacrificeRegistry.IBlessing;
-import mort.mortmagic.api.SacrificeRegistry.ISacrifice;
+import mort.mortmagic.obsolete.SacrificeRegistry.IBlessing;
+import mort.mortmagic.obsolete.SacrificeRegistry.ISacrifice;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 

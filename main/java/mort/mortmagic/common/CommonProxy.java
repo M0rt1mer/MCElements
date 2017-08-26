@@ -2,7 +2,6 @@ package mort.mortmagic.common;
 
 import mort.mortmagic.Content;
 import mort.mortmagic.ElementsEventHandler;
-import mort.mortmagic.SpellCaster;
 import mort.mortmagic.MortMagic;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.common.net.NetworkManager;

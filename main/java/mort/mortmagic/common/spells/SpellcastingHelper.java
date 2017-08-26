@@ -1,8 +1,7 @@
 package mort.mortmagic.common.spells;
 
-import mort.mortmagic.SpellCaster;
+import mort.mortmagic.common.SpellCaster;
 import mort.mortmagic.Content;
-import mort.mortmagic.api.ElementAndItemToSpellMapping;
 import mort.mortmagic.common.items.ItemScroll;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

@@ -2,8 +2,8 @@ package mort.mortmagic.common.block;
 
 import java.util.LinkedList;
 
-import mort.mortmagic.api.SacrificeRegistry;
-import mort.mortmagic.api.SacrificeRegistry.ISacrifice;
+import mort.mortmagic.obsolete.SacrificeRegistry;
+import mort.mortmagic.obsolete.SacrificeRegistry.ISacrifice;
 import mort.mortmagic.common.sacrifice.IAltar;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.Vec3d;

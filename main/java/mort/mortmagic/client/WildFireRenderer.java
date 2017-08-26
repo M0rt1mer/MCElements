@@ -1,8 +1,8 @@
 package mort.mortmagic.client;
 /*
 import mort.mortmagic.Content;
-import mort.mortmagic.common.world.block.TileEntityWildfire;
-import net.minecraft.block.Block;
+import mort.mortmagic.common.world.blocks.TileEntityWildfire;
+import net.minecraft.blocks.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -26,7 +26,7 @@ public class WildFireRenderer extends TileEntitySpecialRenderer{
 	    GL11.glPopMatrix();
    }
    //And this method actually renders your tile entity
-   public void renderFire(TileEntityWildfire tl, World world, int i, int j, int k, Block block) {
+   public void renderFire(TileEntityWildfire tl, World world, int i, int j, int k, Block blocks) {
 	   
 	   Tessellator tessellator = Tessellator.instance;
 	   int l = world.getLightBrightnessForSkyBlocks(i, j, k, 0);

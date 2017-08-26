@@ -1,6 +1,7 @@
 {
   "variants": {
     "water=false": [{"model": "minecraft:cauldron_empty"}],
-    "water=true": [{"model": "mortmagic:cauldron"}]
+    "water=true": [{"model": "mortmagic:cauldron"}],
+    "inventory" : [{"model": "minecraft:cauldron_empty"}]
   }
 }

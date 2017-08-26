@@ -1,11 +1,11 @@
 package mort.mortmagic;
 
-import mort.mortmagic.api.PotionRecipeRegistry;
-import mort.mortmagic.api.RobesRegistry;
-import mort.mortmagic.api.RuneDictionary;
-import mort.mortmagic.api.SacrificeRegistry;
+import mort.mortmagic.common.potions.PotionRecipeRegistry;
+import mort.mortmagic.obsolete.RobesRegistry;
+import mort.mortmagic.common.runes.RuneDictionary;
+import mort.mortmagic.obsolete.SacrificeRegistry;
 import mort.mortmagic.common.CommonProxy;
-import mort.mortmagic.api.PotionIngredientRegistry;
+import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -20,7 +20,7 @@ public class MortMagic {
 	@Mod.Instance
 	public static MortMagic instance;
 	
-	@SidedProxy(clientSide="mort.mortmagic.ClientProxy",serverSide="mort.mortmagic.common.CommonProxy")
+	@SidedProxy(clientSide="mort.mortmagic.client.ClientProxy",serverSide="mort.mortmagic.common.CommonProxy")
 	public static CommonProxy proxy;
 
 

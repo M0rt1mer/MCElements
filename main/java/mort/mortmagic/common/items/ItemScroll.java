@@ -1,5 +1,6 @@
 package mort.mortmagic.common.items;
 
+import mort.mortmagic.client.IInitializeMyOwnModels;
 import mort.mortmagic.common.spells.Element;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 /**
  * Item scroll that can hold any existing element. Element+level are stored as NBT tags, and used to render different spell model
  */
-public class ItemScroll extends Item {
+public class ItemScroll extends Item implements IInitializeMyOwnModels{
 
 	public ItemScroll( ){
 		setMaxStackSize( 1 );
@@ -49,8 +50,9 @@ public class ItemScroll extends Item {
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
-    public void initModel() {
+    public void initModels() {
         HashMap<ResourceLocation,ModelResourceLocation[]> models = new HashMap<>();
 
         for (Element ele : GameRegistry.findRegistry( Element.class ).getValues() ) {

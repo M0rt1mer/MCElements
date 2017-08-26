@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "mortmagic:items/potion_recipe",
+    "layer1": "mortmagic:items/potion_recipe_colorstrip"
+  }
+}

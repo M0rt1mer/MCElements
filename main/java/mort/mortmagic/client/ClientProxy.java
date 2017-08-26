@@ -1,29 +1,37 @@
-package mort.mortmagic;
+package mort.mortmagic.client;
 
-import mort.mortmagic.client.GuiManaOverlay;
-import mort.mortmagic.client.GuiSpellbook;
-import mort.mortmagic.client.RuneParticle;
+import mort.mortmagic.Content;
+import mort.mortmagic.MortMagic;
+import mort.mortmagic.common.SpellCaster;
 import mort.mortmagic.client.rendering.McElementsModelLoader;
 import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.common.inventory.SpellbookContainer;
-import mort.mortmagic.client.KeyBindingManager;
-import mort.mortmagic.api.PotionIngredientRegistry;
+import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import mort.mortmagic.common.spells.Spell;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import scala.util.control.TailCalls;
+
+import java.lang.reflect.Field;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -47,14 +55,31 @@ public class ClientProxy extends CommonProxy {
 		super.init();
 		MinecraftForge.EVENT_BUS.register( new GuiManaOverlay() );
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler( Content.cauldron, Content.cauldron );
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler( Content.potion_recipe, Content.potion_recipe );
 	}
 
 	@SubscribeEvent
 	public static void event_registerModels(ModelRegistryEvent event) {
-		Content.metaItem.initModels();
+		/*Content.metaItem.initModels();
 		Content.spellScroll.initModel();
 		Content.charge.initModel();
-		Content.runeBlock.initItemModels();
+		Content.runeBlock.initItemModels();*/
+
+        for( Item itm : Item.REGISTRY )
+		    if(itm.getRegistryName().getResourceDomain().equals(MortMagic.MODID) ) {
+                if (itm instanceof IInitializeMyOwnModels)
+                    ((IInitializeMyOwnModels) itm).initModels();
+                else if (!(itm instanceof ItemBlock)) //don't register ItemBlocks - some blocks want to custom initialize models
+                    ModelLoader.setCustomModelResourceLocation(itm, 0, new ModelResourceLocation(itm.getRegistryName(), null));
+            }
+
+        for( Block blk : Block.REGISTRY )
+            if( blk.getRegistryName().getResourceDomain().equals(MortMagic.MODID) ) {
+                if (blk instanceof IInitializeMyOwnModels)
+                    ((IInitializeMyOwnModels) blk).initModels();
+                else
+                    ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(blk), 0, new ModelResourceLocation(blk.getRegistryName(), "inventory"));
+            }
 	}
 
 	@SubscribeEvent

@@ -1,6 +1,7 @@
 package mort.mortmagic.common.items;
 
 
+import mort.mortmagic.client.IInitializeMyOwnModels;
 import mort.mortmagic.common.spells.Spell;
 import mort.mortmagic.common.entity.EntitySpellMissile;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -25,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.HashMap;
 import java.util.List;
 
-public class ItemCharge extends Item{
+public class ItemCharge extends Item implements IInitializeMyOwnModels{
 	
 	public ItemCharge(){
 		this.setMaxDamage(1000);
@@ -109,8 +110,9 @@ public class ItemCharge extends Item{
 		stk.setItemDamage( stk.getItemDamage()-1 );
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
-	public void initModel() {
+	public void initModels() {
 	    List<Spell> allSpells = GameRegistry.findRegistry( Spell.class ).getValues();
         HashMap<ResourceLocation,ModelResourceLocation> models = new HashMap<>();
 

@@ -102,7 +102,7 @@ public class RuneCircle {
         if( (normal == EnumFacing.Axis.X && setOfRunes.contains(new BlockPos( sequenceOfRunes.get(0).getX(),pos.getY(), pos.getZ() ) ) ) ||
                 (normal == EnumFacing.Axis.Y && setOfRunes.contains(new BlockPos( pos.getX(),sequenceOfRunes.get(0).getY(), pos.getZ() ) ) ) ||
                         (normal == EnumFacing.Axis.X && setOfRunes.contains(new BlockPos( pos.getX(),pos.getY(), sequenceOfRunes.get(0).getZ() ) ) ) )
-            return true; //if projected block is on boundary - return true ( "integer raycast" test doesn't work correctly on boundary blocks
+            return true; //if projected blocks is on boundary - return true ( "integer raycast" test doesn't work correctly on boundary blocks
         Vec3i step = Vec3i.NULL_VECTOR;
         BlockPos current = BlockPos.ORIGIN;
         int numSteps = 0;

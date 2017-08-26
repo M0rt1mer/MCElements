@@ -1,6 +1,7 @@
 package mort.mortmagic.common.block;
 
 import mort.mortmagic.MortMagic;
+import mort.mortmagic.client.IInitializeMyOwnModels;
 import mort.mortmagic.common.block.states.UnlistedPropertyRegistryEntry;
 import mort.mortmagic.common.runes.RuneCharacter;
 import mort.mortmagic.common.runes.RuneMaterial;
@@ -42,7 +43,7 @@ import java.util.List;
 
 import static net.minecraft.util.EnumFacing.values;
 
-public class BlockRune extends Block implements ITileEntityProvider{
+public class BlockRune extends Block implements ITileEntityProvider, IInitializeMyOwnModels{
 
     public static final UnlistedPropertyRegistryEntry runeCharacterProperty = new UnlistedPropertyRegistryEntry( GameRegistry.findRegistry( RuneCharacter.class ) );
     public static final UnlistedPropertyRegistryEntry runeMaterialProperty = new UnlistedPropertyRegistryEntry( GameRegistry.findRegistry(RuneMaterial.class) );
@@ -156,8 +157,9 @@ public class BlockRune extends Block implements ITileEntityProvider{
             drops.add( createItemStack( rune.getCharacter(), rune.getMaterial() ) );
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
-    public void initItemModels() {
+    public void initModels() {
         HashMap<ResourceLocation,ModelResourceLocation[]> models = new HashMap<>();
         Item myItem = Item.getItemFromBlock(this);
 

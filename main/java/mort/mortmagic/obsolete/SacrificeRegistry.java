@@ -1,4 +1,4 @@
-package mort.mortmagic.api;
+package mort.mortmagic.obsolete;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;

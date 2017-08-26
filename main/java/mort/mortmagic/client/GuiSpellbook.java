@@ -1,6 +1,5 @@
 package mort.mortmagic.client;
 
-import mort.mortmagic.ClientProxy;
 import mort.mortmagic.MortMagic;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;

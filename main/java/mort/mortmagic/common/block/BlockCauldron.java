@@ -1,5 +1,7 @@
 package mort.mortmagic.common.block;
 
+import mort.mortmagic.MortMagic;
+import mort.mortmagic.common.potions.PotionColoringHelper;
 import mort.mortmagic.common.tileentity.TileCauldron;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -92,7 +94,19 @@ public class BlockCauldron extends Block implements ITileEntityProvider, IBlockC
                 worldIn.playSound((EntityPlayer) null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return true;
             }
-            return ((TileCauldron)worldIn.getTileEntity(pos)).throwItemIn( itemstack );
+            else if( item == Items.GLASS_BOTTLE ){
+                TileCauldron cauldron = (TileCauldron)worldIn.getTileEntity(pos);
+                if( cauldron == null )
+                    return false;
+                if(worldIn.isRemote)
+                    return true;
+                ItemStack stk = cauldron.bottleItem( itemstack );
+                playerIn.addItemStackToInventory( stk );
+                worldIn.setBlockState( pos, state.withProperty(WATER_STATE,false) );
+            }
+            else if( state.getValue(WATER_STATE) )
+                return ((TileCauldron)worldIn.getTileEntity(pos)).throwItemIn( itemstack );
+            return false;
         }
     }
 
@@ -105,7 +119,7 @@ public class BlockCauldron extends Block implements ITileEntityProvider, IBlockC
     public int colorMultiplier(IBlockState state,  IBlockAccess worldIn, BlockPos pos, int tintIndex) {
         TileCauldron cauldron = (TileCauldron)worldIn.getTileEntity(pos);
         if( cauldron == null )
-            return 16777215; //white
+            return PotionColoringHelper.TINT_WHITE; //white
         else return cauldron.getColor();
     }
 }

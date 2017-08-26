@@ -1,6 +1,6 @@
 package mort.mortmagic.common.potions;
 
-import mort.mortmagic.SpellCaster;
+import mort.mortmagic.common.SpellCaster;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 

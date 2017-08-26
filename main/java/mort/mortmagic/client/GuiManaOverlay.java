@@ -1,6 +1,6 @@
 package mort.mortmagic.client;
 
-import mort.mortmagic.SpellCaster;
+import mort.mortmagic.common.SpellCaster;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;

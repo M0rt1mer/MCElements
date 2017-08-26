@@ -1,4 +1,4 @@
-package mort.mortmagic.api;
+package mort.mortmagic.obsolete;
 /*
 import java.util.LinkedList;
 import java.util.List;

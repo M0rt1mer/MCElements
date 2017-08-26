@@ -1,4 +1,4 @@
-package mort.mortmagic.api;
+package mort.mortmagic.common.runes;
 
 import com.google.common.collect.ImmutableList;
 import mort.mortmagic.common.runes.RuneCharacter;
