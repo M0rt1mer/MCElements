@@ -14,7 +14,7 @@ public class ElementsEventHandler {
 	public void attachCapability( AttachCapabilitiesEvent<Entity> constr ) {
 
 		if (constr.getObject() instanceof EntityPlayer) {
-			constr.addCapability( ExtendedPlayer.extPlayerResLoc, new ExtendedPlayer( (EntityPlayer) constr.getObject()) );
+			constr.addCapability( SpellCaster.extPlayerResLoc, new SpellCaster( (EntityPlayer) constr.getObject()) );
 		}
 
 	}
@@ -24,7 +24,7 @@ public class ElementsEventHandler {
 		if( !(evnt.getEntity() instanceof EntityPlayer) || evnt.getEntityLiving().getEntityWorld().isRemote )
 			return;
 		EntityPlayer plr = (EntityPlayer)evnt.getEntity();
-		ExtendedPlayer dat = plr.getCapability( ExtendedPlayer.EXTENDED_PLAYER_CAPABILITY, EnumFacing.DOWN );
+		SpellCaster dat = plr.getCapability( SpellCaster.SPELLCASTER_CAPABILITY, EnumFacing.DOWN );
 		
 		if( dat.castingMode > 0 ) {
             SpellcastingHelper.resolvePlayerSpellcasting(plr, dat);

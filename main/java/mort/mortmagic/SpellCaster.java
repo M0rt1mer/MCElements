@@ -4,6 +4,8 @@ import mort.mortmagic.api.RobesRegistry;
 import mort.mortmagic.common.inventory.InventorySpellbook;
 import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.common.net.NetworkManager;
+import mort.mortmagic.common.spells.Spell;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,17 +15,21 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-public class ExtendedPlayer implements ICapabilitySerializable<NBTTagCompound> {
+public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 
-    @CapabilityInject(ExtendedPlayer.class)
-    public static Capability<ExtendedPlayer> EXTENDED_PLAYER_CAPABILITY = null;
+    @CapabilityInject(SpellCaster.class)
+    public static Capability<SpellCaster> SPELLCASTER_CAPABILITY = null;
 
-    public ExtendedPlayer(EntityPlayer plr) {
+    public SpellCaster(EntityPlayer plr) {
         this.plr = plr;
         spellbook = new InventorySpellbook();
     }
 
     public static ResourceLocation extPlayerResLoc = new ResourceLocation( "mortmagic", "extPlayer" );
+
+    public static SpellCaster getPlayerSpellcasting( Entity plr ){
+    	return plr.hasCapability(SPELLCASTER_CAPABILITY,EnumFacing.DOWN) ? plr.getCapability(SPELLCASTER_CAPABILITY, EnumFacing.DOWN) : null;
+	}
 
 	private EntityPlayer plr;
 	public InventorySpellbook spellbook;
@@ -78,12 +84,12 @@ public class ExtendedPlayer implements ICapabilitySerializable<NBTTagCompound> {
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        return (capability == EXTENDED_PLAYER_CAPABILITY);
+        return (capability == SPELLCASTER_CAPABILITY);
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-        if (capability == EXTENDED_PLAYER_CAPABILITY) {
+        if (capability == SPELLCASTER_CAPABILITY) {
             return (T)this;
         }
         return null;

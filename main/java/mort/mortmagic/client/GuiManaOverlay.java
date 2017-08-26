@@ -1,6 +1,6 @@
 package mort.mortmagic.client;
 
-import mort.mortmagic.ExtendedPlayer;
+import mort.mortmagic.SpellCaster;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +39,7 @@ public class GuiManaOverlay extends Gui{
         
         GL11.glEnable(GL11.GL_BLEND);
 
-        int mana = (int)(plr.getCapability(ExtendedPlayer.EXTENDED_PLAYER_CAPABILITY, EnumFacing.DOWN).mana/2);
+        int mana = (int)(plr.getCapability(SpellCaster.SPELLCASTER_CAPABILITY, EnumFacing.DOWN).mana/2);
         int saturation = (int)(plr.getFoodStats().getSaturationLevel()/2);
         
         //draw saturation
