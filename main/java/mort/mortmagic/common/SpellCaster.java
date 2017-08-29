@@ -1,10 +1,10 @@
 package mort.mortmagic.common;
 
 import mort.mortmagic.MortMagic;
-import mort.mortmagic.obsolete.RobesRegistry;
 import mort.mortmagic.common.inventory.InventorySpellbook;
 import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.common.net.NetworkManager;
+import mort.mortmagic.obsolete.RobesRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -105,6 +105,6 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
-        spellbook = new InventorySpellbook( nbt.getCompoundTag("spellbook") );
+        spellbook = InventorySpellbook.fromTag( nbt.getCompoundTag("spellbook") );
     }
 }

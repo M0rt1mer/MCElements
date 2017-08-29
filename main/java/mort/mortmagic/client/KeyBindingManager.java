@@ -47,7 +47,6 @@ public class KeyBindingManager {
 				strongPressed = strongCast.isPressed();
 				//System.out.println("Tick "+weakCast.getIsKeyPressed()+" "+strongCast.getIsKeyPressed());
 				NetworkManager.instance.sendToServer( new MessageCast( (weakPressed?1:0) + (strongPressed?2:0) ) );
-				
 			}
 		}
 	}
