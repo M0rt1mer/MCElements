@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "mortmagic:items/potion_recipe_advanced",
+    "layer2": "mortmagic:items/potion_recipe_advanced_colorstrip",
+    "layer1": "mortmagic:items/potion_recipe_advanced_dippingstrip"
+  }
+}

@@ -105,7 +105,6 @@ public class TileCauldron extends TileEntity implements ITickable {
             if(solution != null) //only add to list if it is ingredient (an item can stop beeing an ingredient between saves, if updated)
                 solvedItems.add( solution );
         }
-        world.markBlockRangeForRenderUpdate(pos,pos);
     }
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
@@ -130,8 +129,10 @@ public class TileCauldron extends TileEntity implements ITickable {
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-        if( world.isRemote )
-            this.readFromNBT( pkt.getNbtCompound() );
+        if( world.isRemote ) {
+            this.readFromNBT(pkt.getNbtCompound());
+            world.markBlockRangeForRenderUpdate(pos,pos);
+        }
     }
 
     @Override

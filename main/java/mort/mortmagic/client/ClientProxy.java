@@ -17,6 +17,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -56,6 +57,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register( new GuiManaOverlay() );
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler( Content.cauldron, Content.cauldron );
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler( Content.potion_recipe, Content.potion_recipe );
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler( Content.potion_recipe_advanced, Content.potion_recipe_advanced );
 	}
 
 	@SubscribeEvent

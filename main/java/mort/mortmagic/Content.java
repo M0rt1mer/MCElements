@@ -61,7 +61,7 @@ public class Content {
      */
     public static final float POTION_RECIPE_TOLERANCE = 0.05f;
     public static final float POTION_MAXIMUM_ACTIVATION_LEVEL = 0.1f;
-    public static final float POTION_ACTIVATION_PER_FRAME = POTION_MAXIMUM_ACTIVATION_LEVEL/(20*5); //takes 5 seconds to fully activate/deacitvate
+    public static final float POTION_ACTIVATION_PER_FRAME = POTION_MAXIMUM_ACTIVATION_LEVEL/(20*10); //takes 5 seconds to fully activate/deacitvate
 
     //--------------------------------REGISTRIES
     public static IForgeRegistry<Element> ELEMENT_REGISTRY;
@@ -121,6 +121,8 @@ public class Content {
 	public static Item testImplement;
     @GameRegistry.ObjectHolder("mortmagic:potion_recipe")
     public static ItemPotionRecipe potion_recipe;
+    @GameRegistry.ObjectHolder("mortmagic:potion_recipe_advanced")
+    public static ItemPotionRecipe potion_recipe_advanced;
 
     //--------------------------------- Rune words
 
@@ -205,7 +207,8 @@ public class Content {
 
         registerItem( itemReg, new ItemDagger( ToolMaterial.STONE, false ),"stonedagger" );
         registerItem( itemReg, new ItemDagger( ToolMaterial.STONE, true ),"stonedaggersacred");
-        registerItem( itemReg, new ItemPotionRecipe(), "potion_recipe" );
+        registerItem( itemReg, new ItemPotionRecipe(false), "potion_recipe" );
+        registerItem( itemReg, new ItemPotionRecipe(true), "potion_recipe_advanced" );
 
         String[] metaItems = new String[]{"scroll","magicalEssence","fern","flowerring", "grate", "meatball", "twig",
                 "rumen", "pigtail","talon","horn","succups","larynx","horsehair","ashes" };
@@ -344,7 +347,7 @@ public class Content {
         MortMagic.potReg.register( new PotionIngredientRegistry.Entry( metaItem, magicalResources.magical_essence.ordinal() , NONE, NONE, NORMAL, heat ) );
         MortMagic.potReg.register( new PotionIngredientRegistry.Entry( Item.getItemFromBlock(Blocks.YELLOW_FLOWER), NONE, NORMAL, NONE, null ) );
 
-        MortMagic.potionRecipeRegistry.register( new PotionRecipeRegistry.PotionRecipe( manaPotion.getRegistryName(), NORMAL.value, NONE.value, NORMAL.value, PotionUtils.addPotionToItemStack( new ItemStack(Items.POTIONITEM), manaPotion )) );
+        MortMagic.potionRecipeRegistry.register( new PotionRecipeRegistry.PotionRecipe( manaPotion.getRegistryName(), NORMAL.value, NONE.value, NORMAL.value + POTION_MAXIMUM_ACTIVATION_LEVEL, PotionUtils.addPotionToItemStack( new ItemStack(Items.POTIONITEM), manaPotion )) );
 
  		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
 		GameRegistry.addSmelting(ashes, new ItemStack(magicalEssence,1), 1);*/
