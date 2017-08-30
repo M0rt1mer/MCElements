@@ -3,9 +3,14 @@ package mort.mortmagic.client;
 import mort.mortmagic.common.SpellCaster;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,7 +26,7 @@ public class GuiManaOverlay extends Gui{
 	
 	
 	@SubscribeEvent
-	public void onPostFoodRender( RenderGameOverlayEvent.Post evnt ){
+	public void event_onPostFoodRender( RenderGameOverlayEvent.Post evnt ){
 
 		if(evnt.getType() == ElementType.FOOD ) //after food was rendered
 			return;
@@ -35,13 +40,13 @@ public class GuiManaOverlay extends Gui{
 		mc.getTextureManager().bindTexture( res );
 
 		int left = width / 2 + 91;
-        int top = height - 39;
-        
-        GL11.glEnable(GL11.GL_BLEND);
+        int top = height - GuiIngameForge.right_height;
+
+		GlStateManager.enableBlend();
 
         int mana = (int)(plr.getCapability(SpellCaster.SPELLCASTER_CAPABILITY, EnumFacing.DOWN).mana/2);
         int saturation = (int)(plr.getFoodStats().getSaturationLevel()/2);
-        
+
         //draw saturation
         int i = 0;
         for( i = 0; i<10 ; i++ ){
@@ -53,9 +58,8 @@ public class GuiManaOverlay extends Gui{
         		this.drawTexturedModalRect( left - 8*i, top, 0, 0, 9, 9 );	
         }
 
-        GL11.glDisable(GL11.GL_BLEND);
-		
-		
+		GlStateManager.disableBlend();
+
 	}
 
 	

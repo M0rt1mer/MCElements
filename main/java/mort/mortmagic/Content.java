@@ -175,6 +175,7 @@ public class Content {
         MortMagic.dictionary = new RuneDictionary();
         MortMagic.potReg = new PotionIngredientRegistry();
         MortMagic.potionRecipeRegistry = new PotionRecipeRegistry();
+        MortMagic.spellMapping = new ElementAndItemToSpellMapping();
     }
 
     @SubscribeEvent
@@ -349,6 +350,10 @@ public class Content {
 
         MortMagic.potionRecipeRegistry.register( new PotionRecipeRegistry.PotionRecipe( manaPotion.getRegistryName(), NORMAL.value, NONE.value, NORMAL.value + POTION_MAXIMUM_ACTIVATION_LEVEL, PotionUtils.addPotionToItemStack( new ItemStack(Items.POTIONITEM), manaPotion )) );
 
+        MortMagic.spellMapping.registerDefaultSpell( fire, baseFire );
+        MortMagic.spellMapping.registerDefaultSpell( life, baseLife );
+        //MortMagic.spellMapping.registerDefaultSpell( force, base );
+
  		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
 		GameRegistry.addSmelting(ashes, new ItemStack(magicalEssence,1), 1);*/
 		/*
@@ -375,29 +380,5 @@ public class Content {
     private static LootEntryTable getInjectEntry(ResourceLocation name, int weight) {
         return new LootEntryTable( name, weight, 0, new LootCondition[0], "mortmagic_inject_entry");
     }
-
-	/*public static void registerPotions(){
-		
-		for (Field f : Potion.class.getDeclaredFields()) {
-	        f.setAccessible(true);
-	        try {
-	            if (f.getName().equals("potionTypes") || f.getName().equals("field_76425_a")) {
-	                Field modfield = Field.class.getDeclaredField("modifiers");
-	                modfield.setAccessible(true);
-	                modfield.setInt(f, f.getModifiers() & ~Modifier.FINAL);
-
-	                Potion[] potionTypes = (Potion[])f.get(null);
-	                final Potion[] newPotionTypes = new Potion[256];
-	                System.arraycopy(potionTypes, 0, newPotionTypes, 0, potionTypes.length);
-	                f.set(null, newPotionTypes);
-	            }
-	        } catch (Exception e) {
-	            System.err.println("Severe error changing potions");
-	            System.err.println(e);
-	        }
-	    }
-		
-		regenPotion = new PotionManaRegen(120, false, 38151).setPotionName("potion.manaRegen");
-	}*/
 	
 }

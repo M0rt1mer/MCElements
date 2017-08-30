@@ -1,5 +1,6 @@
 package mort.mortmagic.common.spells;
 
+import mort.mortmagic.MortMagic;
 import mort.mortmagic.common.SpellCaster;
 import mort.mortmagic.Content;
 import mort.mortmagic.common.items.ItemScroll;
@@ -28,7 +29,7 @@ public abstract class SpellcastingHelper {
             }
         }
         else{
-            spell = ElementAndItemToSpellMapping.getSpellByElementAndItem( elem, plr.getHeldItem(EnumHand.MAIN_HAND) );
+            spell = MortMagic.spellMapping.getSpellByElementAndItem( elem, plr.getHeldItem(EnumHand.MAIN_HAND) );
             if( dat.hasMana( spell.getCost() ) ){
                 ItemStack stk = Content.charge.create(spell, plr.getHeldItem(EnumHand.MAIN_HAND) );
                 plr.inventory.setInventorySlotContents( plr.inventory.currentItem , stk);

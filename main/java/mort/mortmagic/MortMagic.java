@@ -1,6 +1,7 @@
 package mort.mortmagic;
 
 import mort.mortmagic.common.potions.PotionRecipeRegistry;
+import mort.mortmagic.common.spells.ElementAndItemToSpellMapping;
 import mort.mortmagic.obsolete.RobesRegistry;
 import mort.mortmagic.common.runes.RuneDictionary;
 import mort.mortmagic.obsolete.SacrificeRegistry;
@@ -30,6 +31,7 @@ public class MortMagic {
 	public static RuneDictionary dictionary;
 	public static PotionIngredientRegistry potReg;
 	public static PotionRecipeRegistry potionRecipeRegistry;
+	public static ElementAndItemToSpellMapping spellMapping;
 	//</editor-fold>
 	
 	@Mod.EventHandler
