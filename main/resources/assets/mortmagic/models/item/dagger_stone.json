@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "mortmagic:items/stonedagger"
+    "layer0": "mortmagic:items/dagger_stone"
   }
 }

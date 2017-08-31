@@ -13,6 +13,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,6 +31,7 @@ public class ItemDagger extends Item{
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         stack.damageItem(1, attacker);
+        target.addPotionEffect( new PotionEffect(Content.potion_bleed,3));
         return true;
     }
 
@@ -49,11 +52,11 @@ public class ItemDagger extends Item{
 	private ItemStack getBlockDrops( World world, IBlockState state, BlockPos pos, EntityLivingBase entLiving ){
 		if( state.getBlock() == Blocks.TALLGRASS ){
 			if( Math.abs( world.getCelestialAngle(0) - 0.5f ) < 0.05f && world.getMoonPhase() == 2 ){
-                return new ItemStack( Content.metaItem, 1,2 );
+                return new ItemStack( Content.metaItem, 1, Content.magicalResources.fern.ordinal() );
 			}
 		} else if( state.getBlock() == Blocks.LEAVES ){
 		    if( world.rand.nextInt(4) == 0 ){
-		        return new ItemStack( Content.metaItem,1, 6);
+		        return new ItemStack( Content.metaItem,1, Content.magicalResources.twig.ordinal() );
             }
         }
         return null;
