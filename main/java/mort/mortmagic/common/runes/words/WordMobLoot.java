@@ -7,6 +7,7 @@ import mort.mortmagic.Content;
 import mort.mortmagic.common.items.ItemDagger;
 import mort.mortmagic.common.runes.RuneCircleStorage;
 import mort.mortmagic.common.runes.RuneWord;
+import mort.mortmagic.common.utils.LootConditionSerializerSingleton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +21,7 @@ public class WordMobLoot extends RuneWord implements LootCondition {
 
     public WordMobLoot(ResourceLocation loc) {
         super(loc);
-        LootConditionManager.registerCondition( new WordMobLootConditionSerializer( this, WordMobLoot.class) );
+        LootConditionManager.registerCondition( new LootConditionSerializerSingleton<WordMobLoot>( this.getRegistryName(), WordMobLoot.class,this) );
     }
 
     @Override
@@ -33,26 +34,6 @@ public class WordMobLoot extends RuneWord implements LootCondition {
             }
         }
         return false;
-    }
-
-    private class WordMobLootConditionSerializer extends LootCondition.Serializer<WordMobLoot>{
-
-        WordMobLoot runeWord;
-
-        public WordMobLootConditionSerializer(WordMobLoot runeWord, Class<WordMobLoot> clazz ) {
-            super(runeWord.getRegistryName(), clazz);
-            this.runeWord = runeWord;
-        }
-
-        @Override
-        public void serialize(JsonObject json, WordMobLoot value, JsonSerializationContext context) {
-
-        }
-
-        @Override
-        public WordMobLoot deserialize(JsonObject json, JsonDeserializationContext context) {
-            return runeWord;
-        }
     }
 
 }

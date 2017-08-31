@@ -1,6 +1,7 @@
 package mort.mortmagic;
 
 import com.google.common.collect.ImmutableMap;
+import mort.mortmagic.common.ConditionBleeding;
 import mort.mortmagic.common.block.*;
 import mort.mortmagic.common.items.*;
 import mort.mortmagic.common.potions.*;
@@ -389,11 +390,17 @@ public class Content {
 		
 	}
 
+	ConditionBleeding condition_isBleeding = new ConditionBleeding( new ResourceLocation(MortMagic.MODID, "bleeding") );
+
 	@SubscribeEvent
 	public static void event_lootTables(LootTableLoadEvent envt){
 
-	    if( extraLootTables.containsKey(envt.getName()) )
-            envt.getTable().addPool( envt.getLootTableManager().getLootTableFromLocation( extraLootTables.get(envt.getName()) ).getPool("inject") );
+	    if( extraLootTables.containsKey(envt.getName()) ) {
+	        LootTable injectTable = envt.getLootTableManager().getLootTableFromLocation(extraLootTables.get(envt.getName()));
+            LootPool injectPool = null;
+            for( int i = 0; (injectPool=injectTable.getPool("inject_"+i)) != null; i++ )    //as long as there are further inject pools
+                envt.getTable().addPool( injectPool );
+        }
 
     }
 
