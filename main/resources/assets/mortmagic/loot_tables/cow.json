@@ -1,7 +1,7 @@
 {
   "__comment": "This table is injected as its own pool into minecraft:cow",
   "pools": [{
-    "name": "inject_1",
+    "name": "inject_0",
     "rolls": 1,
     "conditions" : [{
       "condition" : "mortmagic:sacrifice"
@@ -23,7 +23,7 @@
     ]
   },
   {
-    "name": "inject_2",
+    "name": "inject_1",
     "rolls": 1,
     "conditions" : [{ "condition" : "mortmagic:sacrifice" },
                     { "condition" : "mortmagic:bleeding"  }],
@@ -34,7 +34,7 @@
         "weight": 40,
         "functions" : [{
           "function" : "set_damage",
-          "damage" : 9
+          "damage" : 7
         }]
       },
       {

@@ -256,15 +256,14 @@ public class Content {
         reg.register( new WordMobLoot(new ResourceLocation(MortMagic.MODID, "sacrifice")));
     }
 
-    @SubscribeEvent
-    public static void event_registerPotions( RegistryEvent.Register<Potion> event ){
-        IForgeRegistry<Potion> registry = event.getRegistry();
-        registerPotion( registry, new PotionManaRegen( false, 153154),"mana" );
-        registerPotion( registry, new PotionManaRegen( false, 153154),"mana" );
+
+    public static void registerPotions( IForgeRegistry<Potion> registry  ){
+        potion_mana = registerPotion( registry, new PotionManaRegen( false, 153154),"mana" );
+        potion_bleed = registerPotion( registry, new PotionBleed( false, 153154),"bleed" );
     }
 
     public static void registerPotionTypes( IForgeRegistry<PotionType> registry ){
-        registerPotionType( registry, new PotionType( new PotionEffect( potion_mana , 1) ), "mana");
+        potionType_mana = registerPotionType( registry, new PotionType( new PotionEffect( potion_mana , 1) ), "mana");
     }
 
     @SubscribeEvent
@@ -289,11 +288,13 @@ public class Content {
     private static void registerRuneMaterial( IForgeRegistry<RuneMaterial> registry, String name ){
         registry.register( new RuneMaterial( new ResourceLocation(MortMagic.MODID,name), name ) );
     }
-    private static void registerPotionType(IForgeRegistry<PotionType> registry, PotionType potion, String name){
+    private static PotionType registerPotionType(IForgeRegistry<PotionType> registry, PotionType potion, String name){
         registry.register( potion.setRegistryName( new ResourceLocation( MortMagic.MODID, name ) ) );
+        return potion;
     }
-    private static void registerPotion(IForgeRegistry<Potion> registry, Potion potion, String name){
+    private static Potion registerPotion(IForgeRegistry<Potion> registry, Potion potion, String name){
         registry.register( potion.setRegistryName( new ResourceLocation( MortMagic.MODID, name ) ) );
+        return potion;
     }
 
     @SubscribeEvent
@@ -324,6 +325,7 @@ public class Content {
 	//------------------------------init
 
     public static void preInit(){
+        registerPotions(GameRegistry.findRegistry( Potion.class ));
         registerPotionTypes( GameRegistry.findRegistry( PotionType.class ) );
     }
 
@@ -347,22 +349,6 @@ public class Content {
 	
 	public static void registerRecipes(){
 		
-		//GameRegistry.addRecipe( new ShapedRecipes( 2, 3, new ItemStack[]{ null, cobble, cobble, cobble, cobble, stick } , new ItemStack(dagger_stone,1) ) );
-		//GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(stoneDaggerSacred,1), Arrays.asList(new ItemStack[]{ new ItemStack(dagger_stone,1,0), new ItemStack(magicalEssence,1) }) ) );
-		
-		//GameRegistry.addRecipe( new ShapedRecipes(3,3,new ItemStack[]{stick,stick,stick,stick,stick,null,stick,stick,stick,stick},grateI) );
-		//GameRegistry.addRecipe( new ShapedRecipes(3,3,new ItemStack[]{grateI,grateI,grateI,grateI,grateI,mag,grateI,grateI,grateI,grateI},new ItemStack(bonfire,8)) );
-		
-		/*GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(scroll,1), Arrays.asList(new ItemStack[]{new ItemStack(Items.paper,1),new ItemStack(magicalEssence,1)} ) ) );
-		GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(fireSpell,1), Arrays.asList(new ItemStack[]{new ItemStack(scroll,1),new ItemStack(ashes,1)} ) ) );
-		
-		GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(lifeSpell,1), Arrays.asList(new ItemStack[]{new ItemStack(Items.paper,1),new ItemStack(metaItem,1,2)} ) ) );
-		//GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(meatBall,1), Arrays.asList(new ItemStack[]{new ItemStack(abomasum,1),new ItemStack(rumen,1),new ItemStack(pigtail,1),new ItemStack(talon,1)} ) ) );
-		//meatBall
-		GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(metaItem,1,2), Arrays.asList(new ItemStack[]{new ItemStack(mobDrop,1,0),new ItemStack(mobDrop,1,1),new ItemStack(mobDrop,1,2),new ItemStack(mobDrop,1,3)} ) ) );
-		GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(liveDirt,1), Arrays.asList(new ItemStack[]{  new ItemStack( Blocks.dirt,1), new ItemStack(metaItem,1,0), new ItemStack(metaItem,1,2) } ) ) );
-		
-		*/
 		GameRegistry.addSmelting( new ItemStack(Content.metaItem,1,2), new ItemStack(Content.metaItem,1,1), 1);
 
 		MortMagic.dictionary.register( new RuneCharacter[]{ ta, ra}, word_sacrifice );
@@ -390,7 +376,7 @@ public class Content {
 		
 	}
 
-	ConditionBleeding condition_isBleeding = new ConditionBleeding( new ResourceLocation(MortMagic.MODID, "bleeding") );
+	public static final ConditionBleeding condition_isBleeding = new ConditionBleeding( new ResourceLocation(MortMagic.MODID, "bleeding") );
 
 	@SubscribeEvent
 	public static void event_lootTables(LootTableLoadEvent envt){

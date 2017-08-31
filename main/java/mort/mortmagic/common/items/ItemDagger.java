@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,7 +32,12 @@ public class ItemDagger extends Item{
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         stack.damageItem(1, attacker);
-        target.addPotionEffect( new PotionEffect(Content.potion_bleed,3));
+        target.addPotionEffect( new PotionEffect(Content.potion_bleed,60));
+        if( attacker.isSneaking() ){
+            if( target.getRotationYawHead()-attacker.getRotationYawHead() < 60 && target.getRotationYawHead()-attacker.getRotationYawHead() > -60 ){
+                target.attackEntityFrom( DamageSource.causeMobDamage( attacker ), 5 );
+            }
+        }
         return true;
     }
 

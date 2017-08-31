@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "mortmagic:items/dagger_obsidian"
+  }
+}
