@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "mortmagic:dagger_stone"
+  },
+  "pattern": [
+    "c",
+    "s"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "type": "forge:ore_dict",
+      "ore": "cobblestone"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  }
+}

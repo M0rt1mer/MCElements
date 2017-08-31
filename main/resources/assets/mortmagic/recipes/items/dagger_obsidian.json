@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "mortmagic:dagger_obsidian"
+  },
+  "pattern": [
+    "o",
+    "s"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "o": {
+      "type": "forge:ore_dict",
+      "ore": "obsidian"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  }
+}

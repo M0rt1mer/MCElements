@@ -1,17 +1,16 @@
 {
   "result": {
-    "item": "mortmagic:stonedagger"
+    "item": "mortmagic:dagger_diamond"
   },
   "pattern": [
-    "cc ",
-    "cc ",
-    "cs "
+    "d",
+    "s"
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "c": {
+    "g": {
       "type": "forge:ore_dict",
-      "ore": "cobblestone"
+      "ore": "diamond"
     },
     "s": {
       "type": "forge:ore_dict",

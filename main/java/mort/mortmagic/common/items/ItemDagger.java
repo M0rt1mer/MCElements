@@ -1,56 +1,40 @@
 package mort.mortmagic.common.items;
 
+import com.google.common.collect.Multimap;
 import mort.mortmagic.Content;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemDagger extends ItemSword{
+public class ItemDagger extends Item{
 
-	boolean sacred;
-	protected float damage;
-	
-	public ItemDagger(ToolMaterial p_i45356_1_, boolean sacred) {
-		super(p_i45356_1_);
-		this.sacred = sacred;
-		damage = p_i45356_1_.getDamageVsEntity() + 1; //sword would have +4
+    public final Item.ToolMaterial material;
+
+	public ItemDagger( Item.ToolMaterial material ) {
+	    this.material = material;
 	}
 
-	/*@Override
-	public Multimap getItemAttributeModifiers(EntityEquipmentSlot slot) {
-        Multimap multimap = super.getItemAttributeModifiers( slot );
-        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)this.damage, 0));
-        return multimap;
-	}*/
-
-
-	@Override
-	public boolean hitEntity(ItemStack p_77644_1_, EntityLivingBase target,	EntityLivingBase attacker) {
-		System.out.println(sacred);
-		System.out.println( target.getHealth() );
-		if( sacred && target.getHealth() <= 0){
-			//MURDER
-			System.out.println( target.getClass() );
-			if( target instanceof EntityCow ){
-				dropItem( target.getEntityWorld(), target.posX, target.posY, target.posZ, new ItemStack(Content.metaItem,1,6) );
-			}
-		}
-		return super.hitEntity(p_77644_1_, target, attacker);
-	}
-	
-	private void dropItem( World wld, double x, double y, double z, ItemStack stk){
-		EntityItem entItm = new EntityItem(wld, x, y, z, stk);
-		wld.spawnEntity(entItm);
-	}
+    @Override
+    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+        stack.damageItem(1, attacker);
+        return true;
+    }
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
+        stack.damageItem(1, entityLiving );
 		super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 		if( !worldIn.isRemote ) {
 			ItemStack stk = getBlockDrops(worldIn, state, pos, entityLiving);
@@ -75,38 +59,44 @@ public class ItemDagger extends ItemSword{
         return null;
 	}
 
-	//-----------------------  SACRIFICE EXP
-	/*@Override
-	public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_,
-			World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_,
-			int p_77648_7_, float p_77648_8_, float p_77648_9_,
-			float p_77648_10_) {
-		if( p_77648_2_.experienceTotal < 10 )
-			return false;
-		TileEntity ent = p_77648_3_.getTileEntity(p_77648_4_, p_77648_5_, p_77648_6_) ;
-		if( ent!=null && ent instanceof IAltar ){
-			((IAltar)ent).addSacrifice( new ExpSacrifice(10) );
-			p_77648_2_.addExperience(-10);
-			return true;
-		}
-		return false;
-	}*/
-	
+    /**
+     * Returns True is the item is renderer in full 3D when hold.
+     */
+    @SideOnly(Side.CLIENT)
+    public boolean isFull3D()
+    {
+        return true;
+    }
 
-	/*@Override
-	public boolean itemInteractionForEntity(ItemStack p_111207_1_,
-			EntityPlayer p_111207_2_, EntityLivingBase ent) {
-		if( p_111207_2_.experienceTotal < 10 )
-			return false;
-		if( ent!=null && ent instanceof IAltar ){
-			((IAltar)ent).addSacrifice( new ExpSacrifice(10) );
-			p_111207_2_.addExperience(-10);
-			return true;
-		}
-		return false;
-		
-	}*/
-	
-	
+    @Override
+    public int getItemEnchantability()
+    {
+        return this.material.getEnchantability();
+    }
+
+    /**
+     * Return whether this item is repairable in an anvil.
+     */
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+    {
+        ItemStack mat = this.material.getRepairItemStack();
+        if (!mat.isEmpty() && net.minecraftforge.oredict.OreDictionary.itemMatches(mat, repair, false)) return true;
+        return super.getIsRepairable(toRepair, repair);
+    }
+
+    @Override
+    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
+    {
+        Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
+
+        if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
+        {
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)this.material.getDamageVsEntity() + 1, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
+        }
+
+        return multimap;
+    }
 	
 }

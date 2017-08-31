@@ -32,6 +32,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -113,10 +114,17 @@ public class Content {
 	public static ItemMagicalResource metaItem;
     @GameRegistry.ObjectHolder("mortmagic:spellscroll")
     public static ItemScroll spellScroll;
-    @GameRegistry.ObjectHolder("mortmagic:stonedagger")
-    public static Item stoneDagger;
-    @GameRegistry.ObjectHolder("mortmagic:stonedaggersacred")
-    public static Item stoneDaggerSacred;
+    @GameRegistry.ObjectHolder("mortmagic:dagger_stone")
+    public static Item dagger_stone;
+    @GameRegistry.ObjectHolder("mortmagic:dagger_iron")
+    public static Item dagger_iron;
+    @GameRegistry.ObjectHolder("mortmagic:dagger_gold")
+    public static Item dagger_gold;
+    @GameRegistry.ObjectHolder("mortmagic:dagger_diamond")
+    public static Item dagger_diamond;
+    @GameRegistry.ObjectHolder("mortmagic:dagger_obsidian")
+    public static Item dagger_obsidian;
+
     @GameRegistry.ObjectHolder("mortmagic:wand")
 	public static Item testImplement;
     @GameRegistry.ObjectHolder("mortmagic:potion_recipe")
@@ -206,8 +214,11 @@ public class Content {
 
         registerItem( itemReg, new ItemScroll(),  "spellscroll" ) ;
 
-        registerItem( itemReg, new ItemDagger( ToolMaterial.STONE, false ),"stonedagger" );
-        registerItem( itemReg, new ItemDagger( ToolMaterial.STONE, true ),"stonedaggersacred");
+        registerItem( itemReg, new ItemDagger( ToolMaterial.STONE ),"dagger_stone" );
+        registerItem( itemReg, new ItemDagger( ToolMaterial.IRON ),"dagger_iron");
+        registerItem( itemReg, new ItemDagger( ToolMaterial.GOLD ),"dagger_gold");
+        registerItem( itemReg, new ItemDagger( ToolMaterial.DIAMOND ),"dagger_diamond");
+        registerItem( itemReg, new ItemDagger( EnumHelper.addToolMaterial( "obsidian", 2, 200, 5.0F, 2.0F, 16 ) ),"dagger_obsidian");
         registerItem( itemReg, new ItemPotionRecipe(false), "potion_recipe" );
         registerItem( itemReg, new ItemPotionRecipe(true), "potion_recipe_advanced" );
 
@@ -322,8 +333,8 @@ public class Content {
 	
 	public static void registerRecipes(){
 		
-		//GameRegistry.addRecipe( new ShapedRecipes( 2, 3, new ItemStack[]{ null, cobble, cobble, cobble, cobble, stick } , new ItemStack(stoneDagger,1) ) );
-		//GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(stoneDaggerSacred,1), Arrays.asList(new ItemStack[]{ new ItemStack(stoneDagger,1,0), new ItemStack(magicalEssence,1) }) ) );
+		//GameRegistry.addRecipe( new ShapedRecipes( 2, 3, new ItemStack[]{ null, cobble, cobble, cobble, cobble, stick } , new ItemStack(dagger_stone,1) ) );
+		//GameRegistry.addRecipe( new ShapelessRecipes( new ItemStack(stoneDaggerSacred,1), Arrays.asList(new ItemStack[]{ new ItemStack(dagger_stone,1,0), new ItemStack(magicalEssence,1) }) ) );
 		
 		//GameRegistry.addRecipe( new ShapedRecipes(3,3,new ItemStack[]{stick,stick,stick,stick,stick,null,stick,stick,stick,stick},grateI) );
 		//GameRegistry.addRecipe( new ShapedRecipes(3,3,new ItemStack[]{grateI,grateI,grateI,grateI,grateI,mag,grateI,grateI,grateI,grateI},new ItemStack(bonfire,8)) );

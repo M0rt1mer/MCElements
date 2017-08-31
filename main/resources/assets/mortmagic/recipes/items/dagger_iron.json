@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "mortmagic:dagger_iron"
+  },
+  "pattern": [
+    "i",
+    "s"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "i": {
+      "type": "forge:ore_dict",
+      "ore": "ingot_iron"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  }
+}
