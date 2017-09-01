@@ -11,3 +11,6 @@ Magical runes can be crafted from some special resources. When these runes are a
 ### Spellcasting
 Once player acquires knowlege of some aspect, he might cast a spell of that aspect. Spell is cast either with an empty hand, in which case the basic spell for given aspect is used, or with a special magical implement, which modifies the used spell (for example you might have an implement which, when used with "fire" aspect, produces some kind of a freezing spell). Casting a spell produces a spell charge in hand, which can then be used to apply the spell on ground, on self or on enemies.
 
+## Nonmagical items
+### Dagger
+Dagger is the main entry point for this mod, allowing you to collect your first magical components. However, it also doubles as a potent combat weapon, as it applies bleeding on hit, and allows for stealth kills.
