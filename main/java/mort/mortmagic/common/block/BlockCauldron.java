@@ -1,6 +1,5 @@
 package mort.mortmagic.common.block;
 
-import mort.mortmagic.MortMagic;
 import mort.mortmagic.common.potions.PotionColoringHelper;
 import mort.mortmagic.common.tileentity.TileCauldron;
 import net.minecraft.block.Block;
@@ -10,7 +9,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCauldron extends Block implements ITileEntityProvider, IBlockColor {
+public class BlockCauldron extends Block implements ITileEntityProvider, IBlockColorAdapter {
 
     public static PropertyBool WATER_STATE = PropertyBool.create("water");
 

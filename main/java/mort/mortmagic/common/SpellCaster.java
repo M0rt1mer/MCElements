@@ -3,7 +3,6 @@ package mort.mortmagic.common;
 import mort.mortmagic.MortMagic;
 import mort.mortmagic.common.inventory.InventorySpellbook;
 import mort.mortmagic.common.net.MessageSyncStats;
-import mort.mortmagic.common.net.NetworkManager;
 import mort.mortmagic.obsolete.RobesRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +13,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 
@@ -36,9 +37,10 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 	public int castingMode = 0;
 	public int spellbookActive = 0;
 	public int castCooldown = 0;
-	public float mana;
-	
+
+    private float mana; // 4 mana equals one icon (which equals one point of hunger) - mana is equivalent to exhaustion
 	private float lastMana;
+
 	private float lastSaturation;
 	public float gainMana(float gain){
 		
@@ -50,9 +52,10 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 					maxMana += rb.maxMana;
 			}
 		}
-		if(mana+gain > maxMana){
+		//temporarily disabled for testing
+		/*if(mana+gain > maxMana){
 			gain = maxMana - mana;
-		}
+		}*/
 		mana += gain;
 		return gain;
 	}
@@ -63,20 +66,34 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 		else{
 			drain -= mana;
 			mana = 0;
-			plr.addExhaustion( drain*4 );
+			plr.addExhaustion( drain );
 		}
 	}
-	
+
+    public float getMana() {
+        return mana;
+    }
+
+    /**
+     * Only to be used in synchronization. RPG mana gain should be administered through @link(gainMana)
+     * @param mana
+     * @return
+     */
+    @SideOnly(Side.CLIENT)
+    public void setMana(float mana){
+        this.mana = mana;
+    }
+
 	public boolean hasMana(float drain){
 		return (mana+plr.getFoodStats().getSaturationLevel()+plr.getFoodStats().getFoodLevel())>drain;
 	}
-	
-	public void syncStats(){
+
+	public void syncStatsIfNeeded(){
 		if( Math.abs(lastMana - mana)>=0.99f || Math.abs(plr.getFoodStats().getSaturationLevel()-lastSaturation)>0.99f ){
 			lastMana = mana;
 			lastSaturation = plr.getFoodStats().getSaturationLevel();
 			if(this.plr instanceof EntityPlayerMP){
-				NetworkManager.instance.sendTo( new MessageSyncStats(lastMana,lastSaturation), (EntityPlayerMP)plr);
+                MortMagic.networkWrapper.sendTo( new MessageSyncStats(lastMana,lastSaturation), (EntityPlayerMP)plr);
 			}
 		}
 	}

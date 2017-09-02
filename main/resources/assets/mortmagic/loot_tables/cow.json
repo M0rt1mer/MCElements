@@ -1,47 +1,56 @@
 {
-  "__comment": "This table is injected as its own pool into minecraft:cow",
-  "pools": [{
-    "name": "inject_0",
-    "rolls": 1,
-    "conditions" : [{
-      "condition" : "mortmagic:sacrifice"
-    }],
-    "entries": [
-      {
-        "type": "item",
-        "name": "mortmagic:mi",
-        "weight": 30,
-        "functions" : [{
-          "function" : "set_damage",
-          "damage" : 7
-        }]
-      },
-      {
-        "type": "empty",
-        "weight": 70
-      }
-    ]
-  },
-  {
-    "name": "inject_1",
-    "rolls": 1,
-    "conditions" : [{ "condition" : "mortmagic:sacrifice" },
-                    { "condition" : "mortmagic:bleeding"  }],
-    "entries": [
-      {
-        "type": "item",
-        "name": "mortmagic:mi",
-        "weight": 40,
-        "functions" : [{
-          "function" : "set_damage",
-          "damage" : 7
-        }]
-      },
-      {
-        "type": "empty",
-        "weight": 60
-      }
-    ]
-  }
+  "__comment":"This table is injected as its own pool into minecraft:cow",
+  "pools":[
+    {
+      "name":"inject_0",
+      "rolls":1,
+      "conditions":[
+        {
+          "condition":"mortmagic:sacrifice"
+        }
+      ],
+      "entries":[
+        {
+          "type":"item",
+          "name":"mortmagic:mi",
+          "weight":30,
+          "functions":[
+            {
+              "function":"set_data",
+              "data":7
+            }
+          ]
+        },{
+          "type":"empty",
+          "weight":70
+        }
+      ]
+    },{
+      "name":"inject_1",
+      "rolls":1,
+      "conditions":[
+        {
+          "condition":"mortmagic:sacrifice"
+        },{
+          "condition":"mortmagic:bleeding"
+        }
+      ],
+      "entries":[
+        {
+          "type":"item",
+          "name":"mortmagic:mi",
+          "weight":40,
+          "functions":[
+            {
+              "function":"set_data",
+              "data":5
+            }
+          ]
+        },{
+          "type":"empty",
+          "weight":60
+        }
+      ]
+    }
   ]
 }

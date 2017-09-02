@@ -30,6 +30,7 @@ public class ElementsEventHandler {
 		if( dat.castingMode > 0 ) {
             SpellcastingHelper.resolvePlayerSpellcasting(plr, dat);
         }
+		dat.syncStatsIfNeeded();
 	}
 
 }

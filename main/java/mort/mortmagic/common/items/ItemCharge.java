@@ -117,17 +117,18 @@ public class ItemCharge extends Item implements IInitializeMyOwnModels{
         HashMap<ResourceLocation,ModelResourceLocation> models = new HashMap<>();
 
         for (Spell spl : allSpells ) {
-            models.put( spl.getRegistryName(), new ModelResourceLocation(  spl.getRegistryName() + "_scroll", "inventory" ) );
+            models.put( spl.getRegistryName(), new ModelResourceLocation(
+                    spl.getRegistryName().getResourceDomain() + ":spell_" + spl.getRegistryName().getResourcePath() + "_charge", "inventory" ) );
         }
 
 		ModelBakery.registerItemVariants(this, models.values().toArray(new ModelResourceLocation[allSpells.size()]) );
 
-		ModelLoader.setCustomMeshDefinition(this, new ItemMeshDefinition() {
-			@Override
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return models.get( stack.getTagCompound().getString("RegisteredSpell") );
-			}
-		});
+		ModelLoader.setCustomMeshDefinition(this, stack -> {
+            if( stack.hasTagCompound() && stack.getTagCompound().hasKey("RegisteredSpell") )
+                return models.get( stack.getTagCompound().getString("RegisteredSpell") );
+            else
+                return null;
+        });
 	}
 	
 	

@@ -28,7 +28,7 @@ public class GuiManaOverlay extends Gui{
 	@SubscribeEvent
 	public void event_onPostFoodRender( RenderGameOverlayEvent.Post evnt ){
 
-		if(evnt.getType() == ElementType.FOOD ) //after food was rendered
+		if(evnt.getType() != ElementType.FOOD ) //after food was rendered
 			return;
 
 		Minecraft mc = Minecraft.getMinecraft();
@@ -40,26 +40,26 @@ public class GuiManaOverlay extends Gui{
 		mc.getTextureManager().bindTexture( res );
 
 		int left = width / 2 + 91;
-        int top = height - GuiIngameForge.right_height;
+        int top = height - GuiIngameForge.right_height + 10; //right_height was shifted by 10 during food draw
 
 		GlStateManager.enableBlend();
 
-        int mana = (int)(plr.getCapability(SpellCaster.SPELLCASTER_CAPABILITY, EnumFacing.DOWN).mana/2);
+        int mana = (int) plr.getCapability(SpellCaster.SPELLCASTER_CAPABILITY, EnumFacing.DOWN).getMana()/4;
         int saturation = (int)(plr.getFoodStats().getSaturationLevel()/2);
 
         //draw saturation
-        int i = 0;
-        for( i = 0; i<10 ; i++ ){
+        for( int i = 0; i<10 ; i++ ){
+			int x = left - i * 8 - 9;
+			int y = top;
         	if( i < saturation+mana-10 )
-        		this.drawTexturedModalRect( left - 8*i, top, 9, 0, 9, 9 );
+        		this.drawTexturedModalRect( x, top, 9, 0, 9, 9 );
         	else if( i<saturation )
-        		this.drawTexturedModalRect( left - 8*i, top, 18, 0, 9, 9 );
+        		this.drawTexturedModalRect( x, top, 18, 0, 9, 9 );
         	else if( i < saturation+mana)
-        		this.drawTexturedModalRect( left - 8*i, top, 0, 0, 9, 9 );	
+        		this.drawTexturedModalRect( x, top, 0, 0, 9, 9 );
         }
 
 		GlStateManager.disableBlend();
-
 	}
 
 	

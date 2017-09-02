@@ -120,6 +120,8 @@ public class Content {
 	public static ItemMagicalResource metaItem;
     @GameRegistry.ObjectHolder("mortmagic:spellscroll")
     public static ItemScroll spellScroll;
+    @GameRegistry.ObjectHolder("mortmagic:charge")
+    public static ItemCharge charge;
     @GameRegistry.ObjectHolder("mortmagic:dagger_stone")
     public static Item dagger_stone;
     @GameRegistry.ObjectHolder("mortmagic:dagger_iron")
@@ -166,10 +168,6 @@ public class Content {
 
     @GameRegistry.ObjectHolder("mortmagic:heat")
     public static PotionActivator heat;
-
-//	public static Enchantment mag = new EnchantmentMagical(150, 1, EnumEnchantmentType.all).setName("magicalResource");
-	
-	public static ItemCharge charge = (ItemCharge) new ItemCharge().setUnlocalizedName("charge");
 
 	//---- equipment
 	public static Item commonRobe;
@@ -227,6 +225,7 @@ public class Content {
         registerItem( itemReg, new ItemDagger( EnumHelper.addToolMaterial( "obsidian", 2, 200, 5.0F, 2.0F, 16 ) ),"dagger_obsidian");
         registerItem( itemReg, new ItemPotionRecipe(false), "potion_recipe" );
         registerItem( itemReg, new ItemPotionRecipe(true), "potion_recipe_advanced" );
+        registerItem( itemReg, new ItemCharge(), "charge" );
 
         String[] metaItems = new String[]{"scroll","magicalEssence","fern","flowerring", "grate", "meatball", "twig",
                 "rumen", "pigtail","talon","horn","succups","larynx","horsehair","ashes" };
@@ -277,10 +276,10 @@ public class Content {
     }
 
     private static void registerBlock(IForgeRegistry<Block> registry, Block block, String names ){
-        registry.register(block.setRegistryName( new ResourceLocation(MortMagic.MODID,names) ).setUnlocalizedName(names).setCreativeTab( elementsTab) );
+        registry.register(block.setRegistryName( new ResourceLocation(MortMagic.MODID,names) ).setUnlocalizedName( block.getRegistryName().toString() ).setCreativeTab( elementsTab) );
     }
     private static void registerItem(IForgeRegistry<Item> registry, Item item, String names ){
-        registry.register(item.setRegistryName( new ResourceLocation(MortMagic.MODID,names) ).setUnlocalizedName(names).setCreativeTab(elementsTab));
+        registry.register(item.setRegistryName( new ResourceLocation(MortMagic.MODID,names) ).setUnlocalizedName( item.getRegistryName().toString() ).setCreativeTab(elementsTab));
     }
     private static void registerRuneCharacter( IForgeRegistry<RuneCharacter> registry, String name ){
         registry.register( new RuneCharacter( new ResourceLocation(MortMagic.MODID,name), name ) );
@@ -304,7 +303,7 @@ public class Content {
 
         splReg.register( new BaseFire( new ResourceLocation( MortMagic.MODID,"baseFire") ) );
         splReg.register( new BaseLife( new ResourceLocation( MortMagic.MODID,"baseLife") ) );
-        splReg.register( new FireCold( new ResourceLocation( MortMagic.MODID,"fireCold") ) );
+        //splReg.register( new FireCold( new ResourceLocation( MortMagic.MODID,"fireCold") ) );
 
         /*MortMagic.life.registry.add(new MagicalBonemeal());
         MortMagic.life.registry.add(new TreeOfLife());*/

@@ -2,23 +2,23 @@ package mort.mortmagic.client;
 
 import mort.mortmagic.Content;
 import mort.mortmagic.MortMagic;
-import mort.mortmagic.common.SpellCaster;
+import mort.mortmagic.client.item.ItemColorWrapper;
 import mort.mortmagic.client.rendering.McElementsModelLoader;
 import mort.mortmagic.common.CommonProxy;
+import mort.mortmagic.client.block.BlockColorWrapper;
+import mort.mortmagic.common.SpellCaster;
 import mort.mortmagic.common.inventory.SpellbookContainer;
+import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import mort.mortmagic.common.spells.Spell;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -30,9 +30,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import scala.util.control.TailCalls;
-
-import java.lang.reflect.Field;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -55,9 +52,9 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		MinecraftForge.EVENT_BUS.register( new GuiManaOverlay() );
-		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler( Content.cauldron, Content.cauldron );
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler( Content.potion_recipe, Content.potion_recipe );
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler( Content.potion_recipe_advanced, Content.potion_recipe_advanced );
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler( new BlockColorWrapper(Content.cauldron), Content.cauldron );
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler( new ItemColorWrapper(Content.potion_recipe), Content.potion_recipe );
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler( new ItemColorWrapper(Content.potion_recipe_advanced), Content.potion_recipe_advanced );
 	}
 
 	@SubscribeEvent
@@ -131,11 +128,10 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	@Override
-	public void updatePlayerStats(float mana, float saturation) {
-		super.updatePlayerStats( mana,  saturation);
-		Minecraft.getMinecraft().player.getFoodStats().setFoodSaturationLevel(saturation);
-		Minecraft.getMinecraft().player.getCapability(SpellCaster.SPELLCASTER_CAPABILITY, EnumFacing.DOWN).mana = mana;
-	}
-
+    @Override
+    public void handle_syncStatsMessage( MessageSyncStats message ) {
+        Minecraft.getMinecraft().addScheduledTask( () -> {
+            SpellCaster.getPlayerSpellcasting(Minecraft.getMinecraft().player).setMana(message.newMana);
+        } );
+    }
 }

@@ -13,9 +13,11 @@ public class PotionManaRegen extends Potion{
 
     @Override
     public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier) {
+        if( entityLivingBaseIn.world.isRemote )
+            return;
         SpellCaster caster = SpellCaster.getPlayerSpellcasting(entityLivingBaseIn);
         if(caster != null)
-            caster.mana += 2;
+            caster.gainMana( 8 ); // two "points"
     }
 
     @Override

@@ -6,14 +6,16 @@ mmm.element.fire=Fire
 mmm.element.force=Force
 mmm.element.life=Life
 
-item.mobDrop.abomasum.name=Abomasum
-item.mobDrop.rumen.name=Rumen
-item.mobDrop.pigtail.name=Pigtail
-item.mobDrop.talon.name=Talon
-item.mobDrop.horn.name=Sheep's horn
-item.mobDrop.succups.name=Suction cups
-item.mobDrop.larynx.name=Bat's larynx
-item.mobDrop.horsehair.name=Horsehair
+item.mortmagic:mi.abomasum.name=Abomasum
+item.mortmagic:mi.rumen.name=Rumen
+item.mortmagic:mi.pigtail.name=Pigtail
+item.mortmagic:mi.talon.name=Talon
+item.mortmagic:mi.horn.name=Sheep's horn
+item.mortmagic:mi.succups.name=Suction cups
+item.mortmagic:mi.larynx.name=Bat's larynx
+item.mortmagic:mi.horsehair.name=Horsehair
+item.mortmagic:mi.fern.name=Fern
+item.mortmagic:mi.fern.description=Collected at midnight, full moon, with a dagger
 
 item.ashes.name=Ashes
 item.grate.name=Grate

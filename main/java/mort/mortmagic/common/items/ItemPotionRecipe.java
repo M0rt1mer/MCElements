@@ -17,7 +17,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemPotionRecipe extends Item implements IItemColor {
+public class ItemPotionRecipe extends Item implements IItemColorAdapter {
 
     public boolean advanced;
 

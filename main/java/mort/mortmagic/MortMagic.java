@@ -12,6 +12,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 @Mod(modid=MortMagic.MODID,name="Elements")
 public class MortMagic {
@@ -24,6 +26,7 @@ public class MortMagic {
 	@SidedProxy(clientSide="mort.mortmagic.client.ClientProxy",serverSide="mort.mortmagic.common.CommonProxy")
 	public static CommonProxy proxy;
 
+	public static final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel( "mortmagic" );
 
 	//<editor-fold desc="Custom registries, initialized along with forge registries in event">
 	public static RobesRegistry robes;

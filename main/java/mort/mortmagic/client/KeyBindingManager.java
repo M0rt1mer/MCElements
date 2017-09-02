@@ -1,8 +1,8 @@
 package mort.mortmagic.client;
 
+import mort.mortmagic.MortMagic;
 import mort.mortmagic.common.net.MessageCast;
 import mort.mortmagic.common.net.MessageOpenSpellbook;
-import mort.mortmagic.common.net.NetworkManager;
 import net.minecraft.client.settings.KeyBinding;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -28,8 +28,6 @@ public class KeyBindingManager {
 		strongCast = new KeyBinding("key.mort.strongCast",Keyboard.KEY_V,"key.categories.mortMagic");
 		specInventory = new KeyBinding("key.mort.specInventory",Keyboard.KEY_R,"key.categories.mortMagic");
 
-
-
 		ClientRegistry.registerKeyBinding(weakCast);
 		ClientRegistry.registerKeyBinding(strongCast);
 		ClientRegistry.registerKeyBinding(specInventory);
@@ -40,13 +38,13 @@ public class KeyBindingManager {
 	public void playerTick(TickEvent.PlayerTickEvent event) {
 		if (event.phase == TickEvent.Phase.START ) {
 			if (specInventory.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus) {
-				NetworkManager.instance.sendToServer(new MessageOpenSpellbook());
+				MortMagic.networkWrapper.sendToServer(new MessageOpenSpellbook());
 			}
-			if( weakCast.isPressed() != weakPressed || strongCast.isPressed() != strongPressed ){
-				weakPressed = weakCast.isPressed();
-				strongPressed = strongCast.isPressed();
-				//System.out.println("Tick "+weakCast.getIsKeyPressed()+" "+strongCast.getIsKeyPressed());
-				NetworkManager.instance.sendToServer( new MessageCast( (weakPressed?1:0) + (strongPressed?2:0) ) );
+			if( weakCast.isKeyDown() != weakPressed || strongCast.isKeyDown() != strongPressed ){
+				weakPressed = weakCast.isKeyDown();
+				strongPressed = strongCast.isKeyDown();
+				//System.out.println("Tick "+weakCast.isKeyDown()+" "+strongCast.isKeyDown());
+				MortMagic.networkWrapper.sendToServer( new MessageCast( (weakPressed?1:0) + (strongPressed?2:0) ) );
 			}
 		}
 	}

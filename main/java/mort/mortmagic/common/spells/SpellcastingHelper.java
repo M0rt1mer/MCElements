@@ -13,7 +13,7 @@ public abstract class SpellcastingHelper {
 
     public static void resolvePlayerSpellcasting(EntityPlayer plr, SpellCaster dat){
 
-
+        //System.out.println( "resolving spellcasting for " + plr.getName() );
         if( dat.spellbook.getStackInSlot(dat.spellbookActive)==null ){
             System.out.println("No held spell");
             return;
@@ -36,7 +36,6 @@ public abstract class SpellcastingHelper {
                 dat.drainMana( spell.getCost() );
             }
         }
-        dat.syncStats();
     }
 
 }

@@ -2,31 +2,23 @@ package mort.mortmagic.common.net;
 
 import io.netty.buffer.ByteBuf;
 import mort.mortmagic.MortMagic;
+import mort.mortmagic.common.SpellCaster;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageSyncStats implements IMessage, IMessageHandler<MessageSyncStats, IMessage> {
+public class MessageSyncStats implements IMessage {
 
-	float newMana;
-	float newSatur;
-	
-	public MessageSyncStats() {
-	}
+	public float newMana;
+    public float newSatur;
 
-	public MessageSyncStats(float newMana, float newSatur) {
-		super();
+    public MessageSyncStats() {
+    }
+
+    public MessageSyncStats(float newMana, float newSatur) {
 		this.newMana = newMana;
 		this.newSatur = newSatur;
-	}
-
-
-
-	@Override
-	public IMessage onMessage(MessageSyncStats message, MessageContext ctx) {
-		MortMagic.proxy.updatePlayerStats(newMana, message.newSatur);
-		System.out.println("update stats "+newMana+" "+ message.newSatur);
-		return null;
 	}
 
 	@Override
@@ -40,7 +32,16 @@ public class MessageSyncStats implements IMessage, IMessageHandler<MessageSyncSt
 		buf.writeFloat( newMana );
 		buf.writeFloat( newSatur );
 	}
-	
+
+	public static class MessageSyncStatsHandler implements IMessageHandler<MessageSyncStats, IMessage>{
+
+	    @Override
+        public IMessage onMessage(MessageSyncStats message, MessageContext ctx) {
+            MortMagic.proxy.handle_syncStatsMessage( message );
+            System.out.println("update stats "+message.newMana+" "+ message.newSatur);
+            return null;
+        }
+    }
 	
 
 }
