@@ -7,6 +7,7 @@ import mort.mortmagic.client.rendering.McElementsModelLoader;
 import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.client.block.BlockColorWrapper;
 import mort.mortmagic.common.SpellCaster;
+import mort.mortmagic.common.entity.EntitySpellMissile;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.common.potions.PotionIngredientRegistry;
@@ -27,6 +28,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -46,6 +48,7 @@ public class ClientProxy extends CommonProxy {
 		keyBind = new KeyBindingManager();
 		keyBind.initAndRegister();
 		ModelLoaderRegistry.registerLoader( new McElementsModelLoader());
+        RenderingRegistry.registerEntityRenderingHandler( EntitySpellMissile.class, MissileRenderer::new );
 	}
 
 	@Override
@@ -59,10 +62,6 @@ public class ClientProxy extends CommonProxy {
 
 	@SubscribeEvent
 	public static void event_registerModels(ModelRegistryEvent event) {
-		/*Content.metaItem.initModels();
-		Content.spellScroll.initModel();
-		Content.charge.initModel();
-		Content.runeBlock.initItemModels();*/
 
         for( Item itm : Item.REGISTRY )
 		    if(itm.getRegistryName().getResourceDomain().equals(MortMagic.MODID) ) {
@@ -103,17 +102,8 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public void spawnParticle( World wld, double p1, double p2, double p3, double p4, double p5, double p6, Spell spell){
-		//if( wld == Minecraft.getMinecraft().thePlayer.worldObj ){
-			/*SpellParticle spl =  new SpellParticle(wld, p1, p2, p3, p4, p5, p6);
-			spl.setSpell(spell);
-			Minecraft.getMinecraft().effectRenderer.addEffect( spl );*/
-		//}
-        if( wld == Minecraft.getMinecraft().player.getEntityWorld() ){
-            Minecraft.getMinecraft().effectRenderer.addEffect( new RuneParticle( wld, p1, p2, p3 ) );
-        }
-
-
-	}
+        Minecraft.getMinecraft().effectRenderer.addEffect( new RuneParticle( wld, p1, p2, p3 ) );
+    }
 
 	@Override
 	public void spawnDebugParticle(World wld, BlockPos pos, EnumDebugParticle type ){

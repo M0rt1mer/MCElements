@@ -27,12 +27,5 @@ public class FireCold extends Spell {
 	public void cast(EntityLivingBase caster, Vec3d position, EntityLivingBase impactEntity, World wld, float charge) {
 
 	}
-
-	@Override
-	public void cast(EntityLivingBase caster, float impactX, float impactY,
-			float impactZ, EntityLivingBase impactEntity, World wld,
-			float charge) {
-		
-	}
 	
 }

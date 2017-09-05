@@ -3,6 +3,7 @@ package mort.mortmagic.common;
 import mort.mortmagic.Content;
 import mort.mortmagic.ElementsEventHandler;
 import mort.mortmagic.MortMagic;
+import mort.mortmagic.common.entity.EntitySpellMissile;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.common.net.MessageCast;
 import mort.mortmagic.common.net.MessageOpenSpellbook;
@@ -11,6 +12,7 @@ import mort.mortmagic.common.spells.Spell;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +20,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nullable;
@@ -65,6 +68,7 @@ public class CommonProxy implements IGuiHandler {
 
         Content.registerTileEntities();
 
+		EntityRegistry.registerModEntity( new ResourceLocation(MortMagic.MODID,"spell_missile"), EntitySpellMissile.class, "Spell missile", 1, MortMagic.instance, 8, 20, true  );
     }
 	
 	public void init(){
@@ -77,7 +81,7 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	public void postInit(){
-
+		MortMagic.spellBlockTransformation.finalize();
 	}
 
 	public void spawnParticle( World wld, double p1, double p2, double p3, double p4, double p5, double p6, Spell spell ){}

@@ -2,6 +2,7 @@ package mort.mortmagic.common.items;
 
 
 import mort.mortmagic.client.IInitializeMyOwnModels;
+import mort.mortmagic.common.SpellCaster;
 import mort.mortmagic.common.spells.Spell;
 import mort.mortmagic.common.entity.EntitySpellMissile;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -37,11 +38,13 @@ public class ItemCharge extends Item implements IInitializeMyOwnModels{
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn) {
 	    ItemStack stack = player.getHeldItem(handIn);
 		if( !world.isRemote ){
-			EntitySpellMissile fb = new EntitySpellMissile(world,player);
-			fb.setSpellContents( getSpell(stack), player, stack.getMaxDamage() - stack.getItemDamage() );
+			EntitySpellMissile fb = new EntitySpellMissile(world,player,getSpell(stack),stack.getMaxDamage() - stack.getItemDamage() );
 			world.spawnEntity(fb);
+            if(SpellCaster.getPlayerSpellcasting(player).castingMode == 0)
+                player.inventory.setInventorySlotContents( player.inventory.currentItem , createContainedStack(stack)); // if not casting, discard spell and create original item
+            else
+                stack.setItemDamage( stack.getMaxDamage() ); //if still casting, just reset strength to 0 - to allow continuous casting mode
 		}
-		player.inventory.setInventorySlotContents( player.inventory.currentItem , createContainedStack(stack));
 		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 
@@ -56,7 +59,6 @@ public class ItemCharge extends Item implements IInitializeMyOwnModels{
 						return;
 					}
 			}
-			
 		}
 	}
 
@@ -114,10 +116,10 @@ public class ItemCharge extends Item implements IInitializeMyOwnModels{
 	@SideOnly(Side.CLIENT)
 	public void initModels() {
 	    List<Spell> allSpells = GameRegistry.findRegistry( Spell.class ).getValues();
-        HashMap<ResourceLocation,ModelResourceLocation> models = new HashMap<>();
+        HashMap<String,ModelResourceLocation> models = new HashMap<>();
 
         for (Spell spl : allSpells ) {
-            models.put( spl.getRegistryName(), new ModelResourceLocation(
+            models.put( spl.getRegistryName().toString(), new ModelResourceLocation(
                     spl.getRegistryName().getResourceDomain() + ":spell_" + spl.getRegistryName().getResourcePath() + "_charge", "inventory" ) );
         }
 

@@ -18,6 +18,7 @@ import mort.mortmagic.obsolete.RobesRegistry;
 import mort.mortmagic.obsolete.SacrificeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -175,7 +176,6 @@ public class Content {
 
 	@SubscribeEvent
 	public static void event_createRegistries(RegistryEvent.NewRegistry event){
-	    //System.out.println( "RUNNING CREATE REGISTRIES" );
         ELEMENT_REGISTRY = new RegistryBuilder().setType(Element.class).setName(new ResourceLocation( MortMagic.MODID,"elements") ).create();
         SPELL_REGISTRY = new RegistryBuilder().setType(Spell.class).setName(new ResourceLocation( MortMagic.MODID,"spells") ).create();
         RUNE_CHARACTER_REGISTRY = new RegistryBuilder().setType(RuneCharacter.class).setName(new ResourceLocation( MortMagic.MODID,"rune_characters") ).create();
@@ -188,6 +188,7 @@ public class Content {
         MortMagic.potReg = new PotionIngredientRegistry();
         MortMagic.potionRecipeRegistry = new PotionRecipeRegistry();
         MortMagic.spellMapping = new ElementAndItemToSpellMapping();
+        MortMagic.spellBlockTransformation = new RegistrySpellBlockTransformation();
     }
 
     @SubscribeEvent
@@ -217,7 +218,6 @@ public class Content {
             registerBlockItem(itemReg, blk);
 
         registerItem( itemReg, new ItemScroll(),  "spellscroll" ) ;
-
         registerItem( itemReg, new ItemDagger( ToolMaterial.STONE ),"dagger_stone" );
         registerItem( itemReg, new ItemDagger( ToolMaterial.IRON ),"dagger_iron");
         registerItem( itemReg, new ItemDagger( ToolMaterial.GOLD ),"dagger_gold");
@@ -362,6 +362,8 @@ public class Content {
 
         MortMagic.spellMapping.registerDefaultSpell( fire, baseFire );
         MortMagic.spellMapping.registerDefaultSpell( life, baseLife );
+
+        MortMagic.spellBlockTransformation.register( baseLife, (IBlockState state) -> {if(state.getBlock() == Blocks.DIRT); return Blocks.GRASS.getDefaultState();} );
         //MortMagic.spellMapping.registerDefaultSpell( force, base );
 
  		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);
