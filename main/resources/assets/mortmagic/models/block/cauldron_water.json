@@ -1,0 +1,16 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "water": "mortmagic:blocks/cauldron_water"
+  },
+  "elements": [
+    {
+      "from": [ 2, 15, 2 ],
+      "to": [ 14, 15, 14 ],
+      "shade" : false,
+      "faces": {
+        "up": { "texture": "#water", "tintindex" : 0 }
+      }
+    }
+  ]
+}

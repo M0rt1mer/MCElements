@@ -66,6 +66,7 @@ public class Content {
     public static final float POTION_RECIPE_TOLERANCE = 0.05f;
     public static final float POTION_MAXIMUM_ACTIVATION_LEVEL = 0.1f;
     public static final float POTION_ACTIVATION_PER_FRAME = POTION_MAXIMUM_ACTIVATION_LEVEL/(20*10); //takes 5 seconds to fully activate/deacitvate
+    public static final float POTION_DEACTIVATION_PER_FRAME = POTION_ACTIVATION_PER_FRAME * 0.5f;
 
     //--------------------------------- Enums
 
@@ -363,7 +364,7 @@ public class Content {
         MortMagic.spellMapping.registerDefaultSpell( fire, baseFire );
         MortMagic.spellMapping.registerDefaultSpell( life, baseLife );
 
-        MortMagic.spellBlockTransformation.register( baseLife, (IBlockState state) -> {if(state.getBlock() == Blocks.DIRT); return Blocks.GRASS.getDefaultState();} );
+        MortMagic.spellBlockTransformation.register( baseLife, (IBlockState state) -> {if(state.getBlock() == Blocks.DIRT) return Blocks.GRASS.getDefaultState(); return null;} );
         //MortMagic.spellMapping.registerDefaultSpell( force, base );
 
  		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);

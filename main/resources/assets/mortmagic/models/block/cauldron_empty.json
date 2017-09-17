@@ -5,8 +5,7 @@
     "top": "blocks/cauldron_top",
     "bottom": "blocks/cauldron_bottom",
     "side": "blocks/cauldron_side",
-    "inside": "blocks/cauldron_inner",
-    "water": "blocks/glass_white"
+    "inside": "blocks/cauldron_inner"
   },
   "elements": [
     {   "from": [ 0, 3, 0 ],
@@ -150,13 +149,6 @@
         "south": { "texture": "#side" },
         "west":  { "texture": "#side" },
         "east":  { "texture": "#side" }
-      }
-    },
-    {   "from": [ 2, 15, 2 ],
-      "to": [ 14, 15, 14 ],
-      "shade" : false,
-      "faces": {
-        "up": { "texture": "#water", "tintindex" : 0 }
       }
     }
   ]

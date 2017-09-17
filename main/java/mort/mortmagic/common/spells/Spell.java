@@ -84,14 +84,14 @@ public abstract class Spell extends IForgeRegistryEntry.Impl<Spell> {
         IBlockState state = world.getBlockState(pos);
 	    for(RegistrySpellBlockTransformation.IBlockTransformation trn : MortMagic.spellBlockTransformation.tranforms.get(getBlockTransformSpell())){
 	        IBlockState newBlockState = trn.transform(state);
-	        if( state != null ){ // if null, doesn't apply.
+	        if( newBlockState != null ){ // if null, doesn't apply.
 	            world.setBlockState( pos, newBlockState );
 	            return 1; // TODO: impleemnt some cost
             }
         }
         for(RegistrySpellBlockTransformation.IBlockGrowth grw : MortMagic.spellBlockTransformation.growths.get(getBlockTransformSpell())){
             IBlockState newBlockState = grw.growth(state, castFromDir);
-            if( state != null ){ // if null, doesn't apply.
+            if( newBlockState != null ){ // if null, doesn't apply.
                 world.setBlockState( pos, newBlockState );
                 return 1; // TODO: impleemnt some cost
             }

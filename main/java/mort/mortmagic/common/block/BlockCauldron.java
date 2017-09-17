@@ -7,6 +7,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -23,27 +24,34 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.common.property.Properties;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCauldron extends Block implements ITileEntityProvider, IBlockColorAdapter {
 
-    public static PropertyBool WATER_STATE = PropertyBool.create("water");
+    //public static PropertyBool WATER_STATE = PropertyBool.create("water");
+    public static IProperty<Integer> IS_WATER = PropertyInteger.create("is_water",0,2);
 
     public BlockCauldron() {
         super(Material.IRON);
+        setDefaultState( blockState.getBaseState().withProperty(IS_WATER,0) );
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(WATER_STATE, meta>0);
+        return this.getDefaultState();
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(WATER_STATE)?1:0;
+        return 0;
     }
 
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[]{WATER_STATE});
+        return new BlockStateContainer(this, new IProperty[]{IS_WATER} );
     }
 
     @Override
@@ -76,19 +84,20 @@ public class BlockCauldron extends Block implements ITileEntityProvider, IBlockC
         if (itemstack.isEmpty()) {
             return true;
         } else {
+            TileCauldron tile = (TileCauldron) worldIn.getTileEntity(pos);
             Item item = itemstack.getItem();
-            if (item == Items.WATER_BUCKET && !state.getValue(WATER_STATE)) {
+            if (item == Items.WATER_BUCKET && !tile.hasWater() ) {
                 if (!worldIn.isRemote) {
                     if (!playerIn.capabilities.isCreativeMode)
                         playerIn.setHeldItem(hand, new ItemStack(Items.BUCKET));
-                    worldIn.setBlockState(pos, state.withProperty(WATER_STATE, true));
+                    tile.setHasWater( true );
                     worldIn.playSound((EntityPlayer) null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
                 return true;
-            } else if (item == Items.BUCKET && state.getValue(WATER_STATE)) {
+            } else if (item == Items.BUCKET && tile.hasWater() ) {
                 if (!playerIn.capabilities.isCreativeMode)
                     playerIn.setHeldItem(hand, new ItemStack(Items.WATER_BUCKET));
-                worldIn.setBlockState(pos, state.withProperty(WATER_STATE, false));
+                tile.setHasWater(false);
                 worldIn.playSound((EntityPlayer) null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return true;
             }
@@ -100,9 +109,9 @@ public class BlockCauldron extends Block implements ITileEntityProvider, IBlockC
                     return true;
                 ItemStack stk = cauldron.bottleItem( itemstack );
                 playerIn.addItemStackToInventory( stk );
-                worldIn.setBlockState( pos, state.withProperty(WATER_STATE,false) );
+                tile.setHasWater(false);
             }
-            else if( state.getValue(WATER_STATE) )
+            else if( tile.hasWater() )
                 return ((TileCauldron)worldIn.getTileEntity(pos)).throwItemIn( itemstack );
             return false;
         }
@@ -113,6 +122,8 @@ public class BlockCauldron extends Block implements ITileEntityProvider, IBlockC
         return new TileCauldron();
     }
 
+
+
     @Override
     public int colorMultiplier(IBlockState state,  IBlockAccess worldIn, BlockPos pos, int tintIndex) {
         TileCauldron cauldron = (TileCauldron)worldIn.getTileEntity(pos);
@@ -120,4 +131,5 @@ public class BlockCauldron extends Block implements ITileEntityProvider, IBlockC
             return PotionColoringHelper.TINT_WHITE; //white
         else return cauldron.getColor();
     }
+
 }

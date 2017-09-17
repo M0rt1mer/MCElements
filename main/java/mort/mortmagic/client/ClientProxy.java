@@ -3,6 +3,7 @@ package mort.mortmagic.client;
 import mort.mortmagic.Content;
 import mort.mortmagic.MortMagic;
 import mort.mortmagic.client.item.ItemColorWrapper;
+import mort.mortmagic.client.rendering.CauldronRenderer;
 import mort.mortmagic.client.rendering.McElementsModelLoader;
 import mort.mortmagic.common.CommonProxy;
 import mort.mortmagic.client.block.BlockColorWrapper;
@@ -12,7 +13,9 @@ import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import mort.mortmagic.common.spells.Spell;
+import mort.mortmagic.common.tileentity.TileCauldron;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCauldron;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -28,6 +31,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -78,6 +82,8 @@ public class ClientProxy extends CommonProxy {
                 else
                     ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(blk), 0, new ModelResourceLocation(blk.getRegistryName(), "inventory"));
             }
+
+		ClientRegistry.bindTileEntitySpecialRenderer(TileCauldron.class, new CauldronRenderer());
 	}
 
 	@SubscribeEvent

@@ -35,7 +35,7 @@ public class RegistrySpellBlockTransformation {
         tranforms = tranformationBuilder.build();
         tranformationBuilder = null;
         growths = growthBuilder.build();
-        growths = null;
+        growthBuilder = null;
     }
 
     @FunctionalInterface

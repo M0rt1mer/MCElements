@@ -1,7 +1,9 @@
 {
+  "forge_marker": 1,
   "variants": {
-    "water=false": [{"model": "minecraft:cauldron_empty"}],
-    "water=true": [{"model": "mortmagic:cauldron"}],
-    "inventory" : [{"model": "minecraft:cauldron_empty"}]
+    "is_water=0": { "model": "mortmagic:cauldron_empty" },
+    "is_water=1": { "model": "mortmagic:cauldron_water_clear" },
+    "is_water=2": { "model": "mortmagic:cauldron_water" },
+    "inventory": { "model": "mortmagic:cauldron_empty" }
   }
 }

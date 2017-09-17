@@ -36,6 +36,8 @@ public class TileCauldron extends TileEntity implements ITickable {
      */
     //private Set<PotionIngredientRegistry.Entry> ingredientCache = new HashSet<>();
 
+
+    private boolean hasWater = false;
     private List<IngredientSolution> solvedItems = new ArrayList<>();
 
     public boolean throwItemIn( ItemStack stk ){
@@ -50,7 +52,7 @@ public class TileCauldron extends TileEntity implements ITickable {
         solvedItems.add( new IngredientSolution(stk.splitStack(1),entry) );
         IBlockState state = world.getBlockState( pos );
         markDirty();
-        world.notifyBlockUpdate( pos, state, state, 3 );
+//        world.notifyBlockUpdate( pos, state, state, 3 );
         return true;
     }
 
@@ -96,6 +98,19 @@ public class TileCauldron extends TileEntity implements ITickable {
         return PotionColoringHelper.getColorFromAspects( getAspects() );
     }
 
+    public boolean hasWater() {
+        return hasWater;
+    }
+
+    public void setHasWater(boolean hasWater) {
+        this.hasWater = hasWater;
+        markDirty();
+    }
+
+    public boolean hasIngredients(){
+        return !solvedItems.isEmpty();
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
@@ -105,6 +120,7 @@ public class TileCauldron extends TileEntity implements ITickable {
             if(solution != null) //only add to list if it is ingredient (an item can stop beeing an ingredient between saves, if updated)
                 solvedItems.add( solution );
         }
+        hasWater = compound.getBoolean("water");
     }
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
@@ -114,6 +130,7 @@ public class TileCauldron extends TileEntity implements ITickable {
             list.appendTag( solution.save() );
         }
         compound.setTag("solutions",list);
+        compound.setBoolean("water",hasWater);
         return compound;
     }
     @Override
@@ -131,7 +148,6 @@ public class TileCauldron extends TileEntity implements ITickable {
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
         if( world.isRemote ) {
             this.readFromNBT(pkt.getNbtCompound());
-            world.markBlockRangeForRenderUpdate(pos,pos);
         }
     }
 
@@ -142,18 +158,17 @@ public class TileCauldron extends TileEntity implements ITickable {
             float strength = act.getActivatorPassiveStrength(this );
             if(strength != 0){ //comparing assigned zero, not calculated zero
                 for (IngredientSolution solution : solvedItems)
-                    if(solution.cachedEntry.activator == act)
-                        solution.applyActivator(strength);
+                    solution.applyActivator( act, strength);
             }
         }
 
         markDirty();
-        if(!world.isRemote)
-            world.markBlockRangeForRenderUpdate(pos,pos);
+        /*if(!world.isRemote)
+            world.markBlockRangeForRenderUpdate(pos,pos);*/
 
-        if( world.isRemote | FMLCommonHandler.instance().getMinecraftServerInstance().getTickCounter() % 20 == 0 ){
+        if( !world.isRemote | FMLCommonHandler.instance().getMinecraftServerInstance().getTickCounter() % 20 == 0 ){
             IBlockState state = world.getBlockState(pos);
-            world.notifyBlockUpdate( pos, state, state, 3 );
+            world.notifyBlockUpdate( pos, state, state, 0 );
         }
 
 
@@ -197,11 +212,17 @@ public class TileCauldron extends TileEntity implements ITickable {
             return cmp;
         }
 
-
-        public void applyActivator( float strength ){
-            activationLevel = Math.max( -Content.POTION_MAXIMUM_ACTIVATION_LEVEL, Math.min( Content.POTION_MAXIMUM_ACTIVATION_LEVEL,activationLevel+strength*Content.POTION_ACTIVATION_PER_FRAME ) );
+        public void applyActivator( PotionActivator act, float strength ){
+            if( act == cachedEntry.activator )
+                activationLevel = Math.max( -Content.POTION_MAXIMUM_ACTIVATION_LEVEL, Math.min( Content.POTION_MAXIMUM_ACTIVATION_LEVEL,activationLevel+strength*Content.POTION_ACTIVATION_PER_FRAME ) );
+            else
+                activationLevel = Math.max( -Content.POTION_MAXIMUM_ACTIVATION_LEVEL, Math.min( Content.POTION_MAXIMUM_ACTIVATION_LEVEL,activationLevel-strength*Content.POTION_DEACTIVATION_PER_FRAME ) );
         }
 
     }
 
+    @Override
+    public boolean hasFastRenderer() {
+        return super.hasFastRenderer();
+    }
 }
