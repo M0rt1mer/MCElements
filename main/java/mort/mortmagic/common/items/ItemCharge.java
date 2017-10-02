@@ -1,6 +1,5 @@
 package mort.mortmagic.common.items;
 
-
 import mort.mortmagic.client.IInitializeMyOwnModels;
 import mort.mortmagic.common.SpellCaster;
 import mort.mortmagic.common.spells.Spell;

@@ -10,16 +10,16 @@ import net.minecraft.util.EnumFacing;
  */
 public class RegistrySpellBlockTransformation {
 
-    public ImmutableMultimap< Spell, IBlockTransformation> tranforms;
+    public ImmutableMultimap< Spell, IBlockTransformation> transforms;
     public ImmutableMultimap< Spell, IBlockGrowth> growths;
 
-    private ImmutableListMultimap.Builder< Spell, IBlockTransformation> tranformationBuilder = ImmutableListMultimap.builder();
+    private ImmutableListMultimap.Builder< Spell, IBlockTransformation> transformationBuilder = ImmutableListMultimap.builder();
     private ImmutableListMultimap.Builder< Spell, IBlockGrowth> growthBuilder = ImmutableListMultimap.builder();
 
     public void register( Spell spl, IBlockTransformation trn ){
-        if( tranformationBuilder == null )
+        if( transformationBuilder == null )
             throw new IllegalArgumentException( "Trying to modify spell block transformation registry after finalizing" );
-        tranformationBuilder.put( spl, trn );
+        transformationBuilder.put( spl, trn );
     }
 
     public void register( Spell spl, IBlockGrowth growth ){
@@ -32,8 +32,8 @@ public class RegistrySpellBlockTransformation {
      * finalizes registries, locks further modifications
      */
     public void finalize(){
-        tranforms = tranformationBuilder.build();
-        tranformationBuilder = null;
+        transforms = transformationBuilder.build();
+        transformationBuilder = null;
         growths = growthBuilder.build();
         growthBuilder = null;
     }

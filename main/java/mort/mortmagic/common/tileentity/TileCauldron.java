@@ -171,7 +171,6 @@ public class TileCauldron extends TileEntity implements ITickable {
             world.notifyBlockUpdate( pos, state, state, 0 );
         }
 
-
     }
 
     private static class IngredientSolution{

@@ -42,7 +42,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import static mort.mortmagic.common.potions.PotionIngredientRegistry.AspectPower.NONE;
@@ -141,6 +140,8 @@ public class Content {
     public static ItemPotionRecipe potion_recipe;
     @GameRegistry.ObjectHolder("mortmagic:potion_recipe_advanced")
     public static ItemPotionRecipe potion_recipe_advanced;
+    @GameRegistry.ObjectHolder("mortmagic:grimoire")
+    public static ItemGrimoire itemGrimoire;
 
     //--------------------------------- Rune words
 
@@ -197,7 +198,7 @@ public class Content {
         IForgeRegistry<Block> blockReg = event.getRegistry();
         registerBlock( blockReg, new BlockBonfire(Material.WOOD).setHardness(1).setTickRandomly(true), "bonfire" );
         registerBlock( blockReg, new Block(Material.GROUND).setHardness(1),"livedirt");
-        registerBlock( blockReg,new BlockWildFire( ).setLightLevel(1.0F),"wildfire" );
+        registerBlock( blockReg, new BlockWildFire( ).setLightLevel(1.0F),"wildfire" );
         registerBlock( blockReg, new Block( Material.SAND ),"ashesblock");
         registerBlock( blockReg, new Block(Material.WOOD),"treecore");
         registerBlock( blockReg, new Block(Material.WOOD),"treeofliferoot");
@@ -227,9 +228,10 @@ public class Content {
         registerItem( itemReg, new ItemPotionRecipe(false), "potion_recipe" );
         registerItem( itemReg, new ItemPotionRecipe(true), "potion_recipe_advanced" );
         registerItem( itemReg, new ItemCharge(), "charge" );
+        registerItem( itemReg, new ItemGrimoire(), "grimoire" );
 
-        String[] metaItems = new String[]{"scroll","magicalEssence","fern","flowerring", "grate", "meatball", "twig",
-                "rumen", "pigtail","talon","horn","succups","larynx","horsehair","ashes" };
+        /*String[] metaItems = new String[]{"scroll","magicalEssence","fern","flowerring", "grate", "meatball", "twig",
+                "rumen", "pigtail","talon","horn","succups","larynx","horsehair","ashes" };*/
         registerItem( itemReg, new ItemMagicalResource( magicalResources.class ),"mi") ;
         registerItem( itemReg, new Item(), "wand" );
     }
@@ -302,8 +304,8 @@ public class Content {
 
         IForgeRegistry<Spell> splReg = event.getRegistry();
 
-        splReg.register( new BaseFire( new ResourceLocation( MortMagic.MODID,"baseFire") ) );
-        splReg.register( new BaseLife( new ResourceLocation( MortMagic.MODID,"baseLife") ) );
+        splReg.register( new SpellFireBase( new ResourceLocation( MortMagic.MODID,"baseFire") ) );
+        splReg.register( new SpellLifeBase( new ResourceLocation( MortMagic.MODID,"baseLife") ) );
         //splReg.register( new FireCold( new ResourceLocation( MortMagic.MODID,"fireCold") ) );
 
         /*MortMagic.life.registry.add(new MagicalBonemeal());

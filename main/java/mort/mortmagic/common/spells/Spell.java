@@ -82,7 +82,7 @@ public abstract class Spell extends IForgeRegistryEntry.Impl<Spell> {
 	 */
 	protected float blockCast(World world, BlockPos pos, EnumFacing castFromDir, float charge, SpellCastData dat){
         IBlockState state = world.getBlockState(pos);
-	    for(RegistrySpellBlockTransformation.IBlockTransformation trn : MortMagic.spellBlockTransformation.tranforms.get(getBlockTransformSpell())){
+	    for(RegistrySpellBlockTransformation.IBlockTransformation trn : MortMagic.spellBlockTransformation.transforms.get(getBlockTransformSpell())){
 	        IBlockState newBlockState = trn.transform(state);
 	        if( newBlockState != null ){ // if null, doesn't apply.
 	            world.setBlockState( pos, newBlockState );

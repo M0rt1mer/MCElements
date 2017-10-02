@@ -1,30 +1,33 @@
 package mort.mortmagic.common.spells;
 
+import net.minecraft.block.IGrowable;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BaseLife extends Spell {
+public class SpellLifeBase extends Spell {
 
-	public static final float HEALTH_PER_CHARGE = 0.5f;
+    public static final float HEALTH_PER_CHARGE = 0.5f;
 
-	public BaseLife(ResourceLocation registryName) {
-		super(registryName);
-	}
+    public SpellLifeBase(ResourceLocation registryName) {
+        super(registryName);
+    }
 
-	@Override
-	public int getCooldown() {
-		return 0;
-	}
+    @Override
+    public int getCooldown() {
+        return 0;
+    }
 
-	@Override
-	public float getCost() {
-		return 0.1f;
-	}
+    @Override
+    public float getCost() {
+        return 0.1f;
+    }
 
     @Override
     protected float entityCast(EntityLivingBase entity, float charge, SpellCastData dat) {
@@ -39,5 +42,18 @@ public class BaseLife extends Spell {
             entity.setHealth(entity.getHealth() + healAmount);
             return healAmount / HEALTH_PER_CHARGE;
         }
+    }
+
+    @Override
+    protected float blockCast(World world, BlockPos pos, EnumFacing castFromDir, float charge, SpellCastData dat) {
+        IBlockState state = world.getBlockState(pos);
+        if( state.getBlock() instanceof IGrowable ) {
+            IGrowable gr =  (IGrowable)state.getBlock();
+            if( gr.canGrow( world, pos, state, !world.isRemote ) ) {
+                gr.grow(world, world.rand, pos, state);
+                return 0.5f;
+            }
+        }
+        return super.blockCast(world, pos, castFromDir, charge, dat);
     }
 }

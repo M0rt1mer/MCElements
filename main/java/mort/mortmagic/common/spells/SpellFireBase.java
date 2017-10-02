@@ -7,11 +7,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class BaseFire extends Spell {
+public class SpellFireBase extends Spell {
 
 	private static final float fireDamageCost = 3;
 
-	public BaseFire(ResourceLocation registryName) {
+	public SpellFireBase(ResourceLocation registryName) {
 		super(registryName);
 	}
 
