@@ -34,3 +34,10 @@ mortmagic.tooltip.aspectpower.light=light %s
 mortmagic.tooltip.aspect.rubedo=rubedo
 mortmagic.tooltip.aspect.auredo=auredo
 mortmagic.tooltip.aspect.caerudo=caerudo
+
+
+mortmagic.grimoire.fern.name=Fern
+mortmagic.grimoire.fern.1=*Fern*\nA common plant, can be found in forest.\n Usually, it has no special properties, unless picked at midnight during full moon. Then it can be used to create [magical_essence] 
+
+mortmagic.grimoire.magical_essence.name=Magical essence
+mortmagic.grimoire.magical_essence.1=*Magical essence*\nPurple glimmering dust, contains the essence of the supernatural
