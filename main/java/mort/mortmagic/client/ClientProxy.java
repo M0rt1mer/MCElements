@@ -2,6 +2,8 @@ package mort.mortmagic.client;
 
 import mort.mortmagic.Content;
 import mort.mortmagic.MortMagic;
+import mort.mortmagic.client.gui.GuiManaOverlay;
+import mort.mortmagic.client.gui.GuiSpellbook;
 import mort.mortmagic.client.item.ItemColorWrapper;
 import mort.mortmagic.client.rendering.CauldronRenderer;
 import mort.mortmagic.client.rendering.McElementsModelLoader;
@@ -15,7 +17,6 @@ import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import mort.mortmagic.common.spells.Spell;
 import mort.mortmagic.common.tileentity.TileCauldron;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCauldron;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

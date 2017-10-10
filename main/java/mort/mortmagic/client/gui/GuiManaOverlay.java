@@ -1,4 +1,4 @@
-package mort.mortmagic.client;
+package mort.mortmagic.client.gui;
 
 import mort.mortmagic.common.SpellCaster;
 import net.minecraft.client.Minecraft;
