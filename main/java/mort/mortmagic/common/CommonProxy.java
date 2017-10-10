@@ -7,6 +7,7 @@ import mort.mortmagic.common.entity.EntitySpellMissile;
 import mort.mortmagic.common.inventory.SpellbookContainer;
 import mort.mortmagic.common.net.MessageCast;
 import mort.mortmagic.common.net.MessageOpenSpellbook;
+import mort.mortmagic.common.net.MessageSyncGrimoire;
 import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.common.spells.Spell;
 import net.minecraft.entity.player.EntityPlayer;
@@ -65,6 +66,7 @@ public class CommonProxy implements IGuiHandler {
         MortMagic.networkWrapper.registerMessage(MessageCast.MessageCastHandler.class, MessageCast.class, 0, Side.SERVER);
         MortMagic.networkWrapper.registerMessage(MessageOpenSpellbook.class, MessageOpenSpellbook.class, 1, Side.SERVER);
         MortMagic.networkWrapper.registerMessage(MessageSyncStats.MessageSyncStatsHandler.class, MessageSyncStats.class, 2, Side.CLIENT);
+		MortMagic.networkWrapper.registerMessage(MessageSyncGrimoire.MessageSyncStatsHandler.class, MessageSyncGrimoire.class, 3, Side.CLIENT);
 
         Content.registerTileEntities();
 
@@ -97,5 +99,7 @@ public class CommonProxy implements IGuiHandler {
 	}
 
     public void handle_syncStatsMessage( MessageSyncStats message ){}
+
+    public void handle_syncGrimoireMessage( MessageSyncGrimoire message ){}
 
 }

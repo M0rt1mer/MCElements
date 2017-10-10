@@ -10,6 +10,7 @@ import mort.mortmagic.client.block.BlockColorWrapper;
 import mort.mortmagic.common.SpellCaster;
 import mort.mortmagic.common.entity.EntitySpellMissile;
 import mort.mortmagic.common.inventory.SpellbookContainer;
+import mort.mortmagic.common.net.MessageSyncGrimoire;
 import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.common.potions.PotionIngredientRegistry;
 import mort.mortmagic.common.spells.Spell;
@@ -130,4 +131,9 @@ public class ClientProxy extends CommonProxy {
             SpellCaster.getPlayerSpellcasting(Minecraft.getMinecraft().player).setMana(message.newMana);
         } );
     }
+
+	@Override
+	public void handle_syncGrimoireMessage(MessageSyncGrimoire message) {
+		SpellCaster.getPlayerSpellcasting( Minecraft.getMinecraft().player ).knownPages.putAll( message.pageUpdates );
+	}
 }
