@@ -3,6 +3,8 @@ package mort.mortmagic;
 import com.google.common.collect.ImmutableMap;
 import mort.mortmagic.common.ConditionBleeding;
 import mort.mortmagic.common.block.*;
+import mort.mortmagic.common.grimoire.GrimoireChapter;
+import mort.mortmagic.common.grimoire.GrimoirePage;
 import mort.mortmagic.common.items.*;
 import mort.mortmagic.common.potions.*;
 import mort.mortmagic.common.runes.RuneCharacter;
@@ -78,6 +80,8 @@ public class Content {
     public static IForgeRegistry<RuneMaterial> RUNE_MATERIAL_REGISTRY;
     public static IForgeRegistry<RuneWord> RUNE_WORD_REGISTRY;
     public static IForgeRegistry<PotionActivator> POTION_ACTIVATOR_REGISTRY;
+    public static IForgeRegistry<GrimoirePage> GRIMOIRE_PAGE_REGISTRY;
+    public static IForgeRegistry<GrimoireChapter> GRIMOIRE_CHAPTER_REGISTRY;
 
 	//--------------------------------SPELLS
     @GameRegistry.ObjectHolder("mortmagic:fire")
@@ -172,18 +176,26 @@ public class Content {
     @GameRegistry.ObjectHolder("mortmagic:heat")
     public static PotionActivator heat;
 
+    //---------------------------------------- grimoire
+
+    @GameRegistry.ObjectHolder("mortmagic:root")
+    public static GrimoireChapter chapterRoot;
+
+
 	//---- equipment
 	public static Item commonRobe;
 
 
 	@SubscribeEvent
 	public static void event_createRegistries(RegistryEvent.NewRegistry event){
-        ELEMENT_REGISTRY = new RegistryBuilder().setType(Element.class).setName(new ResourceLocation( MortMagic.MODID,"elements") ).create();
-        SPELL_REGISTRY = new RegistryBuilder().setType(Spell.class).setName(new ResourceLocation( MortMagic.MODID,"spells") ).create();
-        RUNE_CHARACTER_REGISTRY = new RegistryBuilder().setType(RuneCharacter.class).setName(new ResourceLocation( MortMagic.MODID,"rune_characters") ).create();
-        RUNE_MATERIAL_REGISTRY = new RegistryBuilder().setType(RuneMaterial.class).setName(new ResourceLocation( MortMagic.MODID,"rune_materials") ).create();
-        RUNE_WORD_REGISTRY = new RegistryBuilder().setType(RuneWord.class).setName( new ResourceLocation(MortMagic.MODID, "rune_words") ).create();
-        POTION_ACTIVATOR_REGISTRY = new RegistryBuilder().setType(PotionActivator.class).setName( new ResourceLocation(MortMagic.MODID, "potion_activator") ).create();
+        ELEMENT_REGISTRY = new RegistryBuilder<Element>().setName(new ResourceLocation( MortMagic.MODID,"elements") ).create();
+        SPELL_REGISTRY = new RegistryBuilder<Spell>().setName(new ResourceLocation( MortMagic.MODID,"spells") ).create();
+        RUNE_CHARACTER_REGISTRY = new RegistryBuilder<RuneCharacter>().setName(new ResourceLocation( MortMagic.MODID,"rune_characters") ).create();
+        RUNE_MATERIAL_REGISTRY = new RegistryBuilder<RuneMaterial>().setName(new ResourceLocation( MortMagic.MODID,"rune_materials") ).create();
+        RUNE_WORD_REGISTRY = new RegistryBuilder<RuneWord>().setName( new ResourceLocation(MortMagic.MODID, "rune_words") ).create();
+        POTION_ACTIVATOR_REGISTRY = new RegistryBuilder<PotionActivator>().setName( new ResourceLocation(MortMagic.MODID, "potion_activator") ).create();
+        GRIMOIRE_PAGE_REGISTRY = new RegistryBuilder<GrimoirePage>().setName( new ResourceLocation(MortMagic.MODID, "grimoire_page") ).create();
+        GRIMOIRE_CHAPTER_REGISTRY = new RegistryBuilder<GrimoireChapter>().setName( new ResourceLocation(MortMagic.MODID, "grimoire_chapter") ).create();
         MortMagic.robes = new RobesRegistry();
         MortMagic.sacrReg = new SacrificeRegistry();
         MortMagic.dictionary = new RuneDictionary();
@@ -272,6 +284,36 @@ public class Content {
     public static void event_registerPotionActivators( RegistryEvent.Register<PotionActivator> event ){
         IForgeRegistry<PotionActivator> registry = event.getRegistry();
         registry.register( new ActivatorHeat(new ResourceLocation(MortMagic.MODID, "heat")));
+    }
+
+    @SubscribeEvent
+    public static void event_registerGrimoirePages(RegistryEvent.Register<GrimoirePage> event){
+        IForgeRegistry<GrimoirePage> registry = event.getRegistry();
+        registry.register( new GrimoirePage( new ResourceLocation(MortMagic.MODID, "fern" ) ) );
+        registry.register( new GrimoirePage( new ResourceLocation(MortMagic.MODID, "magical_essence" ) ) );
+    }
+
+
+    public static void event_registerGrimoireChapters(RegistryEvent.Register<GrimoireChapter> event){
+        final IForgeRegistry<GrimoireChapter> registry = event.getRegistry();
+        final GrimoireChapter root = registerGrimoireChapter(registry, "root", null );
+        final GrimoireChapter resources = registerGrimoireChapter( registry,"resources", root );
+        final GrimoireChapter potions = registerGrimoireChapter( registry,"potions", root );
+        final GrimoireChapter colors = registerGrimoireChapter( registry,"colors", potions );
+        final GrimoireChapter effects = registerGrimoireChapter( registry,"colors", potions );
+        final GrimoireChapter spellcasting = registerGrimoireChapter( registry,"spellcasting", root );
+        final GrimoireChapter element = registerGrimoireChapter( registry,"element", spellcasting );
+        final GrimoireChapter implement = registerGrimoireChapter( registry,"element", spellcasting );
+        final GrimoireChapter runes = registerGrimoireChapter( registry,"runes", root );
+        final GrimoireChapter characters = registerGrimoireChapter( registry,"character", runes );
+        final GrimoireChapter materials = registerGrimoireChapter( registry,"materials", runes );
+        final GrimoireChapter words = registerGrimoireChapter( registry,"words", runes );
+    }
+
+    private static GrimoireChapter registerGrimoireChapter( IForgeRegistry<GrimoireChapter> registry, String name, GrimoireChapter parent ){
+        GrimoireChapter grimoireChapter = new GrimoireChapter( new ResourceLocation(MortMagic.MODID, name), parent );
+        registry.register(grimoireChapter);
+        return grimoireChapter;
     }
 
     private static void registerBlockItem( IForgeRegistry<Item> registry, Block block ){

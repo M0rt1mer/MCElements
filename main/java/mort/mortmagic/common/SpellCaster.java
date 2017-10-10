@@ -1,20 +1,28 @@
 package mort.mortmagic.common;
 
 import mort.mortmagic.MortMagic;
+import mort.mortmagic.common.grimoire.GrimoirePage;
 import mort.mortmagic.common.inventory.InventorySpellbook;
+import mort.mortmagic.common.net.MessageSyncGrimoire;
 import mort.mortmagic.common.net.MessageSyncStats;
 import mort.mortmagic.obsolete.RobesRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
+
+import java.util.HashMap;
 
 public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 
@@ -32,16 +40,21 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
     	return plr.hasCapability(SPELLCASTER_CAPABILITY,EnumFacing.DOWN) ? plr.getCapability(SPELLCASTER_CAPABILITY, EnumFacing.DOWN) : null;
 	}
 
-	private EntityPlayer plr;
+	//---------------  PERSISTENT
+
 	public InventorySpellbook spellbook;
-	public int castingMode = 0;
-	public int spellbookActive = 0;
-	public int castCooldown = 0;
-
+    public int spellbookActive = 0;
     private float mana; // 4 mana equals one icon (which equals one point of hunger) - mana is equivalent to exhaustion
-	private float lastMana;
+    public HashMap<GrimoirePage,Integer> knownPages = new HashMap<>();
 
-	private float lastSaturation;
+    //--------------- NONPERSISTENT
+    private EntityPlayer plr;
+    public int castingMode = 0;
+	public int castCooldown = 0;
+    private float lastMana;
+    private float lastSaturation;
+    private HashMap<GrimoirePage,Integer> unsyncedPages = new HashMap<>();
+
 	public float gainMana(float gain){
 		
 		float maxMana = 0;
@@ -88,6 +101,7 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 		return (mana+plr.getFoodStats().getSaturationLevel()+plr.getFoodStats().getFoodLevel())>drain;
 	}
 
+	//only called on server
 	public void syncStatsIfNeeded(){
 		if( Math.abs(lastMana - mana)>=0.99f || Math.abs(plr.getFoodStats().getSaturationLevel()-lastSaturation)>0.99f ){
 			lastMana = mana;
@@ -96,6 +110,10 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
                 MortMagic.networkWrapper.sendTo( new MessageSyncStats(lastMana,lastSaturation), (EntityPlayerMP)plr);
 			}
 		}
+        if( !unsyncedPages.isEmpty() ){
+		    MortMagic.networkWrapper.sendTo( new MessageSyncGrimoire(unsyncedPages), (EntityPlayerMP)plr );
+		    unsyncedPages.clear();
+        }
 	}
 
     @Override
@@ -111,17 +129,39 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
         return null;
     }
 
+    public void unlockGrimoirePage(GrimoirePage page, int level){
+	    if( !knownPages.containsKey( page ) | knownPages.get(page) < level ){
+	        knownPages.put( page, level );
+            unsyncedPages.put( page, level );
+        }
+    }
+
     @Override
     public NBTTagCompound serializeNBT() {
         NBTTagCompound tag = new NBTTagCompound();
 	    NBTTagCompound inv = new NBTTagCompound();
         spellbook.saveToNBT(inv);
         tag.setTag("spellbook", inv);
+        NBTTagList pages = new NBTTagList();
+        for( GrimoirePage res : knownPages.keySet() ){
+            NBTTagCompound page = new NBTTagCompound();
+            page.setString( "page", res.getRegistryName().toString() );
+            page.setInteger( "version", knownPages.get(res) );
+            pages.appendTag( page );
+        }
+        tag.setTag( "grimoire", pages );
         return tag;
     }
 
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
         spellbook = InventorySpellbook.fromTag( nbt.getCompoundTag("spellbook") );
+        IForgeRegistry<GrimoirePage> registry = GameRegistry.findRegistry( GrimoirePage.class );
+        for(NBTBase base : nbt.getTagList( "grimoire", 10 )){
+            NBTTagCompound page = (NBTTagCompound)base;
+            ResourceLocation resLoc = new ResourceLocation( page.getString( "page" ) );
+            if(registry.containsKey( resLoc ))
+                knownPages.put( registry.getValue( resLoc ), page.getInteger("version"));
+        }
     }
 }
