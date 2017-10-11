@@ -54,7 +54,7 @@ public class GuiScreenGrimoire extends GuiScreen {
         drawTexturedModalRect( (width - xSize)/2, (height-ySize)/2,0, 0, xSize, ySize  );
 
         final SpellCaster playerSpellcasting = SpellCaster.getPlayerSpellcasting(Minecraft.getMinecraft().player);
-        cachedComponents = typesetText( parseString( openedOn.getTranslatedText( playerSpellcasting.knownPages ) ), new Rectangle( 20, 20, 80, 128 ) );
+        cachedComponents = typesetText( parseString( openedOn.getTranslatedText( playerSpellcasting.knownPages ) ), new Rectangle( (width - xSize)/2 + 20, (height-ySize)/2 + 20, xSize - 40, ySize - 40 ) );
         for( PositionedText component : cachedComponents.get(currentDisplayPage) )
             fontRenderer.drawString(component.text.toString(), component.position.x, component.position.y, 0);
 
@@ -70,7 +70,7 @@ public class GuiScreenGrimoire extends GuiScreen {
     // page parser
 
 
-    private static final String linkPattern = "\\[\\w+\\]";
+    private static final String linkPattern = "\\[[\\w\\d\\s]+\\|[\\w\\d:]+\\]";
     private static final String newLinePattern = "\\n";
 
     private static final Pattern multiPattern = buildMultimatcher( new String[]{linkPattern, newLinePattern} );
@@ -83,7 +83,7 @@ public class GuiScreenGrimoire extends GuiScreen {
         Matcher m = multiPattern.matcher(src);
         while( m.find() ){
             if( m.start() > pos )
-                components.add( new FormattedText( src.substring(pos,m.start()-1) ) );
+                components.add( new FormattedText( src.substring(pos,m.start() ) ) );
             if( m.end(1) > 0 ) {
                 components.add( createLinkTextComponent(src.substring(m.start(1), m.end(1))));
             }
@@ -111,7 +111,8 @@ public class GuiScreenGrimoire extends GuiScreen {
     }
 
     private FormattedText createLinkTextComponent( String link ){
-        return new FormattedText( link, new Style().setClickEvent( new ClickEvent( ClickEvent.Action.CHANGE_PAGE, link )).setColor( TextFormatting.BLUE ) );
+        String split[] = link.substring(1,link.length()-1).split("\\|");
+        return new FormattedText( split[0], new Style().setClickEvent( new ClickEvent( ClickEvent.Action.CHANGE_PAGE, split[1] )).setColor( TextFormatting.BLUE ) );
     }
 
     private static class TypesettingProgress{
@@ -179,9 +180,9 @@ public class GuiScreenGrimoire extends GuiScreen {
                                     progress.forceAppendText( new FormattedText(word,text.style), tWidth );
                                 else {
                                     String trimmed = fontRenderer.trimStringToWidth(word, rect.width - progress.lineOffset);
-                                    progress.forceAppendText(new FormattedText(trimmed.substring(0, -1) + "-", text.style), rect.width - progress.lineOffset);
+                                    progress.forceAppendText(new FormattedText(trimmed.substring(0, trimmed.length()-1) + "-", text.style), rect.width - progress.lineOffset);
                                     progress.newLine();
-                                    word = word.substring(trimmed.length());
+                                    word = word.substring(trimmed.length()+1);
                                 }
                             }
 

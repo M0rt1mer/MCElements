@@ -23,7 +23,7 @@ public class MessageSyncGrimoire implements IMessage {
         pageUpdates = new HashMap<>();
     }
 
-    public MessageSyncGrimoire(HashMap<GrimoirePage, Integer> pageUpdates) {
+    public MessageSyncGrimoire(HashMap<GrimoirePage, Byte> pageUpdates) {
         this.pageUpdates = (HashMap<GrimoirePage,Byte>)pageUpdates.clone();
     }
 

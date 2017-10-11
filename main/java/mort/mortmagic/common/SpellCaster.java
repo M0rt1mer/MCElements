@@ -22,6 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 
 public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
@@ -45,7 +46,7 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 	public InventorySpellbook spellbook;
     public int spellbookActive = 0;
     private float mana; // 4 mana equals one icon (which equals one point of hunger) - mana is equivalent to exhaustion
-    public HashMap<GrimoirePage,Integer> knownPages = new HashMap<>();
+    public HashMap<GrimoirePage,Byte> knownPages = new HashMap<>();
 
     //--------------- NONPERSISTENT
     private EntityPlayer plr;
@@ -53,7 +54,7 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
 	public int castCooldown = 0;
     private float lastMana;
     private float lastSaturation;
-    private HashMap<GrimoirePage,Integer> unsyncedPages = new HashMap<>();
+    private HashMap<GrimoirePage,Byte> unsyncedPages = new HashMap<>();
 
 	public float gainMana(float gain){
 		
@@ -129,8 +130,8 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
         return null;
     }
 
-    public void unlockGrimoirePage(GrimoirePage page, int level){
-	    if( !knownPages.containsKey( page ) | knownPages.get(page) < level ){
+    public void unlockGrimoirePage(GrimoirePage page, byte level){
+	    if( !knownPages.containsKey( page ) || knownPages.get(page) < level ){
 	        knownPages.put( page, level );
             unsyncedPages.put( page, level );
         }
@@ -146,7 +147,7 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
         for( GrimoirePage res : knownPages.keySet() ){
             NBTTagCompound page = new NBTTagCompound();
             page.setString( "page", res.getRegistryName().toString() );
-            page.setInteger( "version", knownPages.get(res) );
+            page.setByte( "version", knownPages.get(res) );
             pages.appendTag( page );
         }
         tag.setTag( "grimoire", pages );
@@ -161,7 +162,8 @@ public class SpellCaster implements ICapabilitySerializable<NBTTagCompound> {
             NBTTagCompound page = (NBTTagCompound)base;
             ResourceLocation resLoc = new ResourceLocation( page.getString( "page" ) );
             if(registry.containsKey( resLoc ))
-                knownPages.put( registry.getValue( resLoc ), page.getInteger("version"));
+                knownPages.put( registry.getValue( resLoc ), page.getByte("version"));
         }
+        unsyncedPages.putAll( knownPages );
     }
 }

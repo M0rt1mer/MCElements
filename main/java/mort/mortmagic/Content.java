@@ -50,6 +50,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 import static mort.mortmagic.common.potions.PotionIngredientRegistry.AspectPower.NONE;
 import static mort.mortmagic.common.potions.PotionIngredientRegistry.AspectPower.NORMAL;
 
+@SuppressWarnings("WeakerAccess")
 @Mod.EventBusSubscriber
 public class Content {
 
@@ -181,6 +182,33 @@ public class Content {
 
     @GameRegistry.ObjectHolder("mortmagic:root")
     public static GrimoireChapter chapterRoot;
+    @GameRegistry.ObjectHolder("mortmagic:resources")
+    public static GrimoireChapter chapterResources;
+    @GameRegistry.ObjectHolder("mortmagic:potions")
+    public static GrimoireChapter chapterPotions;
+    @GameRegistry.ObjectHolder("mortmagic:colors")
+    public static GrimoireChapter chapterColors;
+    @GameRegistry.ObjectHolder("mortmagic:effects")
+    public static GrimoireChapter chapterEffects;
+    @GameRegistry.ObjectHolder("mortmagic:spellcasting")
+    public static GrimoireChapter chapterSpellcasting;
+    @GameRegistry.ObjectHolder("mortmagic:elements")
+    public static GrimoireChapter chapterElement;
+    @GameRegistry.ObjectHolder("mortmagic:implements")
+    public static GrimoireChapter chapterImplement;
+    @GameRegistry.ObjectHolder("mortmagic:runes")
+    public static GrimoireChapter chapterRunes;
+    @GameRegistry.ObjectHolder("mortmagic:characters")
+    public static GrimoireChapter chapterCharacters;
+    @GameRegistry.ObjectHolder("mortmagic:materials")
+    public static GrimoireChapter chapterMaterials;
+    @GameRegistry.ObjectHolder("mortmagic:words")
+    public static GrimoireChapter chapterWords;
+
+    @GameRegistry.ObjectHolder("mortmagic:fern")
+    public static GrimoirePage pageFern;
+    @GameRegistry.ObjectHolder("mortmagic:magical_essence")
+    public static GrimoirePage pageMagical_essence;
 
 
 	//---- equipment
@@ -189,14 +217,14 @@ public class Content {
 
 	@SubscribeEvent
 	public static void event_createRegistries(RegistryEvent.NewRegistry event){
-        ELEMENT_REGISTRY = new RegistryBuilder<Element>().setName(new ResourceLocation( MortMagic.MODID,"elements") ).create();
-        SPELL_REGISTRY = new RegistryBuilder<Spell>().setName(new ResourceLocation( MortMagic.MODID,"spells") ).create();
-        RUNE_CHARACTER_REGISTRY = new RegistryBuilder<RuneCharacter>().setName(new ResourceLocation( MortMagic.MODID,"rune_characters") ).create();
-        RUNE_MATERIAL_REGISTRY = new RegistryBuilder<RuneMaterial>().setName(new ResourceLocation( MortMagic.MODID,"rune_materials") ).create();
-        RUNE_WORD_REGISTRY = new RegistryBuilder<RuneWord>().setName( new ResourceLocation(MortMagic.MODID, "rune_words") ).create();
-        POTION_ACTIVATOR_REGISTRY = new RegistryBuilder<PotionActivator>().setName( new ResourceLocation(MortMagic.MODID, "potion_activator") ).create();
-        GRIMOIRE_PAGE_REGISTRY = new RegistryBuilder<GrimoirePage>().setName( new ResourceLocation(MortMagic.MODID, "grimoire_page") ).create();
-        GRIMOIRE_CHAPTER_REGISTRY = new RegistryBuilder<GrimoireChapter>().setName( new ResourceLocation(MortMagic.MODID, "grimoire_chapter") ).create();
+        ELEMENT_REGISTRY = new RegistryBuilder<Element>().setType(Element.class).setName(new ResourceLocation( MortMagic.MODID,"elements") ).create();
+        SPELL_REGISTRY = new RegistryBuilder<Spell>().setType(Spell.class).setName(new ResourceLocation( MortMagic.MODID,"spells") ).create();
+        RUNE_CHARACTER_REGISTRY = new RegistryBuilder<RuneCharacter>().setType(RuneCharacter.class).setName(new ResourceLocation( MortMagic.MODID,"rune_characters") ).create();
+        RUNE_MATERIAL_REGISTRY = new RegistryBuilder<RuneMaterial>().setType(RuneMaterial.class).setName(new ResourceLocation( MortMagic.MODID,"rune_materials") ).create();
+        RUNE_WORD_REGISTRY = new RegistryBuilder<RuneWord>().setType(RuneWord.class).setName( new ResourceLocation(MortMagic.MODID, "rune_words") ).create();
+        POTION_ACTIVATOR_REGISTRY = new RegistryBuilder<PotionActivator>().setType(PotionActivator.class).setName( new ResourceLocation(MortMagic.MODID, "potion_activator") ).create();
+        GRIMOIRE_PAGE_REGISTRY = new RegistryBuilder<GrimoirePage>().setType(GrimoirePage.class).setName( new ResourceLocation(MortMagic.MODID, "grimoire_page") ).create();
+        GRIMOIRE_CHAPTER_REGISTRY = new RegistryBuilder<GrimoireChapter>().setType(GrimoireChapter.class).setName( new ResourceLocation(MortMagic.MODID, "grimoire_chapter") ).create();
         MortMagic.robes = new RobesRegistry();
         MortMagic.sacrReg = new SacrificeRegistry();
         MortMagic.dictionary = new RuneDictionary();
@@ -221,7 +249,7 @@ public class Content {
         //public static Block runeLifeRa = new BlockRune(Material.wood, RuneCharacter.ra).setBlockName("rune_life_ra").setBlockTextureName("mortmagic:rune_twig_ra").setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public static enum magicalResources {
+    public enum magicalResources {
         scroll,magical_essence,fern,flowerring, grate, meatball, twig,
         rumen, pigtail,talon,horn,succups,larynx,horsehair,ashes
     }
@@ -242,6 +270,7 @@ public class Content {
         registerItem( itemReg, new ItemPotionRecipe(true), "potion_recipe_advanced" );
         registerItem( itemReg, new ItemCharge(), "charge" );
         registerItem( itemReg, new ItemGrimoire(), "grimoire" );
+        registerItem( itemReg, new ItemGrimoirePage(), "grimoire_page" );
 
         /*String[] metaItems = new String[]{"scroll","magicalEssence","fern","flowerring", "grate", "meatball", "twig",
                 "rumen", "pigtail","talon","horn","succups","larynx","horsehair","ashes" };*/
@@ -294,20 +323,21 @@ public class Content {
         registry.register( new GrimoirePage( new ResourceLocation(MortMagic.MODID, "magical_essence" ) ) );
     }
 
-
+    @SubscribeEvent
     public static void event_registerGrimoireChapters(RegistryEvent.Register<GrimoireChapter> event){
         final IForgeRegistry<GrimoireChapter> registry = event.getRegistry();
+
         final GrimoireChapter root = new GrimoireChapterRoot( new ResourceLocation(MortMagic.MODID,"root") );
         registry.register( root );
         final GrimoireChapter resources = registerGrimoireChapter( registry,"resources", root );
         final GrimoireChapter potions = registerGrimoireChapter( registry,"potions", root );
         final GrimoireChapter colors = registerGrimoireChapter( registry,"colors", potions );
-        final GrimoireChapter effects = registerGrimoireChapter( registry,"colors", potions );
+        final GrimoireChapter effects = registerGrimoireChapter( registry,"effects", potions );
         final GrimoireChapter spellcasting = registerGrimoireChapter( registry,"spellcasting", root );
-        final GrimoireChapter element = registerGrimoireChapter( registry,"element", spellcasting );
-        final GrimoireChapter implement = registerGrimoireChapter( registry,"element", spellcasting );
+        final GrimoireChapter element = registerGrimoireChapter( registry,"elements", spellcasting );
+        final GrimoireChapter implement = registerGrimoireChapter( registry,"implemnts", spellcasting );
         final GrimoireChapter runes = registerGrimoireChapter( registry,"runes", root );
-        final GrimoireChapter characters = registerGrimoireChapter( registry,"character", runes );
+        final GrimoireChapter characters = registerGrimoireChapter( registry,"characters", runes );
         final GrimoireChapter materials = registerGrimoireChapter( registry,"materials", runes );
         final GrimoireChapter words = registerGrimoireChapter( registry,"words", runes );
     }
@@ -411,6 +441,11 @@ public class Content {
         MortMagic.spellMapping.registerDefaultSpell( life, baseLife );
 
         MortMagic.spellBlockTransformation.register( baseLife, (IBlockState state) -> {if(state.getBlock() == Blocks.DIRT) return Blocks.GRASS.getDefaultState(); return null;} );
+
+        chapterResources.addPage( pageFern );
+        chapterResources.addPage( pageMagical_essence );
+
+
         //MortMagic.spellMapping.registerDefaultSpell( force, base );
 
  		/*GameRegistry.addSmelting(mobDrop, new ItemStack(magicalEssence,1), 1);

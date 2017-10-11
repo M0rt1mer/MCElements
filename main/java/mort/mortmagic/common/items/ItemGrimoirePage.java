@@ -22,12 +22,12 @@ public class ItemGrimoirePage extends Item {
         setHasSubtypes(true);
     }
 
-    public ItemStack createItemStack(GrimoirePage page, int level){
+    public ItemStack createItemStack(GrimoirePage page, byte level){
         ItemStack stk = new ItemStack(this,1);
         NBTTagCompound tag = new NBTTagCompound();
         stk.setTagCompound(tag);
         tag.setString("grimoire_page",page.getRegistryName().toString());
-        tag.setInteger( "grimoire_page_level", level );
+        tag.setByte( "grimoire_page_level", level );
         return stk;
     }
 
@@ -41,10 +41,10 @@ public class ItemGrimoirePage extends Item {
         return null;
     }
 
-    public int getLevelFromStack( ItemStack stk ){
+    public byte getLevelFromStack( ItemStack stk ){
         final NBTTagCompound tagCompound = stk.getTagCompound();
         if( tagCompound.hasKey("grimoire_page_level") )
-            return tagCompound.getInteger( "grimoire_page_level" );
+            return tagCompound.getByte( "grimoire_page_level" );
         return -1;
     }
 
@@ -52,7 +52,7 @@ public class ItemGrimoirePage extends Item {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         if(!worldIn.isRemote){
             final GrimoirePage page = getPageFromStack(playerIn.getHeldItem(handIn));
-            final int level = getLevelFromStack(playerIn.getHeldItem(handIn));
+            final byte level = getLevelFromStack(playerIn.getHeldItem(handIn));
             SpellCaster.getPlayerSpellcasting( playerIn ).unlockGrimoirePage( page, level);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -61,7 +61,7 @@ public class ItemGrimoirePage extends Item {
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
         for (GrimoirePage page : GameRegistry.findRegistry( GrimoirePage.class ).getValues() ) {
-            for( int i = 0; i<3; i++ ){
+            for( byte i = 0; i<3; i++ ){
                 items.add( createItemStack( page, i ) );
             }
         }

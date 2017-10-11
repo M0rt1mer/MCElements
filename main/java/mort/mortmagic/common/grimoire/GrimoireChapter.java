@@ -35,6 +35,10 @@ public class GrimoireChapter extends IForgeRegistryEntry.Impl<GrimoireChapter> i
         setParentChapter(parentChapter);
     }
 
+    public void addPage( GrimoirePage page ){
+        childPages.add(page);
+    }
+
     public String getUntranslatedName(){
         return getRegistryName().getResourceDomain()+".grimoire.chapter." + getRegistryName().getResourcePath() + ".name";
     }
@@ -52,18 +56,18 @@ public class GrimoireChapter extends IForgeRegistryEntry.Impl<GrimoireChapter> i
         }
         for( GrimoirePage child : childPages ){
             if( knownPages.contains( child ) ) {
-                children += I18n.format( child.getUntranslatedName() ) + "\n";
+                children += org.apache.commons.lang3.StringUtils.repeat(' ',indentLevel+1) + "[" + I18n.format( child.getUntranslatedName() ) +"|" + child.getRegistryName() + "]\n";
             }
         }
 
         if( !children.isEmpty() )
-            return org.apache.commons.lang3.StringUtils.repeat(' ',indentLevel) + I18n.format( getUntranslatedName() ) + "\n" + children;
+            return org.apache.commons.lang3.StringUtils.repeat(' ',indentLevel) + "[" + I18n.format( getUntranslatedName() ) + "|" + getRegistryName() + "]\n" + children;
         else
             return null;
     }
 
     @Override
-    public String getTranslatedText(HashMap<GrimoirePage, Integer> knownPages) {
+    public String getTranslatedText(HashMap<GrimoirePage, Byte> knownPages) {
         return getPageText(knownPages.keySet());
     }
 

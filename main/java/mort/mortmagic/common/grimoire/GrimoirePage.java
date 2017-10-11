@@ -22,7 +22,7 @@ public class GrimoirePage extends IForgeRegistryEntry.Impl<GrimoirePage> impleme
     }
 
     @Override
-    public String getTranslatedText(HashMap<GrimoirePage, Integer> knownPages) {
+    public String getTranslatedText(HashMap<GrimoirePage, Byte> knownPages) {
         return I18n.format( getUntranslatedText( knownPages.get(this) ) );
     }
 }

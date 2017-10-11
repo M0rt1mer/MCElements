@@ -35,10 +35,28 @@ mortmagic.tooltip.aspect.rubedo=rubedo
 mortmagic.tooltip.aspect.auredo=auredo
 mortmagic.tooltip.aspect.caerudo=caerudo
 
-mortmagic.grimoire.empty=I don't know anyting about magic yet. I should start by asking herbalists in villages.
+mortmagic.grimoire.empty=I don't know anything about magic yet. I should start by asking herbalists in villages.
 
-mortmagic.grimoire.fern.name=Fern
-mortmagic.grimoire.fern.1=*Fern*\nA common plant, can be found in forest.\n Usually, it has no special properties, unless picked at midnight during full moon. Then it can be used to create [magical_essence] 
+mortmagic.grimoire.page.fern.name=Fern
+mortmagic.grimoire.page.fern.1=Fern\nA common plant, can be found in forest.\n Usually, it has no special properties, unless picked at midnight during full moon. Then it can be used to create [magical_essence]
+mortmagic.grimoire.page.fern.2=Fern\nA common plant, can be found in forest.\n Usually, it has no special properties, unless picked at midnight during full moon. Then it can be used to create [magical_essence]
+mortmagic.grimoire.page.fern.3=Fern\nA common plant, can be found in forest.\n Usually, it has no special properties, unless picked at midnight during full moon. Then it can be used to create [magical_essence]
 
-mortmagic.grimoire.magical_essence.name=Magical essence
-mortmagic.grimoire.magical_essence.1=*Magical essence*\nPurple glimmering dust, contains the essence of the supernatural
+mortmagic.grimoire.page.magical_essence.name=Magical essence
+mortmagic.grimoire.page.magical_essence.1=Magical essence\nPurple glimmering dust, contains the essence of the supernatural
+mortmagic.grimoire.page.magical_essence.2=Magical essence\nPurple glimmering dust, contains the essence of the supernatural
+mortmagic.grimoire.page.magical_essence.3=Magical essence\nPurple glimmering dust, contains the essence of the supernatural
+
+mortmagic.grimoire.chapter.root.name=Index
+mortmagic.grimoire.chapter.resources.name=Resources
+mortmagic.grimoire.chapter.potions.name=Potions
+mortmagic.grimoire.chapter.colors.name=Colors
+mortmagic.grimoire.chapter.effects.name=Effects
+mortmagic.grimoire.chapter.spellcasting.name=Spellcasting
+mortmagic.grimoire.chapter.elements.name=Elements
+mortmagic.grimoire.chapter.implements.name=Implements
+mortmagic.grimoire.chapter.runes.name=Runes
+mortmagic.grimoire.chapter.characters.name=Character
+mortmagic.grimoire.chapter.materials.name=Materials
+mortmagic.grimoire.chapter.words.name=Words
+    
