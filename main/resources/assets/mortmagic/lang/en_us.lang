@@ -35,6 +35,7 @@ mortmagic.tooltip.aspect.rubedo=rubedo
 mortmagic.tooltip.aspect.auredo=auredo
 mortmagic.tooltip.aspect.caerudo=caerudo
 
+mortmagic.grimoire.empty=I don't know anyting about magic yet. I should start by asking herbalists in villages.
 
 mortmagic.grimoire.fern.name=Fern
 mortmagic.grimoire.fern.1=*Fern*\nA common plant, can be found in forest.\n Usually, it has no special properties, unless picked at midnight during full moon. Then it can be used to create [magical_essence] 

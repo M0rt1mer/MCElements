@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import mort.mortmagic.common.ConditionBleeding;
 import mort.mortmagic.common.block.*;
 import mort.mortmagic.common.grimoire.GrimoireChapter;
+import mort.mortmagic.common.grimoire.GrimoireChapterRoot;
 import mort.mortmagic.common.grimoire.GrimoirePage;
 import mort.mortmagic.common.items.*;
 import mort.mortmagic.common.potions.*;
@@ -296,7 +297,8 @@ public class Content {
 
     public static void event_registerGrimoireChapters(RegistryEvent.Register<GrimoireChapter> event){
         final IForgeRegistry<GrimoireChapter> registry = event.getRegistry();
-        final GrimoireChapter root = registerGrimoireChapter(registry, "root", null );
+        final GrimoireChapter root = new GrimoireChapterRoot( new ResourceLocation(MortMagic.MODID,"root") );
+        registry.register( root );
         final GrimoireChapter resources = registerGrimoireChapter( registry,"resources", root );
         final GrimoireChapter potions = registerGrimoireChapter( registry,"potions", root );
         final GrimoireChapter colors = registerGrimoireChapter( registry,"colors", potions );

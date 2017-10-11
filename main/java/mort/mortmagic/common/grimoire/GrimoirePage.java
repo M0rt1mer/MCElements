@@ -1,9 +1,13 @@
 package mort.mortmagic.common.grimoire;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class GrimoirePage extends IForgeRegistryEntry.Impl<GrimoirePage> {
+import java.util.HashMap;
+import java.util.Set;
+
+public class GrimoirePage extends IForgeRegistryEntry.Impl<GrimoirePage> implements ICanBeDisplayedInGrimoire {
 
     public GrimoirePage(ResourceLocation name) {
         this.setRegistryName(name);
@@ -13,4 +17,12 @@ public class GrimoirePage extends IForgeRegistryEntry.Impl<GrimoirePage> {
         return getRegistryName().getResourceDomain() + ".grimoire.page." + getRegistryName().getResourcePath() + "." + version;
     }
 
+    public String getUntranslatedName(){
+        return getRegistryName().getResourceDomain() + ".grimoire.page." + getRegistryName().getResourcePath() + ".name";
+    }
+
+    @Override
+    public String getTranslatedText(HashMap<GrimoirePage, Integer> knownPages) {
+        return I18n.format( getUntranslatedText( knownPages.get(this) ) );
+    }
 }
